@@ -1,0 +1,163 @@
+$mainColor: #409eff;
+$subColor: #66b1ff;
+html,
+body {
+    height: 100%;
+}
+
+.main-color {
+    color: $mainColor;
+}
+
+.main-bg {
+    background-color: $mainColor;
+}
+
+.sub-color {
+    color: $subColor;
+}
+
+.sub-bg {
+    background-color: $subColor;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.no-user-select {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.ellipsis1 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@for $i from 2 through 10 {
+    .ellipsis#{$i} {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: $i;
+        -webkit-box-orient: vertical;
+    }
+}
+
+
+/*字体设置*/
+
+@mixin fz($size) {
+    font-size: $size;
+}
+
+
+/**10像素到40像素的字体,用法:fz20 **/
+
+@for $i from 10 through 200 {
+    .fz#{$i},
+    .fz#{$i}.iconfont {
+        font-size: $i+px;
+    }
+}
+
+.fc-fff {
+    color: #fff;
+}
+
+.fc-999 {
+    color: #999;
+}
+
+.fc-666 {
+    color: #666;
+}
+
+.fc-555 {
+    color: #555;
+}
+
+.fz-weight {
+    font-weight: bold;
+}
+
+$valtblr:20px;
+.padding {
+    padding: $valtblr;
+}
+
+.padding-top {
+    padding-top: $valtblr;
+}
+
+.padding-btm {
+    padding-bottom: $valtblr;
+}
+
+.padding-left {
+    padding-left: $valtblr;
+}
+
+.padding-right {
+    padding-right: $valtblr;
+}
+
+.margin-top {
+    margin-top: $valtblr;
+}
+
+.margin-btm {
+    margin-bottom: $valtblr;
+}
+
+.margin-left {
+    margin-left: $valtblr;
+}
+
+.margin-right {
+    margin-right: $valtblr;
+}
+
+
+/*公共的样式start*/
+
+
+/*公共的样式end*/
+
+
+/*需要加.nice-scrollbar如果直接定义的话会连浏览器的滚动条也改的*/
+
+.nice-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+.nice-scrollbar::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+
+/*定义滑块 内阴影+圆角*/
+
+.nice-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
