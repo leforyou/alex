@@ -8,6 +8,12 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 
+//npm install vue-awesome-swiper --save-dev
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css' // require styles
+Vue.use(VueAwesomeSwiper)
+
+
 
 Vue.use(VueAxios, axios)
 

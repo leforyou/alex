@@ -1,8 +1,16 @@
 <template>
   <div class="product-page">
-    <div class="slider">
-      <img src="../../static/img/slider.jpg">
-    </div>
+    <!-- <img src="../../static/img/slider.jpg">-->
+    <swiper :options="swiperOption" ref="mySwiper">
+      <!-- slides -->
+      <swiper-slide v-for="(item, index) in slideArr" :key="index">
+        <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
+      </swiper-slide>
+      <!-- Optional controls -->
+      <div class="swiper-pagination" slot="pagination">
+        <!-- 导航点 -->
+      </div>
+    </swiper>
 
     <div class="head-info">
       <div class="price">
@@ -11,10 +19,10 @@
         <div class="express price-color scale-1px fz20">包邮</div>
       </div>
       <div class="title ellipsis6 clearfix">
-          <div class="title-box">
-            <img src="../../static/img/h5_pic_logo_tmall.png">
-            <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
-          </div>
+        <div class="title-box">
+          <img src="../../static/img/h5_pic_logo_tmall.png">
+          <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
+        </div>
       </div>
       <div class="three fz22">
         <span class="gray-color">快递：0.00</span>
@@ -72,7 +80,6 @@
       </div>
     </div>
 
-
     <div class="line"></div>
 
     <div class="product-details">
@@ -84,7 +91,6 @@
       </div>
     </div>
 
-    
     <div class="footer">
       <div class="contain">
         <div class="box fz30 main-width">
@@ -93,7 +99,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -102,7 +107,16 @@ export default {
   name: "productDetails",
   data() {
     return {
-      msg: "商品详情"
+      swiperOption: {
+        pagination: {
+          el: ".swiper-pagination"
+        }
+      },
+      slideArr: [
+        "../../static/img/slider.jpg",
+        "../../static/img/product2.png",
+        "../../static/img/product1.png"
+      ]
     };
   },
   mounted() {
@@ -115,14 +129,30 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style lang="scss">
 .product-page {
-  .slider {
-    img {
-      width: 100%;
+  .swiper-container {
+    .swiper-wrapper {
+      .img-box {
+        padding-top: 66.666%;
+      }
+    }
+    .swiper-pagination {
+      bottom: 0.15rem;
+      .swiper-pagination-bullet {
+        background-color: #fd8010;
+        opacity: 1;
+      }
+      .swiper-pagination-bullet-active {
+        background-color: #ff4521;
+      }
     }
   }
-  .line{
+}
+</style>
+<style scoped lang="scss">
+.product-page {
+  .line {
     height: 0.3rem;
     background-color: #f3f4f5;
   }
@@ -143,53 +173,53 @@ export default {
         margin-right: 0.1rem;
         background: #ffeaef;
         margin-left: 0.2rem;
-        &,&:before{
+        &,
+        &:before {
           border-radius: 0.3rem;
         }
       }
     }
-    .title{
+    .title {
       font-size: 0.28rem;
       margin-top: 0.1rem;
       padding: 0rem 0.25rem;
-      .title-box{
-        img{
+      .title-box {
+        img {
           float: left;
           width: 0.68rem;
           height: 0.32rem;
           margin-top: 0.04rem;
           margin-right: 0.08rem;
         }
-        span{
+        span {
           color: #000;
           display: inline;
-          line-height:normal;
+          line-height: normal;
         }
       }
     }
-    .three{
+    .three {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-top: 0.25rem;
       padding: 0rem 0.25rem;
     }
-    .coupon{
+    .coupon {
       position: relative;
       margin-top: 0.3rem;
       line-height: normal;
-      img{
+      img {
         width: 100%;
       }
-      .price-date{
+      .price-date {
         position: absolute;
         left: 0.64rem;
         top: calc(50% - 0.25rem);
         transform: translateY(-50%);
-        .coupon-price{
-          
+        .coupon-price {
         }
-        .coupon-date{
+        .coupon-date {
           padding: 0.05rem 0.2rem;
           line-height: normal;
           background-color: #ffbe92;
@@ -197,7 +227,7 @@ export default {
           color: #f77425;
         }
       }
-      .coupon-btn{
+      .coupon-btn {
         position: absolute;
         right: 0.6rem;
         top: calc(50% - 0.1rem);
@@ -210,17 +240,16 @@ export default {
         cursor: pointer;
       }
     }
-
   }
-  .shop{
-    .box{
-      .head{
+  .shop {
+    .box {
+      .head {
         padding: 0.3rem;
         display: flex;
         align-items: center;
         position: relative;
-        &::before{
-          content: '';
+        &::before {
+          content: "";
           display: block;
           position: absolute;
           bottom: 0;
@@ -228,7 +257,7 @@ export default {
           left: 0.3rem;
           border-bottom: 0.01rem solid #e8e8e8;
         }
-        .logo{
+        .logo {
           min-width: 1rem;
           width: 1rem;
           height: 1rem;
@@ -236,28 +265,29 @@ export default {
           align-items: center;
           overflow: hidden;
           border: 0.01rem solid #ff5776;
+          border: 0.01rem solid rgba(255, 255, 255, 0);
           margin-right: 0.2rem;
-          img{
+          img {
             width: 100%;
           }
         }
-        .right{
+        .right {
           width: 100%;
           position: relative;
-          .title{
+          .title {
             font-size: 0.3rem;
             margin-bottom: 0.1rem;
           }
-          ul{
+          ul {
             display: flex;
             justify-content: space-between;
             padding-right: 0.5rem;
-            li{
+            li {
               font-size: 0.22rem;
               color: #666;
             }
           }
-          .more{
+          .more {
             width: 0.4rem;
             position: absolute;
             top: 50%;
@@ -266,20 +296,20 @@ export default {
           }
         }
       }
-      .advantage{
+      .advantage {
         padding: 0.2rem 0.3rem;
-        ul{
+        ul {
           display: flex;
           justify-content: space-between;
-          li{
+          li {
             display: flex;
             align-items: center;
-            img{
+            img {
               width: 0.3rem;
               height: 0.3rem;
               margin-right: 0.08rem;
             }
-            span{
+            span {
               font-size: 0.2rem;
             }
           }
@@ -287,16 +317,21 @@ export default {
       }
     }
   }
-  .product-details{
-    .title{
+  .product-details {
+    .title {
       text-align: center;
       line-height: 0.8rem;
     }
+    .context {
+      img {
+        width: 100%;
+      }
+    }
   }
-  .footer{
-    $h:1.28rem;
+  .footer {
+    $h: 1.28rem;
     height: $h;
-    .contain{
+    .contain {
       position: fixed;
       bottom: 0rem;
       left: 0;
@@ -304,11 +339,11 @@ export default {
       z-index: 9999;
       height: $h;
       background-color: #fff;
-      .box{
+      .box {
         height: 100%;
         padding: 0.2rem 0.16rem;
         display: flex;
-        .go-home{
+        .go-home {
           color: #fa693b;
           border: 0.01rem solid #fa693b;
           white-space: nowrap;
@@ -318,16 +353,18 @@ export default {
           justify-content: center;
           align-items: center;
           border-radius: 0.06rem;
+          cursor: pointer;
         }
-        .get-coupon{
+        .get-coupon {
           color: #fff;
-          text-shadow:0rem 0rem 0.02rem #fe3a00;
+          text-shadow: 0rem 0rem 0.02rem #fe3a00;
           background: linear-gradient(#fd8111, #fe4b1f);
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
           border-radius: 0.06rem;
+          cursor: pointer;
         }
       }
     }

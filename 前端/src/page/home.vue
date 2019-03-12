@@ -1,11 +1,10 @@
 <template>
   <div class="home-page">
-
     <div class="header">
       <div class="box">
         <div class="top">
           <div class="search">
-            <img src="../../static/img/h5_icon_shousuo.png"/>
+            <img src="../../static/img/h5_icon_shousuo.png">
             <input type="search" placeholder="请输入商品名称搜索">
           </div>
           <div class="img-box" @click="showCode">
@@ -13,29 +12,27 @@
           </div>
         </div>
         <div class="bottom">
-          <ul>
-            <li class="active">精选</li>
-            <li>美食</li>
-            <li>美装</li>
-            <li>女装</li>
-            <li>男装</li>
-            <li>居家百货</li>
-            <li>国际</li>
+          <ul :class="{'active':isOpen}">
+            <li :class="{'active':listIndex==0}" @click="listIndex=0">精选</li>
+            <li :class="{'active':listIndex==1}" @click="listIndex=1">美食</li>
+            <li :class="{'active':listIndex==2}" @click="listIndex=2">美装</li>
+            <li :class="{'active':listIndex==3}" @click="listIndex=3">女装</li>
+            <li :class="{'active':listIndex==4}" @click="listIndex=4">男装</li>
+            <li :class="{'active':listIndex==5}" @click="listIndex=5">居家百货</li>
+            <li :class="{'active':listIndex==6}" @click="listIndex=6">国际</li>
 
-
-            
-            <li>美装</li>
-            <li>女装</li>
-            <li>男装</li>
-            <li>居家百货</li>
-            <li>国际</li>
-            <li>美装</li>
-            <li>女装</li>
-            <li>男装</li>
-            <li>居家百货</li>
-            <li>国际</li>
+            <li :class="{'active':listIndex==7}" @click="listIndex=7">美装</li>
+            <li :class="{'active':listIndex==8}" @click="listIndex=8">女装</li>
+            <li :class="{'active':listIndex==9}" @click="listIndex=9">男装</li>
+            <li :class="{'active':listIndex==10}" @click="listIndex=10">居家百货</li>
+            <li :class="{'active':listIndex==11}" @click="listIndex=11">国际</li>
+            <li :class="{'active':listIndex==12}" @click="listIndex=12">美装</li>
+            <li :class="{'active':listIndex==13}" @click="listIndex=13">女装</li>
+            <li :class="{'active':listIndex==14}" @click="listIndex=14">男装</li>
+            <li :class="{'active':listIndex==15}" @click="listIndex=15">居家百货</li>
+            <li :class="{'active':listIndex==16}" @click="listIndex=16">国际</li>
           </ul>
-          <div class="more">
+          <div class="more" @click="isOpen = !isOpen">
             <img src="../../static/img/h5_nav_allow_down.png">
           </div>
         </div>
@@ -52,12 +49,14 @@
             <div class="right">
               <div class="top">
                 <div class="title ellipsis2 clearfix">
-                    <div class="title-box">
-                      <img src="../../static/img/h5_logo_tmall.png">
-                      <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
-                    </div>
+                  <div class="title-box">
+                    <img src="../../static/img/h5_logo_tmall.png">
+                    <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
+                  </div>
                 </div>
-                <div class="desc ellipsis2">描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
+                <div
+                  class="desc ellipsis2"
+                >描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
               </div>
               <div class="bottom">
                 <div class="type1">
@@ -68,13 +67,14 @@
                   </div>
                   <div class="situation">
                     <div class="express price-color scale-1px fz20">包邮</div>
-                    <div class="coupon price-color fz20" style="background-image: url(../../static/img/bg_hyq.png);">券:￥6.00</div>
+                    <div
+                      class="coupon price-color fz20"
+                      style="background-image: url(../../static/img/bg_hyq.png);"
+                    >券:￥6.00</div>
                     <div class="sales gray-color fz24">月销量13万件</div>
                   </div>
                 </div>
-                <div class="type2">
-                  
-                </div>
+                <div class="type2"></div>
               </div>
             </div>
           </router-link>
@@ -87,12 +87,14 @@
             <div class="right">
               <div class="top">
                 <div class="title ellipsis2 clearfix">
-                    <div class="title-box">
-                      <img src="../../static/img/h5_logo_tmall.png">
-                      <span>春秋新款针织开衫女2019</span>
-                    </div>
+                  <div class="title-box">
+                    <img src="../../static/img/h5_logo_tmall.png">
+                    <span>春秋新款针织开衫女2019</span>
+                  </div>
                 </div>
-                <div class="desc ellipsis2">描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
+                <div
+                  class="desc ellipsis2"
+                >描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
               </div>
               <div class="bottom">
                 <div class="type1">
@@ -103,13 +105,14 @@
                   </div>
                   <div class="situation">
                     <div class="express price-color scale-1px fz20">包邮</div>
-                    <div class="coupon price-color fz20" style="background-image: url(../../static/img/bg_hyq.png);">券:￥126.00</div>
+                    <div
+                      class="coupon price-color fz20"
+                      style="background-image: url(../../static/img/bg_hyq.png);"
+                    >券:￥126.00</div>
                     <div class="sales gray-color fz24">月销量13万件</div>
                   </div>
                 </div>
-                <div class="type2">
-                  
-                </div>
+                <div class="type2"></div>
               </div>
             </div>
           </router-link>
@@ -122,12 +125,14 @@
             <div class="right">
               <div class="top">
                 <div class="title ellipsis2 clearfix">
-                    <div class="title-box">
-                      <img src="../../static/img/h5_logo_tmall.png">
-                      <span>春秋新款针织开衫女2019</span>
-                    </div>
+                  <div class="title-box">
+                    <img src="../../static/img/h5_logo_tmall.png">
+                    <span>春秋新款针织开衫女2019</span>
+                  </div>
                 </div>
-                <div class="desc ellipsis2">描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
+                <div
+                  class="desc ellipsis2"
+                >描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
               </div>
               <div class="bottom">
                 <div class="type1" v-if="false">
@@ -138,7 +143,10 @@
                   </div>
                   <div class="situation">
                     <div class="express price-color scale-1px fz20">包邮</div>
-                    <div class="coupon price-color fz20" style="background-image: url(../../static/img/bg_hyq.png);">券:￥126.00</div>
+                    <div
+                      class="coupon price-color fz20"
+                      style="background-image: url(../../static/img/bg_hyq.png);"
+                    >券:￥126.00</div>
                     <div class="sales gray-color fz24">月销量13万件</div>
                   </div>
                 </div>
@@ -159,7 +167,6 @@
       </ul>
     </div>
 
-
     <Code ref="code"/>
     <HowBuy ref="howBuy"/>
   </div>
@@ -169,102 +176,108 @@
 import Code from "./../components/code";
 import HowBuy from "./../components/howBuy";
 export default {
-  name: 'home',
-  data () {
+  name: "home",
+  data() {
     return {
-      msg: '首页'
-    }
+      isOpen: false,
+      listIndex: 0
+    };
   },
   components: {
     Code,
     HowBuy
   },
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(function() {
       // DOM 现在更新了
     });
   },
   methods: {
-    showCode(){
+    showCode() {
       //显示二维码
       this.$refs.code.show();
     }
-  },
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.home-page{
-  .header{
-    background: linear-gradient(to right, #FD8210 , #FF4022 );
-    .box{
-      .top{
+.home-page {
+  .header {
+    background: linear-gradient(to right, #fd8210, #ff4022);
+    .box {
+      .top {
         padding: 0.3rem;
         display: flex;
         align-items: center;
-        .search{
+        .search {
           background-color: #fff;
           border-radius: 0.6rem;
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
-          img{
+          img {
             width: 0.3rem;
             height: 0.3rem;
             margin-right: 0.1rem;
           }
-          input{
+          input {
             font-size: 0.28rem;
             padding: 0.15rem 0rem;
             color: #333;
-            &::-webkit-input-placeholder{
-              color: #98989F;
+            &::-webkit-input-placeholder {
+              color: #98989f;
             }
           }
         }
-        .img-box{
+        .img-box {
           min-width: 0.6rem;
           margin-left: 0.28rem;
           cursor: pointer;
-          img{
+          img {
             width: 0.6rem;
             height: 0.6rem;
           }
         }
       }
-      .bottom{
-        $val:0.6rem;
+      .bottom {
+        $val: 0.6rem;
         position: relative;
         padding-right: $val;
         padding-left: 0.14rem;
         padding-bottom: 0.12rem;
-        font-size:0.26rem;
+        font-size: 0.26rem;
         line-height: normal;
-        ul{
-          $h:0.5rem;
+        ul {
+          $h: 0.5rem;
           display: flex;
           flex-wrap: wrap;
-          height:$h;
+          max-height: $h;
+          transition: max-height 0.6s;
           overflow: hidden;
-          li{
-            color: #FFD4AE;
+          &.active {
+            max-height: 500px;
+          }
+          li {
+            color: #ffd4ae;
             padding: 0.05rem 0.22rem;
             cursor: pointer;
             text-align: center;
-            &.active{
+            margin-bottom: 0.05rem;
+            &.active {
               background-color: #fea05a;
-              border-radius:$h;
+              border-radius: $h;
             }
           }
         }
-        .more{
+        .more {
           position: absolute;
           right: 0rem;
           top: 0rem;
           cursor: pointer;
-          img{
+          img {
             width: $val;
             height: 0.5rem;
           }
@@ -272,15 +285,15 @@ export default {
       }
     }
   }
-  .content{
-    ul{
-      li{
-        a{
+  .content {
+    ul {
+      li {
+        a {
           position: relative;
           display: flex;
           padding: 0.3rem;
-          &:after{
-            content: '';
+          &:after {
+            content: "";
             display: block;
             position: absolute;
             bottom: 0;
@@ -289,10 +302,10 @@ export default {
             height: 0.01rem;
             border-bottom: 0.01rem solid #ebebeb;
           }
-          .left{
-            $w:2.3rem;
+          .left {
+            $w: 2.3rem;
             margin-right: 0.2rem;
-            .img{
+            .img {
               width: $w;
               height: $w;
               background-position: center;
@@ -301,59 +314,61 @@ export default {
               border-radius: 0.1rem;
             }
           }
-          .right{
+          .right {
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            .top{
-              .title{
+            .top {
+              .title {
                 font-size: 0.24rem;
                 position: relative;
                 top: -0.05rem;
-                .title-box{
-                  img{
+                .title-box {
+                  img {
                     float: left;
                     width: 0.3rem;
                     margin-top: 0.04rem;
                     margin-right: 0.08rem;
                   }
-                  span{
+                  span {
                     color: #000;
                     display: inline;
-                    line-height:normal;
+                    line-height: normal;
                   }
                 }
               }
-              .desc{
+              .desc {
                 font-size: 0.2rem;
-                color: #98989F;
+                color: #98989f;
               }
             }
-            .bottom{
-              .type1,.type2{
-                .price{
+            .bottom {
+              .type1,
+              .type2 {
+                .price {
                   line-height: normal;
                   display: flex;
                   align-items: flex-end;
-                  .price1,.price3{
+                  .price1,
+                  .price3 {
                     line-height: 1.5;
                   }
                 }
               }
-              .type1{
-                .situation{
+              .type1 {
+                .situation {
                   margin-top: 0.05rem;
                   position: relative;
                   display: flex;
                   align-items: center;
-                  .express{
+                  .express {
                     line-height: normal;
                     padding: 0rem 0.08rem;
                     margin-right: 0.1rem;
                     background: #ffeaef;
                   }
-                  .coupon{
+                  .coupon {
                     min-width: 0.98rem;
                     width: auto;
                     height: 0.3rem;
@@ -363,7 +378,7 @@ export default {
                     padding-left: 0.03rem;
                     padding-right: 0.1rem;
                   }
-                  .sales{
+                  .sales {
                     position: absolute;
                     right: 0rem;
                     top: 50%;
@@ -371,7 +386,7 @@ export default {
                   }
                 }
               }
-              .type2{
+              .type2 {
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-end;

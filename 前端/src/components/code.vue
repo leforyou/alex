@@ -1,49 +1,43 @@
 <template>
   <div class="code" :class="{'active':isActive}">
-    <div class="box">
+    <div class="box main-width">
       <div class="wxcode">
         <img src="../../static/img/code.jpg">
       </div>
-      <div class="save-tip fz24">
-        截图保存二维码
-      </div>
-      <div class="friend fz28">
-        识别二维码加攻略君好友获取更多福利
-      </div>
-      <div class="btn fz32" @click="hide">
-        知道了
-      </div>
+      <div class="save-tip fz24">截图保存二维码</div>
+      <div class="friend fz28">识别二维码加攻略君好友获取更多福利</div>
+      <div class="btn fz32" @click="hide">知道了</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'code',
-  data () {
+  name: "code",
+  data() {
     return {
       isActive: false
-    }
+    };
   },
   mounted() {
-    this.$nextTick(function () {
+    this.$nextTick(function() {
       // DOM 现在更新了
     });
   },
   methods: {
-    hide(){
+    hide() {
       this.isActive = false;
     },
-    show(){
+    show() {
       this.isActive = true;
     }
-  },
-}
+  }
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.code{
+.code {
   position: fixed;
   top: 0;
   left: 0;
@@ -54,37 +48,38 @@ export default {
   transition: all 0.3s;
   opacity: 0;
   visibility: hidden;
-  &.active{
+  &.active {
     opacity: 1;
     visibility: visible;
   }
-  .box{
+  .box {
     overflow: auto;
     height: 100%;
-    .wxcode{
+    .wxcode {
       padding-top: 1.2rem;
       text-align: center;
-      img{
+      img {
         width: 4rem;
         height: 4rem;
       }
     }
-    .save-tip{
+    .save-tip {
       padding: 0.5rem;
       text-align: center;
     }
-    .friend{
+    .friend {
       text-align: center;
     }
-    .btn{
+    .btn {
       margin-top: 1.2rem;
       margin-left: 1.5rem;
       margin-right: 1.5rem;
       line-height: 0.88rem;
       text-align: center;
-      color: #FA5826;
-      border: 0.01rem solid #FA5826;
+      color: #fa5826;
+      border: 0.01rem solid #fa5826;
       border-radius: 0.08rem;
+      cursor: pointer;
     }
   }
 }
