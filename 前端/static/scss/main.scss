@@ -3,6 +3,12 @@ $subColor: #66b1ff;
 html,
 body {
     height: 100%;
+    background: #fff;
+}
+
+img {
+    vertical-align: middle;
+    max-width: 100%;
 }
 
 .main-color {
@@ -19,6 +25,19 @@ body {
 
 .sub-bg {
     background-color: $subColor;
+}
+
+.price-color {
+    color: #FF3467 !important;
+}
+
+.gray-color {
+    color: #98989F !important;
+}
+
+.delete-line {
+    text-decoration: line-through;
+    display: inline;
 }
 
 .text-center {
@@ -69,7 +88,7 @@ body {
 @for $i from 10 through 200 {
     .fz#{$i},
     .fz#{$i}.iconfont {
-        font-size: $i+px;
+        font-size: $i/100+rem;
     }
 }
 
@@ -93,7 +112,7 @@ body {
     font-weight: bold;
 }
 
-$valtblr:20px;
+$valtblr:0.3rem;
 .padding {
     padding: $valtblr;
 }
@@ -128,6 +147,57 @@ $valtblr:20px;
 
 .margin-right {
     margin-right: $valtblr;
+}
+
+.scale-1px {
+    position: relative;
+    border: none;
+}
+
+.scale-1px::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border-width: 0.01rem;
+    border-style: solid;
+    border-color: #FF3467;
+    border-radius: 0.1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+}
+
+.border-left-1px,
+.border-right-1px {
+    position: relative;
+    border: none;
+}
+
+.border-left-1px::before,
+.border-right-1px::after {
+    content: '';
+    display: block;
+    width: 0.01rem;
+    background-color: #FF3467;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    transform: scaleX(0.5);
+}
+
+.border-left-1px::before {
+    left: 0;
+}
+
+.border-right-1px::after {
+    right: 0;
 }
 
 
