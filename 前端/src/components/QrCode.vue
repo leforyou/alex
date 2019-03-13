@@ -18,7 +18,7 @@
 
 <script>
 export default {
-  name: "code",
+  name: "QrCode",
   data() {
     return {
       isActive: false

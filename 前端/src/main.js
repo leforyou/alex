@@ -17,6 +17,9 @@ Vue.use(VueAwesomeSwiper)
 
 Vue.use(VueAxios, axios)
 
+
+//axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

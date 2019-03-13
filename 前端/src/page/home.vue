@@ -7,28 +7,11 @@
             <img src="../../static/img/h5_icon_shousuo.png">
             <input type="search" placeholder="请输入商品名称搜索">
           </div>
-          <Code class="code-components" ref="code"/>
+          <QrCode class="code-components" ref="code"/>
         </div>
         <div class="bottom">
           <ul :class="{'active':isOpen}">
-            <li :class="{'active':listIndex==0}" @click="listIndex=0">精选</li>
-            <li :class="{'active':listIndex==1}" @click="listIndex=1">美食</li>
-            <li :class="{'active':listIndex==2}" @click="listIndex=2">美装</li>
-            <li :class="{'active':listIndex==3}" @click="listIndex=3">女装</li>
-            <li :class="{'active':listIndex==4}" @click="listIndex=4">男装</li>
-            <li :class="{'active':listIndex==5}" @click="listIndex=5">居家百货</li>
-            <li :class="{'active':listIndex==6}" @click="listIndex=6">国际</li>
-
-            <li :class="{'active':listIndex==7}" @click="listIndex=7">美装</li>
-            <li :class="{'active':listIndex==8}" @click="listIndex=8">女装</li>
-            <li :class="{'active':listIndex==9}" @click="listIndex=9">男装</li>
-            <li :class="{'active':listIndex==10}" @click="listIndex=10">居家百货</li>
-            <li :class="{'active':listIndex==11}" @click="listIndex=11">国际</li>
-            <li :class="{'active':listIndex==12}" @click="listIndex=12">美装</li>
-            <li :class="{'active':listIndex==13}" @click="listIndex=13">女装</li>
-            <li :class="{'active':listIndex==14}" @click="listIndex=14">男装</li>
-            <li :class="{'active':listIndex==15}" @click="listIndex=15">居家百货</li>
-            <li :class="{'active':listIndex==16}" @click="listIndex=16">国际</li>
+            <li v-for="(item,index) in menuListArr" :key="index" :class="{'active':listIndex==index}" @click="listIndex=index">{{item.item_name}}</li>
           </ul>
           <div class="more" @click="isOpen = !isOpen">
             <img src="../../static/img/h5_nav_allow_down.png">
@@ -58,7 +41,7 @@
 
     <div class="content">
       <ul>
-        <li>
+        <li v-for="(item,index) in goodsArr" :key="index">
           <router-link :to="{ name: 'productDetails', params: { id: 888 }}" tag="a">
             <div class="left">
               <div class="img" style="background-image: url(../../static/img/product1.png);"></div>
@@ -67,8 +50,8 @@
               <div class="top">
                 <div class="title ellipsis2 clearfix">
                   <div class="title-box">
-                    <img src="../../static/img/h5_logo_tmall.png">
-                    <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
+                    <img :src="item.goodsDetailUrl">
+                    <span>{{title}}</span>
                   </div>
                 </div>
                 <div
@@ -91,83 +74,7 @@
                     <div class="sales gray-color fz24">月销量13万件</div>
                   </div>
                 </div>
-                <div class="type2"></div>
-              </div>
-            </div>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'productDetails', params: { id: 888 }}" tag="a">
-            <div class="left">
-              <div class="img" style="background-image: url(../../static/img/product2.png);"></div>
-            </div>
-            <div class="right">
-              <div class="top">
-                <div class="title ellipsis2 clearfix">
-                  <div class="title-box">
-                    <img src="../../static/img/h5_logo_tmall.png">
-                    <span>春秋新款针织开衫女2019</span>
-                  </div>
-                </div>
-                <div
-                  class="desc ellipsis2"
-                >描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
-              </div>
-              <div class="bottom">
-                <div class="type1">
-                  <div class="price">
-                    <span class="price1 price-color fz24">￥</span>
-                    <span class="price2 price-color fz40">1928</span>
-                    <span class="price3 gray-color delete-line fz24">￥2688</span>
-                  </div>
-                  <div class="situation">
-                    <div class="express price-color scale-1px fz20">包邮</div>
-                    <div
-                      class="coupon price-color fz20"
-                      style="background-image: url(../../static/img/bg_hyq.png);"
-                    >券:￥126.00</div>
-                    <div class="sales gray-color fz24">月销量13万件</div>
-                  </div>
-                </div>
-                <div class="type2"></div>
-              </div>
-            </div>
-          </router-link>
-        </li>
-        <li>
-          <router-link :to="{ name: 'productDetails', params: { id: 888 }}" tag="a">
-            <div class="left">
-              <div class="img" style="background-image: url(../../static/img/product2.png);"></div>
-            </div>
-            <div class="right">
-              <div class="top">
-                <div class="title ellipsis2 clearfix">
-                  <div class="title-box">
-                    <img src="../../static/img/h5_logo_tmall.png">
-                    <span>春秋新款针织开衫女2019</span>
-                  </div>
-                </div>
-                <div
-                  class="desc ellipsis2"
-                >描述：该商品参与了公益宝贝计划，卖家承诺每笔成交将为免费午餐基金捐赠0.02元。该商品已累积捐赠30478笔。善款用途简介：该项目旨在以每天4元钱的平均标准，资助乡村学校师生吃上热腾腾、有营养的“免费午餐”，使得儿童免于饥饿、健康成长。</div>
-              </div>
-              <div class="bottom">
-                <div class="type1" v-if="false">
-                  <div class="price">
-                    <span class="price1 price-color fz24">￥</span>
-                    <span class="price2 price-color fz40">1928</span>
-                    <span class="price3 gray-color delete-line fz24">￥2688</span>
-                  </div>
-                  <div class="situation">
-                    <div class="express price-color scale-1px fz20">包邮</div>
-                    <div
-                      class="coupon price-color fz20"
-                      style="background-image: url(../../static/img/bg_hyq.png);"
-                    >券:￥126.00</div>
-                    <div class="sales gray-color fz24">月销量13万件</div>
-                  </div>
-                </div>
-                <div class="type2" v-if="true">
+                <div class="type2" v-if="false">
                   <div class="price">
                     <span class="price1 price-color fz24">￥</span>
                     <span class="price2 price-color fz40">1928</span>
@@ -190,18 +97,20 @@
 </template>
 
 <script>
-import Code from "./../components/code";
+import QrCode from "./../components/QrCode";
 import HowBuy from "./../components/howBuy";
 export default {
   name: "home",
   data() {
     return {
       isOpen: false,
-      listIndex: 0
+      listIndex: 0,
+      menuListArr:[],
+      goodsArr:[]
     };
   },
   components: {
-    Code,
+    QrCode,
     HowBuy
   },
   mounted() {
@@ -209,10 +118,46 @@ export default {
     //window.location.href = 'intent://scan/#Intent;scheme=taobao;package=com.google.taobao.client.android;S.browser_fallback_url=https://t.asczwa.com/taobao?backurl=https://m.tb.cn/h.3CQMfe6?sm=868ade;end';
     this.$nextTick(function() {
       // DOM 现在更新了
+      this.menuList();
+      this.goodsList();
+
     });
   },
   methods: {
-    
+    menuList(){
+      //菜单
+      this.axios.
+        post("http://47.112.105.131/api/menuItem/list", { "item_type": 1 , "item_level":1 }).
+        then(response => {
+          if (response.data.code == 200) {
+            this.menuListArr = response.data.data;
+          } else {
+            this.$message({
+              message: response.data.msg,
+              type: "warning"
+            });
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+    },
+    goodsList(){
+      //运营表分页
+      this.axios.
+        post("http://47.112.105.131/api/goods/operator/page", {"pageSize":10,"pageNo":1,"order":"price","orderType":"desc"}).
+        then(response => {
+          if (response.data.code == 200) {
+            this.goodsArr = response.data.data.datalist;
+          } else {
+            this.$message({
+              message: response.data.msg,
+              type: "warning"
+            });
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 };
 </script>
