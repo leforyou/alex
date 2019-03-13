@@ -1,16 +1,16 @@
 <template>
-  <div class="hello">
+  <div class="home-page">
     <h1>{{ msg }}</h1>
-    
   </div>
 </template>
 
 <script>
+//import HelloWorld from "./../components/HelloWorld";
 export default {
-  name: 'HelloWorld',
+  name: 'home',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: '这是首页'
     }
   },
   components: {
@@ -26,13 +26,16 @@ export default {
   },
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+.home-page{
 
+}
 </style>
 
 
 <style lang="scss">
+.home-page{
 
+}
 </style>
