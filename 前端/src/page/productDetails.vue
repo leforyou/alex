@@ -94,7 +94,7 @@
     <div class="footer">
       <div class="contain">
         <div class="box fz30 main-width">
-          <div class="go-home">首页</div>
+          <router-link class="go-home" to="/" tag="div">首页</router-link>
           <div class="get-coupon">领券购买</div>
         </div>
       </div>

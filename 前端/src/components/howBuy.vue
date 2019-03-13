@@ -1,5 +1,5 @@
 <template>
-  <div class="buy">
+  <div class="wrap">
     <div class="buy-tip" @click="show" :class="{'hide':isActive}">
       <div class="box main-width">
         <div class="btn">
@@ -48,7 +48,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.buy {
+.wrap {
   .buy-tip {
     position: fixed;
     bottom: 1rem;

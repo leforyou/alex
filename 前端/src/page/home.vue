@@ -7,9 +7,7 @@
             <img src="../../static/img/h5_icon_shousuo.png">
             <input type="search" placeholder="请输入商品名称搜索">
           </div>
-          <div class="img-box" @click="showCode">
-            <img src="../../static/img/h5_icon_erweima.png">
-          </div>
+          <Code class="code-components" ref="code"/>
         </div>
         <div class="bottom">
           <ul :class="{'active':isOpen}">
@@ -167,7 +165,7 @@
       </ul>
     </div>
 
-    <Code ref="code"/>
+    
     <HowBuy ref="howBuy"/>
   </div>
 </template>
@@ -193,10 +191,7 @@ export default {
     });
   },
   methods: {
-    showCode() {
-      //显示二维码
-      this.$refs.code.show();
-    }
+    
   }
 };
 </script>
@@ -230,15 +225,6 @@ export default {
             &::-webkit-input-placeholder {
               color: #98989f;
             }
-          }
-        }
-        .img-box {
-          min-width: 0.6rem;
-          margin-left: 0.28rem;
-          cursor: pointer;
-          img {
-            width: 0.6rem;
-            height: 0.6rem;
           }
         }
       }
