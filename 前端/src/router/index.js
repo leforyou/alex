@@ -17,12 +17,18 @@ export default new Router({
     routes: [{
             path: '/',
             name: 'home',
-            component: home
+            component: home,
+            meta: {
+                keepAlive: true //缓存
+            }
         },
         {
-            path: '/productDetails/:id',
+            path: '/productDetails/:did',
             name: 'productDetails',
-            component: productDetails
+            component: productDetails,
+            meta: {
+                keepAlive: true
+            }
         },
         {
             path: '/404',

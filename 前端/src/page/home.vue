@@ -46,7 +46,7 @@
     <div class="content">
       <ul>
         <li v-for="(item,index) in goodsArr" :key="index">
-          <router-link :to="{ name: 'productDetails', params: { id: item.did }}" tag="a">
+          <router-link :to="{ name: 'productDetails', params: { did: item.did }}" tag="a">
             <div class="left">
               <div class="img" :style="`background-image: url(${item.pic});`"></div>
             </div>
@@ -54,38 +54,25 @@
               <div class="top">
                 <div class="title ellipsis2 clearfix">
                   <div class="title-box">
-                    <img src="../../static/img/h5_logo_tmall.png">
+                    <img src="../../static/img/h5_logo_tmall.png" v-if="item.isTmall">
                     <span>{{item.title}}</span>
                   </div>
                 </div>
                 <div class="desc ellipsis2">{{item.introduce}}</div>
               </div>
               <div class="bottom">
-                <div class="type1">
+                <div class="type">
                   <div class="price">
                     <span class="price1 price-color fz24">￥</span>
-                    <span class="price2 price-color fz40">{{item.quan_price}}</span>
+                    <span class="price2 price-color fz40">{{item.price}}</span>
                     <span class="price3 gray-color delete-line fz24">￥{{item.org_Price}}</span>
                   </div>
-                  <div class="situation">
+                  <div class="situation" v-if="!false">
                     <div class="express price-color scale-1px fz20">包邮</div>
-                    <div
-                      class="coupon price-color fz20"
-                      style="background-image: url(../../static/img/bg_hyq.png);"
-                    >券:￥6.00</div>
-                    <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
+                    <div class="coupon price-color fz20" v-if="item.quan_surplus!==0">券:￥{{item.quan_price}}</div>
                   </div>
                 </div>
-                <div class="type2" v-if="false">
-                  <div class="price">
-                    <span class="price1 price-color fz24">￥</span>
-                    <span class="price2 price-color fz40">{{item.quan_price}}</span>
-                    <span class="price3 gray-color delete-line fz24">￥{{item.org_Price}}</span>
-                  </div>
-                  <div class="situation">
-                    <div class="sales gray-color fz24">月销量{{item.sales_num}}万件</div>
-                  </div>
-                </div>
+                <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
               </div>
             </div>
           </router-link>
@@ -94,12 +81,12 @@
     </div>
 
     <HowBuy ref="howBuy"/>
+
   </div>
 </template>
 
 <script>
 import QrCode from "./../components/QrCode";
-import HowBuy from "./../components/howBuy";
 export default {
   name: "home",
   data() {
@@ -111,8 +98,7 @@ export default {
     };
   },
   components: {
-    QrCode,
-    HowBuy
+    QrCode
   },
   mounted() {
     //window.location.href = 'intent://www.taobao.com/#Intent;scheme=taobao;package=com.taobao;end';
@@ -126,27 +112,32 @@ export default {
   methods: {
     menuList() {
       //菜单
+      this.$loading();
       this.axios
         .post("http://47.112.105.131/api/menuItem/list", {
           item_type: 1,
           item_level: 1
         })
         .then(response => {
+          this.$loading.close();
           if (response.data.code == 200) {
             this.menuListArr = response.data.data;
           } else {
             this.$message({
-              message: response.data.msg,
-              type: "warning"
+              message:response.data.msg
             });
           }
         })
         .catch(function(error) {
+          this.$message({
+            message:error
+          });
           console.log(error);
         });
     },
     goodsList() {
       //运营表分页
+      this.$loading();
       this.axios
         .post("http://47.112.105.131/api/goods/operator/page", {
           pageSize: 10,
@@ -155,16 +146,19 @@ export default {
           orderType: "desc"
         })
         .then(response => {
+          this.$loading.close();
           if (response.data.code == 200) {
             this.goodsArr = response.data.data.datalist;
           } else {
             this.$message({
-              message: response.data.msg,
-              type: "warning"
+              message:response.data.msg
             });
           }
         })
         .catch(function(error) {
+          this.$message({
+            message:error
+          });
           console.log(error);
         });
     }
@@ -217,6 +211,7 @@ export default {
           display: flex;
           flex-wrap: wrap;
           max-height: $h;
+          min-height: $h;
           transition: max-height 0.6s;
           overflow: hidden;
           &.active {
@@ -306,21 +301,22 @@ export default {
               }
             }
             .bottom {
-              .type1,
-              .type2 {
+              display: flex;
+              align-items: flex-end;
+              justify-content: space-between;
+              .type {
                 .price {
                   line-height: normal;
                   display: flex;
                   align-items: flex-end;
-                  .price1,
-                  .price3 {
-                    line-height: 1.5;
+                  .price2{
+                    margin-right: 0.1rem;
+                    position: relative;
+                    top: 0.03rem;
                   }
                 }
-              }
-              .type1 {
                 .situation {
-                  margin-top: 0.05rem;
+                  margin-top: 0.08rem;
                   position: relative;
                   display: flex;
                   align-items: center;
@@ -334,24 +330,17 @@ export default {
                     min-width: 0.98rem;
                     width: auto;
                     height: 0.3rem;
+                    background-image: url(../../static/img/bg_hyq.png);
                     background-repeat: no-repeat;
                     background-size: 100% 100%;
                     background-position: center;
                     padding-left: 0.03rem;
                     padding-right: 0.1rem;
                   }
-                  .sales {
-                    position: absolute;
-                    right: 0rem;
-                    top: 50%;
-                    transform: translateY(-50%);
-                  }
                 }
               }
-              .type2 {
-                display: flex;
-                justify-content: space-between;
-                align-items: flex-end;
+              .sales {
+                line-height: normal;
               }
             }
           }

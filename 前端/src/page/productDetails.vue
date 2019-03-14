@@ -7,7 +7,7 @@
         <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
       </swiper-slide>
       <!-- Optional controls -->
-      <div class="swiper-pagination" slot="pagination">
+      <div class="swiper-pagination" slot="pagination" style="display:none;">
         <!-- 导航点 -->
       </div>
     </swiper>
@@ -15,24 +15,24 @@
     <div class="head-info">
       <div class="price">
         <span class="price1 price-color fz24">￥</span>
-        <span class="price2 price-color fz40">1928</span>
+        <span class="price2 price-color fz40">{{item.org_Price}}</span>
         <div class="express price-color scale-1px fz20">包邮</div>
       </div>
       <div class="title ellipsis6 clearfix">
         <div class="title-box">
-          <img src="../../static/img/h5_pic_logo_tmall.png">
-          <span>春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套春秋新款针织开衫女2019韩版毛衣百搭大码空调防晒长袖小披肩外套</span>
+          <img v-if="item.isTmall" src="../../static/img/h5_pic_logo_tmall.png">
+          <span>{{item.title}}</span>
         </div>
       </div>
       <div class="three fz22">
         <span class="gray-color">快递：0.00</span>
-        <span class="gray-color">月销：1325</span>
+        <span class="gray-color">月销：{{item.sales_num}}</span>
         <span class="gray-color">产地：广州</span>
       </div>
       <div class="coupon">
         <img src="../../static/img/bg_pic_youhuiquan.png">
         <div class="price-date">
-          <div class="coupon-price fz60 fc-fff">10.00 优惠券</div>
+          <div class="coupon-price fz60 fc-fff">{{item.quan_price}} 优惠券</div>
           <div class="coupon-date fz22">有效期：2019.03.05-2019.03.22</div>
         </div>
         <div class="coupon-btn fz22">立即领取</div>
@@ -107,24 +107,45 @@ export default {
   name: "productDetails",
   data() {
     return {
+      item:{},
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
         }
       },
-      slideArr: [
-        "../../static/img/slider.jpg",
-        "../../static/img/product2.png",
-        "../../static/img/product1.png"
-      ]
+      slideArr: [],
+      
     };
   },
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
+      this.getDetails();
     });
   },
-  methods: {}
+  methods: {
+    getDetails(){
+      //商品详情
+      this.axios
+        .post(`http://47.112.105.131/api/goods/operator/detail/${this.$route.params.did}`, {})
+        .then(response => {
+          if (response.data.code == 200) {
+            this.item = response.data.data;
+            this.slideArr = [this.item.pic];
+          } else {
+            this.$message({
+              message:response.data.msg
+            });
+          }
+        })
+        .catch(function(error) {
+          this.$message({
+            message:error
+          });
+          console.log(error);
+        });
+    }
+  }
 };
 </script>
 
@@ -135,6 +156,10 @@ export default {
     .swiper-wrapper {
       .img-box {
         padding-top: 66.666%;
+        padding-top: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
       }
     }
     .swiper-pagination {
@@ -165,7 +190,7 @@ export default {
       align-items: center;
       .price1 {
         position: relative;
-        bottom: -0.03rem;
+        bottom: -0.02rem;
       }
       .express {
         line-height: normal;
