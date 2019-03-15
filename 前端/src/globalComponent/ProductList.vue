@@ -2,7 +2,7 @@
   <div class="wrap-list">
    <ul>
       <li v-for="(item,index) in arr" :key="index">
-        <router-link :to="{ name: 'productDetails', params: { did: item.did }}" tag="a">
+        <router-link :to="{ name: 'productDetails', params: { id: item.id }}" tag="a">
           <div class="left">
             <div class="img" :style="`background-image: url(${item.pic});`"></div>
           </div>

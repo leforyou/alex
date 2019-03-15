@@ -94,7 +94,7 @@ export default {
       //菜单
       this.$loading();
       this.axios
-        .post("http://47.112.105.131/api/menuItem/list", {
+        .post("/api/menuItem/list", {
           item_type: 1,
           item_level: 1
         })
@@ -121,8 +121,8 @@ export default {
       this.pageNo++;
       this.$loading();
       this.axios
-        .post("http://47.112.105.131/api/goods/operator/page", {
-          pageSize: 10,
+        .post("/api/operate/page", {
+          pageSize: 8,
           pageNo: this.pageNo,
           order: "price",
           orderType: "desc"

@@ -127,7 +127,7 @@ export default {
     getDetails(){
       //商品详情
       this.axios
-        .post(`http://47.112.105.131/api/goods/operator/detail/${this.$route.params.did}`, {})
+        .post(`/api/goods/operator/detail/${this.$route.params.did}`, {})
         .then(response => {
           if (response.data.code == 200) {
             this.item = response.data.data;

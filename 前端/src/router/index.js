@@ -26,7 +26,7 @@ export default new Router({
             }
         },
         {
-            path: '/productDetails/:did',
+            path: '/productDetails/:id',
             name: 'productDetails',
             component: productDetails,
             meta: {

@@ -36,11 +36,11 @@ export default {
   mounted() {
    this.$nextTick(function() {
       // DOM 现在更新了
-      this.goodsList();
+      document.querySelector('input[type="search"]').focus();
       this.$refresh(()=>{
+        if(this.searchValue=="")return;
         this.goodsList();
       });
-
     });
   },
   methods: {
@@ -49,13 +49,14 @@ export default {
       this.$router.go(-1);
     },
     submit(){
+      //点击搜索
       if(this.searchValue==""){
         this.$message({
           message:"搜索的内容不能为空！"
         });
         return;
       }
-      
+      this.goodsList();
     },
     goodsList() {
       //运营表分页
@@ -63,11 +64,12 @@ export default {
       this.pageNo++;
       this.$loading();
       this.axios
-        .post("http://47.112.105.131/api/goods/operator/page", {
-          pageSize: 10,
+        .post("/api/goods/page", {
+          pageSize: 8,
           pageNo: this.pageNo,
           order: "price",
-          orderType: "desc"
+          orderType: "desc",
+          title:this.searchValue
         })
         .then(response => {
           this.$loading.close();
