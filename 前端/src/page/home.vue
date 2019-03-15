@@ -108,7 +108,7 @@ export default {
             });
           }
         })
-        .catch(function(error) {
+        .catch((error)=> {
           this.$message({
             message:error
           });
@@ -142,7 +142,7 @@ export default {
             });
           }
         })
-        .catch(function(error) {
+        .catch((error)=> {
           this.$message({
             message:error
           });

@@ -15,7 +15,7 @@
     <div class="head-info">
       <div class="price">
         <span class="price1 price-color fz24">￥</span>
-        <span class="price2 price-color fz40">{{item.org_Price}}</span>
+        <span class="price2 price-color fz40">{{item.price}}</span>
         <div class="express price-color scale-1px fz20">包邮</div>
       </div>
       <div class="title ellipsis6 clearfix">
@@ -27,28 +27,31 @@
       <div class="three fz22">
         <span class="gray-color">快递：0.00</span>
         <span class="gray-color">月销：{{item.sales_num}}</span>
-        <span class="gray-color">产地：广州</span>
+        <span class="gray-color">产地：{{item.provcity}}</span>
       </div>
       <div class="coupon">
         <img src="../../static/img/bg_pic_youhuiquan.png">
         <div class="price-date">
           <div class="coupon-price fz60 fc-fff">{{item.quan_price}} 优惠券</div>
-          <div class="coupon-date fz22">有效期：2019.03.05-2019.03.22</div>
+          <div class="coupon-date fz22">有效期：{{today}}-{{item.quan_time | dateFilter}}</div>
         </div>
-        <div class="coupon-btn fz22">立即领取</div>
+        <!--<div class="coupon-btn fz22">
+          立即领取
+        </div>-->
+        <a class="coupon-btn fz22" :href="item.quan_link" target="_blank">立即领取</a>
       </div>
     </div>
 
     <div class="line"></div>
 
     <div class="shop">
-      <div class="box">
+      <router-link class="box" :to="{ name: 'shop', params: { nick: item.nick }}" tag="div">
         <div class="head">
           <div class="logo">
             <img src="../../static/img/shop-logo.jpg">
           </div>
           <div class="right">
-            <div class="title">这里是店铺名</div>
+            <div class="title">{{item.nick}}</div>
             <ul>
               <li>宝贝描述：4.9</li>
               <li>卖家服务：4.9</li>
@@ -77,7 +80,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </router-link>
     </div>
 
     <div class="line"></div>
@@ -85,9 +88,7 @@
     <div class="product-details">
       <div class="title fz28">商品详情</div>
       <div class="context">
-        <img src="../../static/img/product1.png">
-        <img src="../../static/img/product2.png">
-        <img src="../../static/img/slider.jpg">
+        <img :src="item.goodsDetailUrl">
       </div>
     </div>
 
@@ -95,7 +96,9 @@
       <div class="contain">
         <div class="box fz30 main-width">
           <router-link class="go-home" to="/" tag="div">首页</router-link>
-          <div class="get-coupon">领券购买</div>
+          <div class="get-coupon">
+            <a :href="item.quan_link" target="_blank">领券购买</a>
+          </div>
         </div>
       </div>
     </div>
@@ -103,6 +106,7 @@
 </template>
 
 <script>
+import formatDate from '@/../static/js/formatDate';
 export default {
   name: "productDetails",
   data() {
@@ -114,20 +118,27 @@ export default {
         }
       },
       slideArr: [],
-      
+      today:formatDate()
     };
+  },
+  filters:{
+    dateFilter:function(date){//默认会传个值进来
+      date = date || '';
+      return date.split(" ")[0].replace(/\-/g,'.');//只要年月日
+    }
   },
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
       this.getDetails();
+      //console.log(this.$route.params,this.$route.params.id)
     });
   },
   methods: {
     getDetails(){
       //商品详情
       this.axios
-        .post(`/api/goods/operator/detail/${this.$route.params.did}`, {})
+        .get(`/api/goodsinfo/detailinfo/${this.$route.params.id}`, {})
         .then(response => {
           if (response.data.code == 200) {
             this.item = response.data.data;
@@ -138,7 +149,7 @@ export default {
             });
           }
         })
-        .catch(function(error) {
+        .catch((error)=> {
           this.$message({
             message:error
           });
@@ -253,6 +264,7 @@ export default {
         }
       }
       .coupon-btn {
+        display: block;
         position: absolute;
         right: 0.6rem;
         top: calc(50% - 0.1rem);
@@ -390,6 +402,18 @@ export default {
           align-items: center;
           border-radius: 0.06rem;
           cursor: pointer;
+          position: relative;
+          a{
+            color:#fff;
+            position:absolute;
+            top:0;
+            left: 0;
+            right: 0;
+            bottom:0;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+          }
         }
       }
     }

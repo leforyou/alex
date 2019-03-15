@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import home from '@/page/home'
 import productDetails from '@/page/productDetails'
 import search from '@/page/search'
+import shop from '@/page/shop'
 
 
 //import HelloWorld from '@/components/HelloWorld'
@@ -37,6 +38,14 @@ export default new Router({
             path: '/search',
             name: 'search',
             component: search,
+            meta: {
+                keepAlive: true
+            }
+        },
+        {
+            path: '/shop/:nick',
+            name: 'shop',
+            component: shop,
             meta: {
                 keepAlive: true
             }
