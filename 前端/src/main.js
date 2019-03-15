@@ -8,13 +8,11 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 
 
-//npm install vue-awesome-swiper --save-dev
+//轮播图npm install vue-awesome-swiper --save-dev
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css' // require styles
 Vue.use(VueAwesomeSwiper)
 
-//import home from './page/home'
-//console.log(home.methods.aaa)
 
 
 Vue.use(VueAxios, axios)
@@ -36,6 +34,11 @@ Vue.use(message);
 //全局注册的组件2：是通过标签的方式引入页面
 import globalComponent from './globalComponent/MyGlobalComponent';
 globalComponent(Vue);
+
+
+//上拉触底加载
+import refresh from './../static/js/scrollRefresh.js';
+Vue.prototype.$refresh = refresh;
 
 
 

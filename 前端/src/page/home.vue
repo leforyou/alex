@@ -3,9 +3,9 @@
     <div class="header">
       <div class="box">
         <div class="top">
-          <div class="search">
+          <div class="search" @click="toSearchPage">
             <img src="../../static/img/h5_icon_shousuo.png">
-            <input type="search" placeholder="请输入商品名称搜索">
+            <span class="fz28 fc-999">请输入商品名称搜索</span>
           </div>
           <QrCode class="code-components" ref="code"/>
         </div>
@@ -43,41 +43,9 @@
 
 
     -->
-    <div class="content">
-      <ul>
-        <li v-for="(item,index) in goodsArr" :key="index">
-          <router-link :to="{ name: 'productDetails', params: { did: item.did }}" tag="a">
-            <div class="left">
-              <div class="img" :style="`background-image: url(${item.pic});`"></div>
-            </div>
-            <div class="right">
-              <div class="top">
-                <div class="title ellipsis2 clearfix">
-                  <div class="title-box">
-                    <img src="../../static/img/h5_logo_tmall.png" v-if="item.isTmall">
-                    <span>{{item.title}}</span>
-                  </div>
-                </div>
-                <div class="desc ellipsis2">{{item.introduce}}</div>
-              </div>
-              <div class="bottom">
-                <div class="type">
-                  <div class="price">
-                    <span class="price1 price-color fz24">￥</span>
-                    <span class="price2 price-color fz40">{{item.price}}</span>
-                    <span class="price3 gray-color delete-line fz24">￥{{item.org_Price}}</span>
-                  </div>
-                  <div class="situation" v-if="!false">
-                    <div class="express price-color scale-1px fz20">包邮</div>
-                    <div class="coupon price-color fz20" v-if="item.quan_surplus!==0">券:￥{{item.quan_price}}</div>
-                  </div>
-                </div>
-                <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
-              </div>
-            </div>
-          </router-link>
-        </li>
-      </ul>
+    <div class="product">
+      <List :arr="goodsArr"/>
+      <NotMoreTip :visible="isTip"/>
     </div>
 
     <HowBuy ref="howBuy"/>
@@ -94,7 +62,9 @@ export default {
       isOpen: false,
       listIndex: 0,
       menuListArr: [],
-      goodsArr: []
+      goodsArr: [],
+      pageNo:0,
+      isTip:false
     };
   },
   components: {
@@ -107,9 +77,19 @@ export default {
       // DOM 现在更新了
       this.menuList();
       this.goodsList();
+      this.$refresh(()=>{
+        this.goodsList();
+      });
+
     });
   },
   methods: {
+    toSearchPage(){
+      //跳转到搜索页面
+      this.$router.push({
+        path: 'search'
+      });
+    },
     menuList() {
       //菜单
       this.$loading();
@@ -137,18 +117,25 @@ export default {
     },
     goodsList() {
       //运营表分页
+      if(this.isTip)return;
+      this.pageNo++;
       this.$loading();
       this.axios
         .post("http://47.112.105.131/api/goods/operator/page", {
           pageSize: 10,
-          pageNo: 1,
+          pageNo: this.pageNo,
           order: "price",
           orderType: "desc"
         })
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            this.goodsArr = response.data.data.datalist;
+            if(response.data.data.datalist.length == 0){
+              this.isTip = true;
+              return;
+            }
+            this.goodsArr = this.goodsArr.concat(response.data.data.datalist);
+            //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
           } else {
             this.$message({
               message:response.data.msg
@@ -183,18 +170,14 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          cursor: pointer;
           img {
             width: 0.3rem;
             height: 0.3rem;
             margin-right: 0.1rem;
           }
-          input {
-            font-size: 0.28rem;
+          span{
             padding: 0.15rem 0rem;
-            color: #333;
-            &::-webkit-input-placeholder {
-              color: #98989f;
-            }
           }
         }
       }
@@ -242,111 +225,8 @@ export default {
       }
     }
   }
-  .content {
-    ul {
-      li {
-        a {
-          position: relative;
-          display: flex;
-          padding: 0.3rem;
-          &:after {
-            content: "";
-            display: block;
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            left: 0.3rem;
-            height: 0.01rem;
-            border-bottom: 0.01rem solid #ebebeb;
-          }
-          .left {
-            $w: 2.3rem;
-            margin-right: 0.2rem;
-            .img {
-              width: $w;
-              height: $w;
-              background-position: center;
-              background-size: cover;
-              background-repeat: no-repeat;
-              border-radius: 0.1rem;
-            }
-          }
-          .right {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            .top {
-              .title {
-                font-size: 0.24rem;
-                position: relative;
-                top: -0.05rem;
-                .title-box {
-                  img {
-                    float: left;
-                    width: 0.3rem;
-                    margin-top: 0.04rem;
-                    margin-right: 0.08rem;
-                  }
-                  span {
-                    color: #000;
-                    display: inline;
-                    line-height: normal;
-                  }
-                }
-              }
-              .desc {
-                font-size: 0.2rem;
-                color: #98989f;
-              }
-            }
-            .bottom {
-              display: flex;
-              align-items: flex-end;
-              justify-content: space-between;
-              .type {
-                .price {
-                  line-height: normal;
-                  display: flex;
-                  align-items: flex-end;
-                  .price2{
-                    margin-right: 0.1rem;
-                    position: relative;
-                    top: 0.03rem;
-                  }
-                }
-                .situation {
-                  margin-top: 0.08rem;
-                  position: relative;
-                  display: flex;
-                  align-items: center;
-                  .express {
-                    line-height: normal;
-                    padding: 0rem 0.08rem;
-                    margin-right: 0.1rem;
-                    background: #ffeaef;
-                  }
-                  .coupon {
-                    min-width: 0.98rem;
-                    width: auto;
-                    height: 0.3rem;
-                    background-image: url(../../static/img/bg_hyq.png);
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
-                    background-position: center;
-                    padding-left: 0.03rem;
-                    padding-right: 0.1rem;
-                  }
-                }
-              }
-              .sales {
-                line-height: normal;
-              }
-            }
-          }
-        }
-      }
-    }
+  .product {
+    
   }
 }
 </style>
