@@ -7,37 +7,37 @@ const LoadingConstructor = Vue.extend(LoadingVue); // 直接将Vue组件作为Vu
 let instance; //保存实例（作用域外）
 
 const Loading = (options) => {
-    if (!options) options = {};
-    let IdName = 'wrap-loading-plugin';
-    if (!document.getElementById(IdName)) {
-        //实例化（创建实例）
-        instance = new LoadingConstructor({
-            data: options
-        });
+  if (!options) options = {};
+  let IdName = 'wrap-loading-plugin';
+  if (!document.getElementById(IdName)) {
+    //实例化（创建实例,只创建一次，实例化多次的，要销毁实例，详细参考element-ui框架源码）
+    instance = new LoadingConstructor({
+      data: options
+    });
 
-        instance.vm = instance.$mount(); // 挂载但是并未插入dom，是一个完整的Vue实例
-        document.body.appendChild(instance.vm.$el); // 将dom插入body
-        instance.$el.id = IdName;
-        instance.vm.visible = true;
-        instance.vm.text = options.text || '';
+    instance.vm = instance.$mount(); // 挂载但是并未插入dom，是一个完整的Vue实例
+    document.body.appendChild(instance.vm.$el); // 将dom插入body
+    instance.$el.id = IdName;
+    instance.vm.visible = true;
+    instance.vm.text = options.text || '';
 
-        return instance.vm;
-    } else {
-        instance.vm.visible = true;
-        instance.vm.text = options.text || '';
-        return instance.vm;
-    }
+    return instance.vm;
+  } else {
+    instance.vm.visible = true;
+    instance.vm.text = options.text || '';
+    return instance.vm;
+  }
 }
 
-Loading.close = function() {
-    instance.vm.close(); //调用Loading.vue组件内的方法
+Loading.close = function () {
+  instance.vm.close(); //调用Loading.vue组件内的方法
 }
 
 
 export default {
-    install: Vue => {
-        Vue.prototype.$loading = Loading; // 将Notice组件暴露出去，并挂载在Vue的prototype上
-    }
+  install: Vue => {
+    Vue.prototype.$loading = Loading; // 将Notice组件暴露出去，并挂载在Vue的prototype上
+  }
 }
 
 
