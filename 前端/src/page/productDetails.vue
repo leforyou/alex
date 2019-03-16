@@ -21,7 +21,7 @@
       <div class="title ellipsis6 clearfix">
         <div class="title-box">
           <img v-if="item.isTmall" src="../../static/img/h5_pic_logo_tmall.png">
-          <span>{{item.title}}</span>
+          <span>{{item.d_title}}</span>
         </div>
       </div>
       <div class="three fz22">

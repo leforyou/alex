@@ -11,7 +11,7 @@
               <div class="title ellipsis2 clearfix">
                 <div class="title-box">
                   <img src="../../static/img/h5_logo_tmall.png" v-if="item.isTmall">
-                  <span>{{item.title}}</span>
+                  <span>{{item.d_title}}</span>
                 </div>
               </div>
               <div class="desc ellipsis2">{{item.introduce}}</div>
