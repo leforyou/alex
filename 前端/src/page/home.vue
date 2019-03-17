@@ -2,14 +2,20 @@
   <div class="home-page">
     <div class="header">
       <div class="box">
-        <div class="top">
+        <div class="top bg-lg">
           <div class="search" @click="toSearchPage">
             <img src="../../static/img/h5_icon_shousuo.png">
             <span class="fz28 fc-999">请输入商品名称搜索</span>
           </div>
           <QrCode class="code-components" ref="code"/>
         </div>
-        <div class="bottom">
+        <div class="about bg-lg">
+          <div class="public-code">
+            <img src="../../static/img/public-code.jpg" alt>
+            <div class="desc">长按二维码关注我们</div>
+          </div>
+        </div>
+        <div class="nav">
           <ul :class="{'active':isOpen}">
             <li
               v-for="(item,index) in menuListArr"
@@ -18,9 +24,9 @@
               @click="listIndex=index"
             >{{item.item_name}}</li>
           </ul>
-          <div class="more" @click="isOpen = !isOpen">
+          <!--<div class="more" @click="isOpen = !isOpen">
             <img src="../../static/img/h5_nav_allow_down.png">
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -49,7 +55,6 @@
     </div>
 
     <HowBuy ref="howBuy"/>
-
   </div>
 </template>
 
@@ -63,8 +68,8 @@ export default {
       listIndex: 0,
       menuListArr: [],
       goodsArr: [],
-      pageNo:0,
-      isTip:false
+      pageNo: 0,
+      isTip: false
     };
   },
   components: {
@@ -77,17 +82,16 @@ export default {
       // DOM 现在更新了
       this.menuList();
       this.goodsList();
-      this.$refresh(()=>{
+      this.$refresh(() => {
         this.goodsList();
       });
-
     });
   },
   methods: {
-    toSearchPage(){
+    toSearchPage() {
       //跳转到搜索页面
       this.$router.push({
-        path: 'search'
+        path: "search"
       });
     },
     menuList() {
@@ -101,23 +105,23 @@ export default {
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            this.menuListArr = response.data.data;
+            this.menuListArr = response.data.data.slice(0, 3);
           } else {
             this.$message({
-              message:response.data.msg
+              message: response.data.msg
             });
           }
         })
-        .catch((error)=> {
+        .catch(error => {
           this.$message({
-            message:error
+            message: error
           });
           console.log(error);
         });
     },
     goodsList() {
       //运营表分页
-      if(this.isTip)return;
+      if (this.isTip) return;
       this.pageNo++;
       this.$loading();
       this.axios
@@ -130,7 +134,7 @@ export default {
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            if(response.data.data.datalist.length == 0){
+            if (response.data.data.datalist.length == 0) {
               this.isTip = true;
               return;
             }
@@ -138,13 +142,13 @@ export default {
             //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
           } else {
             this.$message({
-              message:response.data.msg
+              message: response.data.msg
             });
           }
         })
-        .catch((error)=> {
+        .catch(error => {
           this.$message({
-            message:error
+            message: error
           });
           console.log(error);
         });
@@ -157,8 +161,10 @@ export default {
 <style scoped lang="scss">
 .home-page {
   .header {
-    background: linear-gradient(to right, #fd8210, #ff4022);
     .box {
+      .bg-lg {
+        background: linear-gradient(to right, #fd8210, #ff4022);
+      }
       .top {
         padding: 0.3rem;
         display: flex;
@@ -176,42 +182,77 @@ export default {
             height: 0.3rem;
             margin-right: 0.1rem;
           }
-          span{
+          span {
             padding: 0.15rem 0rem;
           }
         }
       }
-      .bottom {
+      .about {
+        display: flex;
+        justify-content: flex-end;
+        padding-bottom: 0.3rem;
+        .public-code {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          img {
+            display: block;
+            width: 1.6rem;
+          }
+          .desc {
+            text-align: center;
+            font-size: 0.2rem;
+            color: #fff;
+            transform: scale(0.7);
+          }
+        }
+      }
+      .nav {
         $val: 0.6rem;
         position: relative;
-        padding-right: $val;
-        padding-left: 0.14rem;
-        padding-bottom: 0.12rem;
         font-size: 0.26rem;
         line-height: normal;
         ul {
           $h: 0.5rem;
           display: flex;
           flex-wrap: wrap;
-          max-height: $h;
-          min-height: $h;
-          transition: max-height 0.6s;
-          overflow: hidden;
+          justify-content: space-around;
           &.active {
             max-height: 500px;
           }
+          &::after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0rem;
+            left: 0rem;
+            right: 0rem;
+            border-bottom: 0.01rem solid #ddd;
+            z-index: 1;
+          }
           li {
-            color: #ffd4ae;
-            padding: 0.05rem 0.22rem;
+            color: #444;
+            padding: 0.15rem 0.22rem;
             cursor: pointer;
             text-align: center;
             margin-bottom: 0.05rem;
+            position: relative;
             &.active {
-              background-color: #fea05a;
-              border-radius: $h;
+              color: #ff4022;
+              &::after {
+                content: "";
+                display: block;
+                position: absolute;
+                bottom: -0.01rem;
+                left: 0rem;
+                right: 0rem;
+                border-bottom: 0.01rem solid #ff4022;
+                z-index: 90;
+              }
             }
           }
-        }
+        } /*
         .more {
           position: absolute;
           right: 0rem;
@@ -221,12 +262,11 @@ export default {
             width: $val;
             height: 0.5rem;
           }
-        }
+        }*/
       }
     }
   }
   .product {
-    
   }
 }
 </style>

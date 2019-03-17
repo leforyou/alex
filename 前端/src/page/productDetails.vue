@@ -35,10 +35,8 @@
           <div class="coupon-price fz60 fc-fff">{{item.quan_price}} 优惠券</div>
           <div class="coupon-date fz22">有效期：{{today}}-{{item.quan_time | dateFilter}}</div>
         </div>
-        <!--<div class="coupon-btn fz22">
-          立即领取
-        </div>-->
-        <a class="coupon-btn fz22" :href="item.quan_link" target="_blank">立即领取</a>
+        <div class="coupon-btn fz22" @click="getCoupon()">立即领取</div>
+        <!--<a class="coupon-btn fz22" :href="item.quan_link" target="_blank">立即领取</a>-->
       </div>
     </div>
 
@@ -96,35 +94,43 @@
       <div class="contain">
         <div class="box fz30 main-width">
           <router-link class="go-home" to="/" tag="div">首页</router-link>
-          <div class="get-coupon">
-            <a :href="item.quan_link" target="_blank">领券购买</a>
+          <div class="get-coupon" @click="getCoupon()">领券购买
+            <!--<a :href="item.quan_link" target="_blank">领券购买</a>-->
           </div>
         </div>
+      </div>
+    </div>
+
+    <div class="token-layer" :class="{'active':isTokenTip}">
+      <div class="box">
+        <div class="tip">已自动复制口令，请打开手机淘宝购买</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import formatDate from '@/../static/js/formatDate';
+import formatDate from "@/../static/js/formatDate";
 export default {
   name: "productDetails",
   data() {
     return {
-      item:{},
+      item: {},
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
         }
       },
       slideArr: [],
-      today:formatDate()
+      today: formatDate(),
+      isTokenTip: false
     };
   },
-  filters:{
-    dateFilter:function(date){//默认会传个值进来
-      date = date || '';
-      return date.split(" ")[0].replace(/\-/g,'.');//只要年月日
+  filters: {
+    dateFilter: function(date) {
+      //默认会传个值进来
+      date = date || "";
+      return date.split(" ")[0].replace(/\-/g, "."); //只要年月日
     }
   },
   mounted() {
@@ -135,7 +141,7 @@ export default {
     });
   },
   methods: {
-    getDetails(){
+    getDetails() {
       //商品详情
       this.axios
         .get(`/api/goodsinfo/detailinfo/${this.$route.params.id}`, {})
@@ -145,16 +151,36 @@ export default {
             this.slideArr = [this.item.pic];
           } else {
             this.$message({
-              message:response.data.msg
+              message: response.data.msg
             });
           }
         })
-        .catch((error)=> {
+        .catch(error => {
           this.$message({
-            message:error
+            message: error
           });
           console.log(error);
         });
+    },
+    getCoupon() {
+      //领券
+      this.copy(this.item.tb_token);
+      this.isTokenTip = true;
+      let setTime = setTimeout(() => {
+        this.isTokenTip = false;
+        clearTimeout(setTime);
+      }, 5e3);
+    },
+    copy(tb_token) {
+      var textareaTag = document.createElement("textarea");
+      textareaTag.value = tb_token;
+      document.body.appendChild(textareaTag);
+      var currentFocus = document.activeElement;
+      textareaTag.focus();
+      textareaTag.setSelectionRange(0, textareaTag.value.length);
+      document.execCommand("copy", true);
+      currentFocus.focus();
+      document.body.removeChild(textareaTag);
     }
   }
 };
@@ -403,17 +429,42 @@ export default {
           border-radius: 0.06rem;
           cursor: pointer;
           position: relative;
-          a{
-            color:#fff;
-            position:absolute;
-            top:0;
+          a {
+            color: #fff;
+            position: absolute;
+            top: 0;
             left: 0;
             right: 0;
-            bottom:0;
-            display:flex;
+            bottom: 0;
+            display: flex;
             justify-content: center;
             align-items: center;
           }
+        }
+      }
+    }
+  }
+  .token-layer {
+    position: fixed;
+    bottom: 30%;
+    bottom: calc(38% - 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s;
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      bottom: 38%;
+      .box {
+        .tip {
+          color: #fff;
+          line-height: 3;
+          padding: 0rem 0.3rem;
+          font-size: 0.28rem;
         }
       }
     }
