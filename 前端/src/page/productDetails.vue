@@ -111,6 +111,8 @@
 
 <script>
 import formatDate from "@/../static/js/formatDate";
+import JsCopy from '@/../static/js/JsCopy.js';//复制
+
 export default {
   name: "productDetails",
   data() {
@@ -164,24 +166,13 @@ export default {
     },
     getCoupon() {
       //领券
-      this.copy(this.item.tb_token);
+      let val = this.item.tb_token || '没有复制到淘口令！';
+      JsCopy.makeCopy(val);
       this.isTokenTip = true;
       let setTime = setTimeout(() => {
         this.isTokenTip = false;
         clearTimeout(setTime);
       }, 5e3);
-    },
-    copy(tb_token) {
-      var textareaTag = document.createElement("textarea");
-      textareaTag.style = 'position: fixed;top: 0;bottom:0;left: 0;right: 0;visibility: hidden;';//解决焦点获取，页面会出现滑动
-      textareaTag.value = tb_token;
-      document.body.appendChild(textareaTag);
-      var currentFocus = document.activeElement;
-      textareaTag.focus();
-      textareaTag.setSelectionRange(0, textareaTag.value.length);
-      document.execCommand("copy", true);
-      currentFocus.focus();
-      document.body.removeChild(textareaTag);
     }
   }
 };

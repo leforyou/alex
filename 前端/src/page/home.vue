@@ -10,9 +10,8 @@
           <QrCode class="code-components" ref="code"/>
         </div>
         <div class="about bg-lg">
-          <div class="name">
-            <div class="cn1">每日</div>
-            <div class="cn2">内部价</div>
+          <div class="copywriting ellipsis5">
+            每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！
           </div>
           <div class="public-code">
             <img src="../../static/img/public-code.jpg" alt>
@@ -25,7 +24,7 @@
               v-for="(item,index) in menuListArr"
               :key="index"
               :class="{'active':listIndex==index}"
-              @click="listIndex=index"
+              @click="listIndex=index,listNav(item.item_name)"
             >{{item.item_name}}</li>
           </ul>
           <!--<div class="more" @click="isOpen = !isOpen">
@@ -64,6 +63,7 @@
 
 <script>
 import QrCode from "./../components/QrCode";
+//import refresh from '@/../static/js/scrollRefresh.js';//上拉触底加载
 export default {
   name: "home",
   data() {
@@ -85,9 +85,10 @@ export default {
     this.$nextTick(function() {
       // DOM 现在更新了
       this.menuList();
+      this.copyWriting();
       this.goodsList();
       this.$refresh(() => {
-        this.goodsList();
+        if(this.$route.name == 'home')this.goodsList();
       });
     });
   },
@@ -97,6 +98,30 @@ export default {
       this.$router.push({
         path: "search"
       });
+    },
+    listNav(title){
+      console.log(title);
+      this.goodsArr = [];
+      this.goodsList(title);
+    },
+    copyWriting(){
+      //文案
+      return;
+      this.axios
+        .post("/api/operate/welcome", {
+          
+        })
+        .then(response => {
+          if (response.data.code == 200) {
+            
+          }
+        })
+        .catch(error => {
+          this.$message({
+            message: error
+          });
+          console.log(error);
+        });
     },
     menuList() {
       //菜单
@@ -123,18 +148,22 @@ export default {
           console.log(error);
         });
     },
-    goodsList() {
+    goodsList(title) {
       //运营表分页
       if (this.isTip) return;
       this.pageNo++;
       this.$loading();
+      let obj = {
+        pageSize: 8,
+        pageNo: this.pageNo,
+        order: "price",
+        orderType: "desc"
+      }
+      if(title){
+        obj.title = title;
+      }
       this.axios
-        .post("/api/operate/page", {
-          pageSize: 8,
-          pageNo: this.pageNo,
-          order: "price",
-          orderType: "desc"
-        })
+        .post("/api/operate/page", obj)
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
@@ -213,23 +242,16 @@ export default {
           background-position: center;
           background-repeat: no-repeat;
         }
-        .name{
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          width: 100%;
-          .cn1{
-            font-weight: bold;
-            font-size: 0.34rem;
-            color: #fff;
-          }
-          .cn2{
-            font-size: 0.30rem;
-            color: #fff;
-          }
+        .copywriting{
+          text-align: center;
+          margin-right: 0.3rem;
+          font-size: 0.26rem;
+          color: #fff;
+          position: relative;
+          z-index: 99;
         }
         .public-code {
+          min-width: 1.6rem;
           display: flex;
           flex-direction: column;
           justify-content: center;

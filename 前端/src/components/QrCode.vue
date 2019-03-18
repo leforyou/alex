@@ -6,7 +6,7 @@
     <div class="code" :class="{'active':isActive}">
       <div class="box main-width">
         <div class="wxcode">
-          <img src="../../static/img/code.jpg">
+          <img src="../../static/img/friend-code.jpg">
         </div>
         <div class="save-tip fz24">截图保存二维码</div>
         <div class="friend fz28">识别二维码加攻略君好友获取更多福利</div>

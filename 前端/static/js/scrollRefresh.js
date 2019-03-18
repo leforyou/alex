@@ -3,7 +3,7 @@ function Refresh(CallBackFn) {
     document.body.style.minHeight = document.documentElement.clientHeight + 5 + "px";
     window.onscroll = function() {
         if (this.getScrollTop() + this.getClientHeight() == this.getScrollHeight()) {
-            CallBackFn(); //回调函数
+            if (CallBackFn) CallBackFn(); //回调函数
         }
     }.bind(this);
 }
