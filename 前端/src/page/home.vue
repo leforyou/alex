@@ -10,6 +10,10 @@
           <QrCode class="code-components" ref="code"/>
         </div>
         <div class="about bg-lg">
+          <div class="name">
+            <div class="cn1">每日</div>
+            <div class="cn2">内部价</div>
+          </div>
           <div class="public-code">
             <img src="../../static/img/public-code.jpg" alt>
             <div class="desc">长按二维码关注我们</div>
@@ -162,8 +166,9 @@ export default {
 .home-page {
   .header {
     .box {
+      $lg:linear-gradient(to right, #fd8210, #ff4022);
       .bg-lg {
-        background: linear-gradient(to right, #fd8210, #ff4022);
+        background: $lg;
       }
       .top {
         padding: 0.3rem;
@@ -188,48 +193,84 @@ export default {
         }
       }
       .about {
+        position: relative;
         display: flex;
         justify-content: flex-end;
-        padding-bottom: 0.3rem;
+        padding-bottom: 0.2rem;
+        padding-left: 0.3rem;
+        padding-right: 0.3rem;
+        &::before{
+          content: '';
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          z-index: 10;
+          background-image: url(../../static/img/home-bg.png);
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+        .name{
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          width: 100%;
+          .cn1{
+            font-weight: bold;
+            font-size: 0.34rem;
+            color: #fff;
+          }
+          .cn2{
+            font-size: 0.30rem;
+            color: #fff;
+          }
+        }
         .public-code {
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          padding-bottom: 0.32rem;
+          position: relative;
+          z-index: 99;
           img {
             display: block;
             width: 1.6rem;
           }
           .desc {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
             text-align: center;
-            font-size: 0.2rem;
+            font-size: 0.24rem;
             color: #fff;
-            transform: scale(0.7);
+            transform: translateX(-50%) scale(0.6);
+            white-space: nowrap;
           }
         }
       }
       .nav {
-        $val: 0.6rem;
         position: relative;
         font-size: 0.26rem;
         line-height: normal;
         ul {
-          $h: 0.5rem;
+          position: relative;
           display: flex;
           flex-wrap: wrap;
           justify-content: space-around;
-          &.active {
-            max-height: 500px;
-          }
-          &::after {
+          &::before {
             content: "";
             display: block;
             position: absolute;
-            bottom: 0rem;
+            bottom: 0.05rem;
             left: 0rem;
             right: 0rem;
-            border-bottom: 0.01rem solid #ddd;
-            z-index: 1;
+            border-bottom: 0.02rem solid #ddd;
+            z-index: 2;
           }
           li {
             color: #444;
@@ -238,17 +279,17 @@ export default {
             text-align: center;
             margin-bottom: 0.05rem;
             position: relative;
+            z-index: 99;
             &.active {
               color: #ff4022;
               &::after {
                 content: "";
                 display: block;
                 position: absolute;
-                bottom: -0.01rem;
+                bottom: 0rem;
                 left: 0rem;
                 right: 0rem;
-                border-bottom: 0.01rem solid #ff4022;
-                z-index: 90;
+                border-bottom: 0.02rem solid #ff4022;
               }
             }
           }

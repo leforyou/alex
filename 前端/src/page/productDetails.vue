@@ -173,6 +173,7 @@ export default {
     },
     copy(tb_token) {
       var textareaTag = document.createElement("textarea");
+      textareaTag.style = 'position: fixed;top: 0;bottom:0;left: 0;right: 0;visibility: hidden;';//解决焦点获取，页面会出现滑动
       textareaTag.value = tb_token;
       document.body.appendChild(textareaTag);
       var currentFocus = document.activeElement;
@@ -446,26 +447,37 @@ export default {
   }
   .token-layer {
     position: fixed;
-    bottom: 30%;
-    bottom: calc(38% - 20px);
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    bottom:0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s;
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 5px;
+    z-index: 9999999;
     &.active {
       opacity: 1;
       visibility: visible;
-      bottom: 38%;
-      .box {
-        .tip {
-          color: #fff;
-          line-height: 3;
-          padding: 0rem 0.3rem;
-          font-size: 0.28rem;
-        }
+      .box{
+        transform: scale(1);
+        margin-top:-0.3rem;
+      }
+    }
+    .box {
+      border-radius: 5px;
+      transition: all 0.3s;
+      transform:scale(0.3);
+      margin-top:0rem;
+      background-color: rgba(0, 0, 0, 0.8);
+      .tip {
+        color: #fff;
+        line-height: 3;
+        padding: 0rem 0.3rem;
+        font-size: 0.28rem;
+        white-space: nowrap;
       }
     }
   }
