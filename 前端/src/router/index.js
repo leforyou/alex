@@ -29,26 +29,20 @@ export default new Router({
         {
             path: '/productDetails/:id',
             name: 'productDetails',
-            component: productDetails,
-            meta: {
-                keepAlive: true
-            }
+            component: productDetails
         },
         {
             path: '/search',
             name: 'search',
             component: search,
             meta: {
-                keepAlive: true
+                keepAlive: true //缓存
             }
         },
         {
             path: '/shop/:nick',
             name: 'shop',
-            component: shop,
-            meta: {
-                keepAlive: true
-            }
+            component: shop
         },
         {
             path: '/404',

@@ -42,7 +42,7 @@
 
     <div class="line"></div>
 
-    <div class="shop">
+    <!--<div class="shop">
       <router-link class="box" :to="{ name: 'shop', params: { nick: item.nick }}" tag="div">
         <div class="head">
           <div class="logo">
@@ -81,9 +81,9 @@
       </router-link>
     </div>
 
-    <div class="line"></div>
+    <div class="line"></div>-->
 
-    <div class="product-details">
+    <div class="product-details" v-if="item.goodsDetailUrl">
       <div class="title fz28">商品详情</div>
       <div class="context">
         <img :src="item.goodsDetailUrl">
@@ -295,7 +295,7 @@ export default {
         cursor: pointer;
       }
     }
-  }
+  }/*
   .shop {
     .box {
       .head {
@@ -371,7 +371,7 @@ export default {
         }
       }
     }
-  }
+  }*/
   .product-details {
     .title {
       text-align: center;

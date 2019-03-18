@@ -24,7 +24,7 @@
               v-for="(item,index) in menuListArr"
               :key="index"
               :class="{'active':listIndex==index}"
-              @click="listIndex=index,listNav(item.item_id)"
+              @click="listIndex=index,listNav(item.did)"
             >{{item.item_name}}</li>
           </ul>
           <!--<div class="more" @click="isOpen = !isOpen">

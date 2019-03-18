@@ -20,15 +20,17 @@
               <div class="type">
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
-                  <span class="price2 price-color fz40">{{item.price}}</span>
-                  <span class="price3 gray-color delete-line fz24">￥{{item.org_Price}}</span>
+                  <span class="price2 price-color fz40">1{{item.price}}</span>
+                  <span class="price3 gray-color delete-line fz28">￥{{item.org_Price}}</span>
                 </div>
+              </div>
+              <div class="sales-info">
                 <div class="situation" v-if="!false">
                   <div class="express price-color scale-1px fz20">包邮</div>
                   <div class="coupon price-color fz20" v-if="item.quan_surplus!==0">券:￥{{item.quan_price}}</div>
                 </div>
+                <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
               </div>
-              <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
             </div>
           </div>
         </router-link>
@@ -119,9 +121,9 @@ export default {
             }
           }
           .bottom {
-            display: flex;
+            /*display: flex;
             align-items: flex-end;
-            justify-content: space-between;
+            justify-content: space-between;*/
             .type {
               .price {
                 line-height: normal;
@@ -133,6 +135,11 @@ export default {
                   top: 0.03rem;
                 }
               }
+            }
+            .sales-info{
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
               .situation {
                 margin-top: 0.08rem;
                 position: relative;
@@ -145,6 +152,7 @@ export default {
                   background: #ffeaef;
                 }
                 .coupon {
+                  display: none;
                   min-width: 0.98rem;
                   width: auto;
                   height: 0.3rem;
@@ -156,9 +164,9 @@ export default {
                   padding-right: 0.1rem;
                 }
               }
-            }
-            .sales {
-              line-height: normal;
+              .sales {
+                line-height: normal;
+              }
             }
           }
         }
