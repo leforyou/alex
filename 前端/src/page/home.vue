@@ -11,7 +11,7 @@
         </div>
         <div class="about bg-lg">
           <div class="copywriting ellipsis5">
-            每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！
+            {{writing}}
           </div>
           <div class="public-code">
             <img src="../../static/img/public-code.jpg" alt>
@@ -24,7 +24,7 @@
               v-for="(item,index) in menuListArr"
               :key="index"
               :class="{'active':listIndex==index}"
-              @click="listIndex=index,listNav(item.item_name)"
+              @click="listIndex=index,listNav(item.item_id)"
             >{{item.item_name}}</li>
           </ul>
           <!--<div class="more" @click="isOpen = !isOpen">
@@ -73,7 +73,8 @@ export default {
       menuListArr: [],
       goodsArr: [],
       pageNo: 0,
-      isTip: false
+      isTip: false,
+      writing:"每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！"
     };
   },
   components: {
@@ -99,21 +100,22 @@ export default {
         path: "search"
       });
     },
-    listNav(title){
-      console.log(title);
+    listNav(item_id){
+      //导航切换--商品列表更新
+      console.log('item_id:',item_id);
       this.goodsArr = [];
-      this.goodsList(title);
+      this.pageNo = 0;
+      this.goodsList(item_id);
     },
     copyWriting(){
       //文案
-      return;
       this.axios
         .post("/api/operate/welcome", {
           
         })
         .then(response => {
           if (response.data.code == 200) {
-            
+            this.writing = response.data.data.welcome;
           }
         })
         .catch(error => {
@@ -148,7 +150,17 @@ export default {
           console.log(error);
         });
     },
-    goodsList(title) {
+    goodsList(item_id) {
+
+
+ /*1、查询运营表
+接口：接口：http://47.112.105.131/api/coupon/page
+查询条
+查询条件：（注意这里不需要order,orderType等等）
+查精选：{"pageSize":10,"pageNo":1,"item_id":1,"isTmall":0}
+查女神：{"pageSize":10,"pageNo":2,"item_id":1,"isTmall":0}
+查男神：{"pageSize":10,"pageNo":3,"item_id":1,"isTmall":0}*/
+
       //运营表分页
       if (this.isTip) return;
       this.pageNo++;
@@ -156,11 +168,10 @@ export default {
       let obj = {
         pageSize: 8,
         pageNo: this.pageNo,
-        order: "price",
-        orderType: "desc"
+        isTmall: 0
       }
-      if(title){
-        obj.title = title;
+      if(item_id){
+        obj.item_id = item_id;
       }
       this.axios
         .post("/api/operate/page", obj)
