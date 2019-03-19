@@ -151,24 +151,15 @@ export default {
         });
     },
     goodsList(item_id) {
-
-
- /*1、查询运营表
-接口：接口：http://47.112.105.131/api/coupon/page
-查询条
-查询条件：（注意这里不需要order,orderType等等）
-查精选：{"pageSize":10,"pageNo":1,"item_id":1,"isTmall":0}
-查女神：{"pageSize":10,"pageNo":2,"item_id":1,"isTmall":0}
-查男神：{"pageSize":10,"pageNo":3,"item_id":1,"isTmall":0}*/
-
       //运营表分页
       if (this.isTip) return;
       this.pageNo++;
       this.$loading();
       let obj = {
-        pageSize: 8,
-        pageNo: this.pageNo,
-        isTmall: 0
+        "pageSize":8,
+        "pageNo":this.pageNo,
+        "order":"price",
+        "orderType":"desc"
       }
       if(item_id){
         obj.item_id = item_id;

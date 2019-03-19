@@ -63,12 +63,11 @@ export default {
       if(this.isTip)return;
       this.pageNo++;
       this.$loading();
+      //{"pageSize":10,"pageNo":1,"title":"男装","Introduce":"男装"}
       this.axios
         .post("/api/goods/page", {
           pageSize: 8,
           pageNo: this.pageNo,
-          order: "price",
-          orderType: "desc",
           title:this.searchValue
         })
         .then(response => {
@@ -76,6 +75,12 @@ export default {
           if (response.data.code == 200) {
             if(response.data.data.datalist.length == 0){
               this.isTip = true;
+              return;
+            }
+            if(response.data.data.datalist == null){
+              this.$message({
+                message:'没查询到相关的数据！'
+              });
               return;
             }
             this.goodsArr = this.goodsArr.concat(response.data.data.datalist);
