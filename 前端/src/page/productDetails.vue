@@ -82,7 +82,6 @@
     </div>
 
     <div class="line"></div>-->
-
     <div class="product-details" v-if="item.goodsDetailUrl">
       <div class="title fz28">商品详情</div>
       <div class="context">
@@ -112,7 +111,7 @@
 
 <script>
 import formatDate from "@/../static/js/formatDate";
-import JsCopy from '@/../static/js/JsCopy.js';//复制
+import JsCopy from "@/../static/js/JsCopy.js"; //复制
 import $ from "jquery";
 export default {
   name: "productDetails",
@@ -152,25 +151,28 @@ export default {
           if (response.data.code == 200) {
             this.item = response.data.data;
             this.slideArr = [this.item.pic];
-            
-            let goodsDetailUrl = this.item.goodsDetailUrl.split('id=')[1];
+
+            let goodsDetailUrl = this.item.goodsDetailUrl.split("id=")[1];
             this.getItemImg(goodsDetailUrl);
           } else {
-            this.$message({
-              message: response.data.msg
-            });
+            /*this.$message({
+              message: error
+            });*/
           }
         })
         .catch(error => {
-          this.$message({
+          /*this.$message({
             message: error
-          });
+          });*/
           console.log(error);
         });
     },
     getCoupon() {
       //领券
-      let val = this.item.tb_token || '今日内部价:没有复制到淘口令！';
+      console.log("商品详情页面复制口令：", this.item.tb_token);
+      console.log("领券地址：", this.item.quan_link);
+      //window.open(this.item.quan_link);
+      let val = this.item.tb_token || "今日内部价:没有复制到淘口令！";
       JsCopy.makeCopy(val);
       this.isTokenTip = true;
       let setTime = setTimeout(() => {
@@ -178,40 +180,56 @@ export default {
         clearTimeout(setTime);
       }, 5e3);
     },
+    /*isPc(){
+      //检测PC端或手机端
+      var p = navigator.platform;
+        system.win = p.indexOf("Win") == 0;
+        system.mac = p.indexOf("Mac") == 0;
+        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+        //跳转语句
+        if (system.win || system.mac || system.xll) {//转向后台登陆页面
+          return true;
+        } else {
+          return false;
+        }
+    },*/
     getItemImg(id) {
       //天猫图片跨域处理
       $.ajax({
-          url: `https://hws.m.taobao.com/cache/desc/5.0?id=${id}`,
-          timeout : 1000,
-          tryCount : 0,
-          dataType: 'jsonp',
-          jsonp: 'callback',
-          // beforeSend: function(XMLHttpRequest) {
-          //     getfan = layer.load();
-          // },
-          success: function(result) {
-              //layer.close(getfan);
-              if (result.sellerId != "") {
-                  var regx = /<[^>]*>|<\/[^>]*>/gm;
-                  var len = result.wdescContent.pages.length;
-                  var image = new Array();
-                  for (var i = 0; i < len; i++) {
-                      if (result.wdescContent.pages[i].indexOf("<txt>") != -1) {
-                          image[i] = "";
-                      } else {
-                          image[i] = "<img src='" + result.wdescContent.pages[i].replace(regx, "") + "' style='width:100%;max-width:100%'>";
-                      }
-                  }
-                  if (image) {
-                      $(".more_briefInfo").append(image);
-                  } else {
-                      $(".more_briefInfo").append('<p>抱歉！暂无宝贝详情</p>');
-                  }
+        url: `https://hws.m.taobao.com/cache/desc/5.0?id=${id}`,
+        timeout: 1000,
+        tryCount: 0,
+        dataType: "jsonp",
+        jsonp: "callback",
+        // beforeSend: function(XMLHttpRequest) {
+        //     getfan = layer.load();
+        // },
+        success: function(result) {
+          //layer.close(getfan);
+          if (result.sellerId != "") {
+            var regx = /<[^>]*>|<\/[^>]*>/gm;
+            var len = result.wdescContent.pages.length;
+            var image = new Array();
+            for (var i = 0; i < len; i++) {
+              if (result.wdescContent.pages[i].indexOf("<txt>") != -1) {
+                image[i] = "";
+              } else {
+                image[i] =
+                  "<img src='" +
+                  result.wdescContent.pages[i].replace(regx, "") +
+                  "' style='width:100%;max-width:100%'>";
               }
-          },
-          error : function(xhr, textStatus, errorThrown ) {
-              $(".more_briefInfo").append('<p>抱歉！暂无宝贝详情</p>');
+            }
+            if (image) {
+              $(".more_briefInfo").append(image);
+            } else {
+              $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
+            }
           }
+        },
+        error: function(xhr, textStatus, errorThrown) {
+          $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
+        }
       });
     }
   }
@@ -335,7 +353,7 @@ export default {
         cursor: pointer;
       }
     }
-  }/*
+  } /*
   .shop {
     .box {
       .head {
@@ -479,7 +497,7 @@ export default {
   .token-layer {
     position: fixed;
     top: 0;
-    bottom:0;
+    bottom: 0;
     left: 0;
     right: 0;
     display: flex;
@@ -492,16 +510,16 @@ export default {
     &.active {
       opacity: 1;
       visibility: visible;
-      .box{
+      .box {
         transform: scale(1);
-        margin-top:-0.3rem;
+        margin-top: -0.3rem;
       }
     }
     .box {
       border-radius: 5px;
       transition: all 0.3s;
-      transform:scale(0.3);
-      margin-top:0rem;
+      transform: scale(0.3);
+      margin-top: 0rem;
       background-color: rgba(0, 0, 0, 0.8);
       .tip {
         color: #fff;

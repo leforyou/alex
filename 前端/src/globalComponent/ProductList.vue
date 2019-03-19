@@ -1,6 +1,6 @@
 <template>
   <div class="wrap-list">
-   <ul>
+    <ul>
       <li v-for="(item,index) in arr" :key="index">
         <router-link :to="{ name: 'productDetails', params: { id: item.goodsID }}" tag="a">
           <div class="left">
@@ -21,15 +21,18 @@
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
                   <span class="price2 price-color fz40">1{{item.price}}</span>
-                  <span class="price3 gray-color delete-line fz28">￥{{item.org_Price}}</span>
+                  <span class="price3 gray-color delete-line fz38">￥{{item.org_Price}}</span>
                 </div>
               </div>
               <div class="sales-info">
                 <div class="situation" v-if="!false">
                   <div class="express price-color scale-1px fz20">包邮</div>
-                  <div class="coupon price-color fz20" v-if="item.quan_surplus!==0">券:￥{{item.quan_price}}</div>
+                  <div
+                    class="coupon price-color fz20"
+                    v-if="item.quan_surplus!==0"
+                  >券:￥{{item.quan_price}}</div>
                 </div>
-                <div class="sales gray-color fz24">月销量{{item.sales_num}}件</div>
+                <div class="sales gray-color fz24">月销量{{item.sales_num}}</div>
               </div>
             </div>
           </div>
@@ -40,31 +43,26 @@
 </template>
 
 <script>
-
 export default {
   name: "ProductList",
-  props:['arr'],
+  props: ["arr"],
   data() {
-    return {
-      
-    };
+    return {};
   },
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
     });
   },
-  methods: {
-    
-  }
+  methods: {}
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .wrap-list {
-  ul{
-    li{
+  ul {
+    li {
       a {
         position: relative;
         display: flex;
@@ -129,14 +127,14 @@ export default {
                 line-height: normal;
                 display: flex;
                 align-items: flex-end;
-                .price2{
+                .price2 {
                   margin-right: 0.1rem;
                   position: relative;
                   top: 0.03rem;
                 }
               }
             }
-            .sales-info{
+            .sales-info {
               display: flex;
               justify-content: space-between;
               align-items: center;

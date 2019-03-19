@@ -9,13 +9,13 @@ const JsCopy = {
         document.body.appendChild(input);
         let sysMsg = this.getOs();
         console.log(sysMsg, '检测版本信息')
-            //input.select() 在ios下并没有选中全部内容，使用以下来选中内容
+        //input.select() 在ios下并没有选中全部内容，使用以下来选中内容
         if (sysMsg == 'ios') {
             //ios复制
             let obj = this.iosCopy(txt);
             this.destoryNode(obj.html, obj.style)
-                //input.setSelectionRange(0,input.value.length);  
-        } else if (sysMsg == 'android') {
+            //input.setSelectionRange(0,input.value.length);  
+        } else if (sysMsg == 'android' || true) {
             //android选择复制内容
             input.select(txt);
         }

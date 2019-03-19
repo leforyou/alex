@@ -10,9 +10,7 @@
           <QrCode class="code-components" ref="code"/>
         </div>
         <div class="about bg-lg">
-          <div class="copywriting ellipsis5">
-            {{writing}}
-          </div>
+          <div class="copywriting ellipsis5">{{writing}}</div>
           <div class="public-code">
             <img src="../../static/img/public-code.jpg" alt>
             <div class="desc">长按二维码关注我们</div>
@@ -24,7 +22,7 @@
               v-for="(item,index) in menuListArr"
               :key="index"
               :class="{'active':listIndex==index}"
-              @click="listIndex=index,listNav(item.did)"
+              @click="listNav(index,item.did)"
             >{{item.item_name}}</li>
           </ul>
           <!--<div class="more" @click="isOpen = !isOpen">
@@ -74,7 +72,8 @@ export default {
       goodsArr: [],
       pageNo: 0,
       isTip: false,
-      writing:"每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！"
+      writing:
+        "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！"
     };
   },
   components: {
@@ -89,7 +88,7 @@ export default {
       this.copyWriting();
       this.goodsList();
       this.$refresh(() => {
-        if(this.$route.name == 'home')this.goodsList();
+        if (this.$route.name == "home") this.goodsList();
       });
     });
   },
@@ -100,28 +99,28 @@ export default {
         path: "search"
       });
     },
-    listNav(item_id){
+    listNav(index, item_id) {
       //导航切换--商品列表更新
-      console.log('item_id:',item_id);
+      console.log("item_id:", item_id);
+      this.listIndex = index;
       this.goodsArr = [];
       this.pageNo = 0;
+      this.isTip = false;
       this.goodsList(item_id);
     },
-    copyWriting(){
+    copyWriting() {
       //文案
       this.axios
-        .post("/api/operate/welcome", {
-          
-        })
+        .post("/api/operate/welcome", {})
         .then(response => {
           if (response.data.code == 200) {
             this.writing = response.data.data.welcome;
           }
         })
         .catch(error => {
-          this.$message({
+          /*this.$message({
             message: error
-          });
+          });*/
           console.log(error);
         });
     },
@@ -138,15 +137,15 @@ export default {
           if (response.data.code == 200) {
             this.menuListArr = response.data.data.slice(0, 3);
           } else {
-            this.$message({
+            /*this.$message({
               message: response.data.msg
-            });
+            });*/
           }
         })
         .catch(error => {
-          this.$message({
+          /*this.$message({
             message: error
-          });
+          });*/
           console.log(error);
         });
     },
@@ -156,12 +155,12 @@ export default {
       this.pageNo++;
       this.$loading();
       let obj = {
-        "pageSize":8,
-        "pageNo":this.pageNo,
-        "order":"price",
-        "orderType":"desc"
-      }
-      if(item_id){
+        pageSize: 8,
+        pageNo: this.pageNo,
+        order: "price",
+        orderType: "desc"
+      };
+      if (item_id) {
         obj.item_id = item_id;
       }
       this.axios
@@ -176,15 +175,16 @@ export default {
             this.goodsArr = this.goodsArr.concat(response.data.data.datalist);
             //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
           } else {
+            /*
             this.$message({
               message: response.data.msg
-            });
+            });*/
           }
         })
         .catch(error => {
-          this.$message({
+          /*this.$message({
             message: error
-          });
+          });*/
           console.log(error);
         });
     }
@@ -197,7 +197,7 @@ export default {
 .home-page {
   .header {
     .box {
-      $lg:linear-gradient(to right, #fd8210, #ff4022);
+      $lg: linear-gradient(to right, #fd8210, #ff4022);
       .bg-lg {
         background: $lg;
       }
@@ -230,8 +230,8 @@ export default {
         padding-bottom: 0.2rem;
         padding-left: 0.3rem;
         padding-right: 0.3rem;
-        &::before{
-          content: '';
+        &::before {
+          content: "";
           display: block;
           position: absolute;
           top: 0;
@@ -244,7 +244,7 @@ export default {
           background-position: center;
           background-repeat: no-repeat;
         }
-        .copywriting{
+        .copywriting {
           text-align: center;
           margin-right: 0.3rem;
           font-size: 0.26rem;
