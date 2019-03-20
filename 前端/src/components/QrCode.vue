@@ -1,6 +1,7 @@
 <template>
   <div class="wrap">
     <div class="ico-box" @click="show">
+      <!--<img src="../../static/img/h5_icon_erweima.png">-->
       <img src="../../static/img/h5_icon_erweima.png">
     </div>
     <div class="code" :class="{'active':isActive}">

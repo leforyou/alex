@@ -1,13 +1,16 @@
 //上拉触底加载
 function Refresh(CallBackFn) {
     document.body.style.minHeight = document.documentElement.clientHeight + 5 + "px";
-    window.onscroll = function() {
+    window.onscroll = function () {
+        if (this.getScrollTop() + this.getClientHeight() > this.getScrollHeight() - (window.screen.height * 0.6)) {
+            if (CallBackFn) CallBackFn(); //回调函数
+        }
         if (this.getScrollTop() + this.getClientHeight() == this.getScrollHeight()) {
             if (CallBackFn) CallBackFn(); //回调函数
         }
     }.bind(this);
 }
-Refresh.prototype.getScrollTop = function() {
+Refresh.prototype.getScrollTop = function () {
     //获取滚动条当前的位置
     var scrollTop = 0;
     if (document.documentElement && document.documentElement.scrollTop) {
@@ -17,7 +20,7 @@ Refresh.prototype.getScrollTop = function() {
     }
     return scrollTop;
 }
-Refresh.prototype.getClientHeight = function() {
+Refresh.prototype.getClientHeight = function () {
     //获取当前可是范围的高度 
     var clientHeight = 0;
     if (document.body.clientHeight && document.documentElement.clientHeight) {
@@ -27,7 +30,7 @@ Refresh.prototype.getClientHeight = function() {
     }
     return clientHeight;
 }
-Refresh.prototype.getScrollHeight = function() {
+Refresh.prototype.getScrollHeight = function () {
     //获取文档完整的高度 
     return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
 }

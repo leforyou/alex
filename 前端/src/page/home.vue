@@ -56,8 +56,10 @@
     </div>
 
     <div class="keep-record">
-      <div class="box">
-        <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18136464号-1</a>
+      <div class="contain">
+        <div class="box">
+          <a href="http://www.miitbeian.gov.cn/" target="_blank">粤ICP备18136464号-1</a>
+        </div>
       </div>
     </div>
 
@@ -159,9 +161,9 @@ export default {
       //运营表分页
       if (this.isTip) return;
       this.pageNo++;
-      this.$loading();
+      //this.$loading();
       let obj = {
-        pageSize: 8,
+        pageSize: 10,
         pageNo: this.pageNo,
         order: "price",
         orderType: "desc"
@@ -172,7 +174,7 @@ export default {
       this.axios
         .post("/api/operate/page", obj)
         .then(response => {
-          this.$loading.close();
+          //this.$loading.close();
           if (response.data.code == 200) {
             if (response.data.data.datalist.length == 0) {
               this.isTip = true;
@@ -341,20 +343,27 @@ export default {
   .product {
   }
   .keep-record {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 5px;
-    z-index: 3;
-    text-align: center;
-    background-color: #c1c0c0;
-    opacity: 0.8;
-    z-index: 9999;
-    .box {
-      a {
-        color: #3d4245;
-        text-decoration: none;
+    $h: 0.5rem;
+    height: $h;
+    .contain {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 3;
+      text-align: center;
+      background-color: #c1c0c0;
+      opacity: 0.8;
+      z-index: 9999;
+
+      .box {
+        a {
+          color: #3d4245;
+          text-decoration: none;
+          line-height: $h;
+          display: block;
+          text-align: center;
+        }
       }
     }
   }
