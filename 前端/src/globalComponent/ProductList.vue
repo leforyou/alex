@@ -20,7 +20,7 @@
               <div class="type">
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
-                  <span class="price2 price-color fz40">1{{item.price}}</span>
+                  <span class="price2 price-color fz40">{{item.price}}</span>
                   <span class="price3 gray-color delete-line fz38">￥{{item.org_Price}}</span>
                 </div>
               </div>

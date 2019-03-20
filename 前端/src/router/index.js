@@ -16,7 +16,7 @@ import page404 from '@/page/404'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
     //mode: 'history', //可以是去掉#号
     routes: [{
             path: '/',
@@ -57,4 +57,8 @@ export default new Router({
             }
         }
     ]
-})
+});
+
+
+
+export default router;

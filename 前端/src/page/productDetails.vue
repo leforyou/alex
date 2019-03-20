@@ -93,7 +93,7 @@
     <div class="footer">
       <div class="contain">
         <div class="box fz30 main-width">
-          <router-link class="go-home" to="/" tag="div">首页</router-link>
+          <div class="go-home" @click="goBack()">返回</div>
           <div class="get-coupon" @click="getCoupon()">领券购买
             <!--<a :href="item.quan_link" target="_blank">领券购买</a>-->
           </div>
@@ -138,11 +138,21 @@ export default {
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
+     $("html,body").animate({scrollTop:0}, 500);//置顶
       this.getDetails();
       //console.log(this.$route.params,this.$route.params.id)
     });
   },
   methods: {
+    goBack(){
+      //返回
+      if (window.history.length <= 1) {
+          this.$router.push({path:'/'});
+          return false;
+      } else {
+          this.$router.go(-1);
+      }
+    },
     getDetails() {
       //商品详情
       this.axios
@@ -152,7 +162,7 @@ export default {
             this.item = response.data.data;
             this.slideArr = [this.item.pic];
 
-            let goodsDetailUrl = this.item.goodsDetailUrl.split("id=")[1];
+            let goodsDetailUrl = this.item.goodsDetailUrl.split('?')[1];
             this.getItemImg(goodsDetailUrl);
           } else {
             /*this.$message({
@@ -193,8 +203,18 @@ export default {
           return false;
         }
     },*/
-    getItemImg(id) {
+    getItemImg(goodsDetailUrl) {
       //天猫图片跨域处理
+      //console.log(goodsDetailUrl)
+      var arr = goodsDetailUrl.split("&");
+      var obj = new Object();//声明一个对象，储存链接的参数
+      for(var i = 0 ; i < arr.length ; i ++){
+        var names = arr[i].split("=")[0];
+        var values = arr[i].split("=")[1];
+        obj[names] = values;
+      }
+      let id = obj.id;
+      //console.log(id);
       $.ajax({
         url: `https://hws.m.taobao.com/cache/desc/5.0?id=${id}`,
         timeout: 1000,
