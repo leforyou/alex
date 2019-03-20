@@ -253,12 +253,13 @@ export default {
           z-index: 99;
         }
         .public-code {
+          background-color: #fff;
           min-width: 1.6rem;
           display: flex;
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          padding-bottom: 0.32rem;
+          padding-bottom: 0.22rem;
           position: relative;
           z-index: 99;
           img {
@@ -271,8 +272,8 @@ export default {
             left: 50%;
             text-align: center;
             font-size: 0.24rem;
-            color: #fff;
-            transform: translateX(-50%) scale(0.6);
+            color: #333;
+            transform: translateX(-50%) scale(0.65);
             white-space: nowrap;
           }
         }

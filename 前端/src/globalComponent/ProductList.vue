@@ -21,12 +21,13 @@
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
                   <span class="price2 price-color fz40">{{item.price}}</span>
-                  <span class="price3 gray-color delete-line fz38">￥{{item.org_Price}}</span>
+                  <div class="express fz20">包邮</div>
+                  <span class="price3 gray-color delete-line fz30">￥{{item.org_Price}}</span>
                 </div>
               </div>
               <div class="sales-info">
                 <div class="situation" v-if="!false">
-                  <div class="express price-color scale-1px fz20">包邮</div>
+                  <!--<div class="express price-color scale-1px fz20">包邮</div>-->
                   <div
                     class="coupon price-color fz20"
                     v-if="item.quan_surplus!==0"
@@ -126,17 +127,25 @@ export default {
               .price {
                 line-height: normal;
                 display: flex;
-                align-items: flex-end;
+                align-items: center;
                 .price2 {
                   margin-right: 0.1rem;
                   position: relative;
                   top: 0.03rem;
                 }
+                .express {
+                  line-height: normal;
+                  padding: 0rem 0.08rem;
+                  margin-right: 0.1rem;
+                  background: #c33;
+                  border-radius: 0.08rem;
+                  color: #fff;
+                }
               }
             }
             .sales-info {
               display: flex;
-              justify-content: space-between;
+              justify-content: flex-start;
               align-items: center;
               .situation {
                 margin-top: 0.08rem;
