@@ -20,9 +20,9 @@
               <div class="type">
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
-                  <span class="price2 price-color fz40">{{item.price}}</span>
+                  <span class="price2 price-color fz48">{{item.price}}</span>
                   <div class="express fz20">包邮</div>
-                  <span class="price3 gray-color delete-line fz30">￥{{item.org_Price}}</span>
+                  <span class="price3 gray-color delete-line fz36">￥{{item.org_Price}}</span>
                 </div>
               </div>
               <div class="sales-info">
@@ -108,7 +108,7 @@ export default {
                   margin-right: 0.08rem;
                 }
                 span {
-                  color: #000;
+                  color: #4b566a;
                   display: inline;
                   line-height: normal;
                 }

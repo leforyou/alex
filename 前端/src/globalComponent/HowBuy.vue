@@ -12,14 +12,14 @@
       <div class="box main-width">
         <div class="title fz34">如何购买？</div>
         <div class="content fz28">
-          <div class="fz30">面举例：如何花9元购买价值19云的眼线笔！</div>
+          <div class="fz30">下面举例：如何花9元购买价值19云的眼线笔！</div>
           <div class="fz30">1.点击喜欢的商品</div>
           <img src="../../static/img/how-buy-01.jpg">
           <div class="fz30">2.点击领劵购买，复制口令，打开手机掏宝</div>
           <img src="../../static/img/how-buy-02.jpg">
           <div class="fz30">3.打开手机掏宝后，会自动弹出【打开链接】</div>
           <img src="../../static/img/how-buy-03.jpg">
-          <div class="fz30">4.点击立即购买（产品价格为19元，但是您领取了我们的专属优惠券10元，所以下单后会变成¥9元包邮），提交付款，完毕</div>
+          <div class="fz30">4.点击立即购买（产品价格为19元，但是您领取了我们的专属优惠券10元，所以下单后会变成9元包邮），提交付款，完毕</div>
           <img src="../../static/img/how-buy-04.jpg">
           <img src="../../static/img/how-buy-05.jpg">
           <img src="../../static/img/how-buy-06.jpg">
@@ -69,7 +69,7 @@ export default {
 .wrap {
   .buy-tip {
     position: fixed;
-    bottom: 1.6rem;
+    bottom: 2rem;
     right: 0rem;
     left: 0rem;
     z-index: 99999;

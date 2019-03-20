@@ -9,7 +9,7 @@
           <img src="../../static/img/friend-code.jpg">
         </div>
         <div class="save-tip fz24">截图保存二维码</div>
-        <div class="friend fz28">识别二维码加攻略君好友获取更多福利</div>
+        <div class="friend fz28">识别二维联系客服获取更多福利</div>
         <div class="btn fz32" @click="hide">知道了</div>
       </div>
     </div>
@@ -42,7 +42,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.wrap{
+.wrap {
   .ico-box {
     min-width: 0.6rem;
     margin-left: 0.28rem;
@@ -99,5 +99,4 @@ export default {
     }
   }
 }
-
 </style>
