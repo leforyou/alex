@@ -94,7 +94,11 @@
       <div class="contain">
         <div class="box fz30 main-width">
           <div class="go-home" @click="goBack()">返回</div>
-          <div class="get-coupon" @click="getCoupon()">领券购买
+          <div class="get-coupon" @click="getCoupon()">
+            <svg class="el-icon-loading" v-if="loading" viewBox="0 0 1024 1024" width="14" height="14">
+                <path fill="#ffffff" d="M955.261 575.322H828.618c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322s-28.37 63.322-63.322 63.322zM780.616 332.925c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538zM512 1018.582c-34.955 0-63.322-28.37-63.322-63.322V828.617c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322V955.26c0 34.955-28.37 63.322-63.322 63.322z m0-759.875c-34.955 0-63.322-28.37-63.322-63.322V68.742c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322v126.643c0 34.955-28.37 63.322-63.322 63.322z m-268.616 611.45c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538z m0-537.232l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538s64.842-24.696 89.538 0l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538-24.822 24.696-64.842 24.696-89.538 0zM258.707 512c0 34.955-28.37 63.322-63.322 63.322H68.742c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322z m521.909 179.075l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538s-64.842 24.696-89.538 0l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538 24.822-24.696 64.842-24.696 89.538 0z m0 0z"></path>
+            </svg>
+            <span class="fc-fff">领券购买</span>
             <!--<a :href="item.quan_link" target="_blank">领券购买</a>-->
           </div>
         </div>
@@ -125,7 +129,8 @@ export default {
       },
       slideArr: [],
       today: formatDate(),
-      isTokenTip: false
+      isTokenTip: false,
+      loading:false
     };
   },
   filters: {
@@ -139,6 +144,7 @@ export default {
     this.$nextTick(function() {
       // DOM 现在更新了
      $("html,body").animate({scrollTop:0}, 500);//置顶
+      this.sliderImg();
       this.getDetails();
       //console.log(this.$route.params,this.$route.params.id)
     });
@@ -160,10 +166,35 @@ export default {
         .then(response => {
           if (response.data.code == 200) {
             this.item = response.data.data;
-            this.slideArr = [this.item.pic];
 
             let goodsDetailUrl = this.item.goodsDetailUrl.split('?')[1];
             this.getItemImg(goodsDetailUrl);
+
+            this.item.tb_token = this.item.tb_token || "每日内部价:没有复制到淘口令！";
+            if(this.loading){
+              this.loading = false;
+              this.getCoupon();
+            }
+          } else {
+            /*this.$message({
+              message: error
+            });*/
+          }
+        })
+        .catch(error => {
+          /*this.$message({
+            message: error
+          });*/
+          console.log(error);
+        });
+    },
+    sliderImg(){
+      //轮播图
+      this.axios
+        .get(`/api/goods/detail_images/${this.$route.params.id}`, {})
+        .then(response => {
+          if (response.data.code == 200) {
+            this.slideArr = response.data.data;
           } else {
             /*this.$message({
               message: error
@@ -179,30 +210,47 @@ export default {
     },
     getCoupon() {
       //领券
+      //if(this.isPc())window.open(this.item.quan_link);//pc端打开优惠券页面
       console.log("商品详情页面复制口令：", this.item.tb_token);
       console.log("领券地址：", this.item.quan_link);
-      //window.open(this.item.quan_link);
-      let val = this.item.tb_token || "今日内部价:没有复制到淘口令！";
+      if(!this.item.tb_token)return this.loading = true;
+      let val = this.item.tb_token;
       JsCopy.makeCopy(val);
-      this.isTokenTip = true;
-      let setTime = setTimeout(() => {
-        this.isTokenTip = false;
-        clearTimeout(setTime);
-      }, 5e3);
+      if(this.item.tb_token){
+        this.isTokenTip = true;
+        let setTime = setTimeout(() => {
+          this.isTokenTip = false;
+          clearTimeout(setTime);
+        }, 5e3);
+      }
     },
-    /*isPc(){
-      //检测PC端或手机端
-      var p = navigator.platform;
-        system.win = p.indexOf("Win") == 0;
-        system.mac = p.indexOf("Mac") == 0;
-        system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
-        //跳转语句
-        if (system.win || system.mac || system.xll) {//转向后台登陆页面
-          return true;
-        } else {
-          return false;
-        }
-    },*/
+    isPc(){
+      //检测PC端或手机端--如果没用到，删除即可
+      var browser = {
+			    versions: function () {
+			        var u = navigator.userAgent,
+			            app = navigator.appVersion;
+			        return { //移动终端浏览器版本信息,利用函数返回一个对象给versions，然后下面的if判断条件就可调用返回的值，这个写法是json数据结构（属于js语法）
+			            trident: u.indexOf('Trident') > -1, //IE内核
+			            presto: u.indexOf('Presto') > -1, //opera内核
+			            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+			            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+			            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+			            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+			            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+			            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+			            iPad: u.indexOf('iPad') > -1, //是否iPad
+			            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+			        };
+			    }(),
+			    language: (navigator.browserLanguage || navigator.language).toLowerCase()
+			}
+			if (browser.versions.android || browser.versions.iPhone || browser.versions.iPad) {
+			    return false;
+			} else {
+			    return true;
+			}
+    },
     getItemImg(goodsDetailUrl) {
       //天猫图片跨域处理
       //console.log(goodsDetailUrl)
@@ -499,6 +547,10 @@ export default {
           border-radius: 0.06rem;
           cursor: pointer;
           position: relative;
+          .el-icon-loading {
+              animation: rotating 2s linear infinite;
+              margin-right:0.08rem;
+          }
           a {
             color: #fff;
             position: absolute;
@@ -550,5 +602,26 @@ export default {
       }
     }
   }
+}
+@-webkit-keyframes rotating {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
+}
+
+@keyframes rotating {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0)
+    }
+    to {
+        -webkit-transform: rotate(1turn);
+        transform: rotate(1turn)
+    }
 }
 </style>

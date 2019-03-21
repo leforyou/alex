@@ -350,7 +350,7 @@ export default {
     }
   }
   .keep-record {
-    $h: 0.5rem;
+    $h: 0.6rem;
     height: $h;
     .contain {
       position: fixed;
@@ -362,7 +362,6 @@ export default {
       background-color: #c1c0c0;
       opacity: 0.8;
       z-index: 9999;
-
       .box {
         a {
           color: #3d4245;
