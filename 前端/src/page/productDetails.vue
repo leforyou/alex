@@ -7,7 +7,7 @@
         <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
       </swiper-slide>
       <!-- Optional controls -->
-      <div class="swiper-pagination" slot="pagination" style="display:none;">
+      <div class="swiper-pagination" slot="pagination">
         <!-- 导航点 -->
       </div>
     </swiper>

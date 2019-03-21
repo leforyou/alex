@@ -291,6 +291,7 @@ export default {
         position: relative;
         font-size: 0.26rem;
         line-height: normal;
+        min-height:0.72rem;
         ul {
           position: relative;
           display: flex;
