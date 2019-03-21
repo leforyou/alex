@@ -52,6 +52,7 @@
     -->
     <div class="product">
       <List :arr="goodsArr"/>
+      <div class="loading" v-if="!isTip">加载中...</div>
       <NotMoreTip :visible="isTip"/>
     </div>
 
@@ -341,6 +342,12 @@ export default {
     }
   }
   .product {
+    .loading{
+      color:#999;
+      text-align: center;
+      font-size: 0.28rem;
+      line-height: 3;
+    }
   }
   .keep-record {
     $h: 0.5rem;
