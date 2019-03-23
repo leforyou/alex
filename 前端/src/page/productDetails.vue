@@ -35,7 +35,11 @@
           <div class="coupon-price fz60 fc-fff">{{item.quan_price}} 优惠券</div>
           <div class="coupon-date fz22">有效期：{{today}}-{{item.quan_time | dateFilter}}</div>
         </div>
-        <div class="coupon-btn fz22" @click="getCoupon()">立即领取</div>
+        <div
+          class="coupon-btn fz22"
+          :class="{'cannot':item.goodsDetailUrl === true}"
+          @click="getCoupon()"
+        >{{isReceive?'已领取':'立即领取'}}</div>
         <!--<a class="coupon-btn fz22" :href="item.quan_link" target="_blank">立即领取</a>-->
       </div>
     </div>
@@ -94,11 +98,24 @@
       <div class="contain">
         <div class="box fz30 main-width">
           <div class="go-home" @click="goBack()">返回</div>
-          <div class="get-coupon" @click="getCoupon()">
-            <svg class="el-icon-loading" v-if="loading" viewBox="0 0 1024 1024" width="14" height="14">
-                <path fill="#ffffff" d="M955.261 575.322H828.618c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322s-28.37 63.322-63.322 63.322zM780.616 332.925c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538zM512 1018.582c-34.955 0-63.322-28.37-63.322-63.322V828.617c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322V955.26c0 34.955-28.37 63.322-63.322 63.322z m0-759.875c-34.955 0-63.322-28.37-63.322-63.322V68.742c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322v126.643c0 34.955-28.37 63.322-63.322 63.322z m-268.616 611.45c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538z m0-537.232l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538s64.842-24.696 89.538 0l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538-24.822 24.696-64.842 24.696-89.538 0zM258.707 512c0 34.955-28.37 63.322-63.322 63.322H68.742c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322z m521.909 179.075l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538s-64.842 24.696-89.538 0l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538 24.822-24.696 64.842-24.696 89.538 0z m0 0z"></path>
+          <div
+            class="get-coupon"
+            :class="{'animated bounceIn':isAnimated,'cannot':item.goodsDetailUrl === true}"
+            @click="getCoupon()"
+          >
+            <svg
+              class="el-icon-loading"
+              v-if="loading"
+              viewBox="0 0 1024 1024"
+              width="14"
+              height="14"
+            >
+              <path
+                fill="#ffffff"
+                d="M955.261 575.322H828.618c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322s-28.37 63.322-63.322 63.322zM780.616 332.925c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538zM512 1018.582c-34.955 0-63.322-28.37-63.322-63.322V828.617c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322V955.26c0 34.955-28.37 63.322-63.322 63.322z m0-759.875c-34.955 0-63.322-28.37-63.322-63.322V68.742c0-34.955 28.37-63.322 63.322-63.322s63.322 28.37 63.322 63.322v126.643c0 34.955-28.37 63.322-63.322 63.322z m-268.616 611.45c-24.696 24.696-64.842 24.696-89.538 0s-24.696-64.842 0-89.538l89.538-89.538c24.696-24.696 64.842-24.696 89.538 0s24.696 64.842 0 89.538l-89.538 89.538z m0-537.232l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538s64.842-24.696 89.538 0l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538-24.822 24.696-64.842 24.696-89.538 0zM258.707 512c0 34.955-28.37 63.322-63.322 63.322H68.742c-34.955 0-63.322-28.37-63.322-63.322s28.37-63.322 63.322-63.322h126.643c34.955 0 63.322 28.37 63.322 63.322z m521.909 179.075l89.538 89.538c24.696 24.696 24.696 64.842 0 89.538s-64.842 24.696-89.538 0l-89.538-89.538c-24.696-24.696-24.696-64.842 0-89.538 24.822-24.696 64.842-24.696 89.538 0z m0 0z"
+              ></path>
             </svg>
-            <span class="fc-fff">领券购买</span>
+            <span class="fc-fff no-user-select">{{isReceive?'已领取':'领券购买'}}</span>
             <!--<a :href="item.quan_link" target="_blank">领券购买</a>-->
           </div>
         </div>
@@ -121,7 +138,17 @@ export default {
   name: "productDetails",
   data() {
     return {
-      item: {},
+      item: {
+        price: "0.00",
+        isTmall: "无",
+        d_title: "无",
+        sales_num: "0.00",
+        provcity: "无",
+        quan_price: "0.00",
+        quan_time: "无",
+        tb_token: "",
+        goodsDetailUrl: true
+      },
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
@@ -130,7 +157,9 @@ export default {
       slideArr: [],
       today: formatDate(),
       isTokenTip: false,
-      loading:false
+      loading: false,
+      isReceive: false, //优券没领取
+      isAnimated: false
     };
   },
   filters: {
@@ -143,35 +172,39 @@ export default {
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
-     $("html,body").animate({scrollTop:0}, 500);//置顶
+      $("html,body").animate({ scrollTop: 0 }, 500); //置顶
       this.sliderImg();
       this.getDetails();
+      this.getItemImg();
       //console.log(this.$route.params,this.$route.params.id)
     });
   },
   methods: {
-    goBack(){
+    goBack() {
       //返回
       if (window.history.length <= 1) {
-          this.$router.push({path:'/'});
-          return false;
+        this.$router.push({ path: "/" });
+        return false;
       } else {
-          this.$router.go(-1);
+        this.$router.go(-1);
       }
     },
     getDetails() {
       //商品详情
+      this.$loading();
       this.axios
         .get(`/api/goodsinfo/detailinfo/${this.$route.params.id}`, {})
         .then(response => {
+          this.$loading.close();
           if (response.data.code == 200) {
-            this.item = response.data.data;
+            if (response.data.data) this.item = response.data.data;
 
-            let goodsDetailUrl = this.item.goodsDetailUrl.split('?')[1];
-            this.getItemImg(goodsDetailUrl);
+            //let goodsDetailUrl = this.item.goodsDetailUrl.split("?")[1];
+            //this.getItemImg(goodsDetailUrl);
 
-            this.item.tb_token = this.item.tb_token || "每日内部价:没有复制到淘口令！";
-            if(this.loading){
+            this.item.tb_token =
+              this.item.tb_token || "每日内部价:没有复制到淘口令！";
+            if (this.loading) {
               this.loading = false;
               this.getCoupon();
             }
@@ -185,14 +218,17 @@ export default {
           /*this.$message({
             message: error
           });*/
+          this.$loading.close();
           console.log(error);
         });
     },
-    sliderImg(){
+    sliderImg() {
       //轮播图
+      this.$loading();
       this.axios
         .get(`/api/goods/detail_images/${this.$route.params.id}`, {})
         .then(response => {
+          this.$loading.close();
           if (response.data.code == 200) {
             this.slideArr = response.data.data;
           } else {
@@ -205,6 +241,7 @@ export default {
           /*this.$message({
             message: error
           });*/
+          this.$loading.close();
           console.log(error);
         });
     },
@@ -213,58 +250,76 @@ export default {
       //if(this.isPc())window.open(this.item.quan_link);//pc端打开优惠券页面
       console.log("商品详情页面复制口令：", this.item.tb_token);
       console.log("领券地址：", this.item.quan_link);
-      if(!this.item.tb_token)return this.loading = true;
+      if (this.item.goodsDetailUrl === true) return;
+      if (!this.item.tb_token) return (this.loading = true);
       let val = this.item.tb_token;
       JsCopy.makeCopy(val);
-      if(this.item.tb_token){
+      if (this.item.tb_token) {
         this.isTokenTip = true;
+        this.isReceive = true;
         let setTime = setTimeout(() => {
           this.isTokenTip = false;
           clearTimeout(setTime);
-        }, 5e3);
+        }, 5e5);
       }
+      if (this.isAnimated) return;
+      this.isAnimated = true;
+      let setTimer = setTimeout(() => {
+        this.isAnimated = false;
+        clearTimeout(setTimer);
+      }, 1e3);
     },
-    isPc(){
+    isPc() {
       //检测PC端或手机端--如果没用到，删除即可
       var browser = {
-			    versions: function () {
-			        var u = navigator.userAgent,
-			            app = navigator.appVersion;
-			        return { //移动终端浏览器版本信息,利用函数返回一个对象给versions，然后下面的if判断条件就可调用返回的值，这个写法是json数据结构（属于js语法）
-			            trident: u.indexOf('Trident') > -1, //IE内核
-			            presto: u.indexOf('Presto') > -1, //opera内核
-			            webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
-			            gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
-			            mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-			            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-			            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
-			            iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
-			            iPad: u.indexOf('iPad') > -1, //是否iPad
-			            webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
-			        };
-			    }(),
-			    language: (navigator.browserLanguage || navigator.language).toLowerCase()
-			}
-			if (browser.versions.android || browser.versions.iPhone || browser.versions.iPad) {
-			    return false;
-			} else {
-			    return true;
-			}
+        versions: (function() {
+          var u = navigator.userAgent,
+            app = navigator.appVersion;
+          return {
+            //移动终端浏览器版本信息,利用函数返回一个对象给versions，然后下面的if判断条件就可调用返回的值，这个写法是json数据结构（属于js语法）
+            trident: u.indexOf("Trident") > -1, //IE内核
+            presto: u.indexOf("Presto") > -1, //opera内核
+            webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
+            gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1, //火狐内核
+            mobile:
+              !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+            android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或者uc浏览器
+            iPhone: u.indexOf("iPhone") > -1 || u.indexOf("Mac") > -1, //是否为iPhone或者QQHD浏览器
+            iPad: u.indexOf("iPad") > -1, //是否iPad
+            webApp: u.indexOf("Safari") == -1 //是否web应该程序，没有头部与底部
+          };
+        })(),
+        language: (
+          navigator.browserLanguage || navigator.language
+        ).toLowerCase()
+      };
+      if (
+        browser.versions.android ||
+        browser.versions.iPhone ||
+        browser.versions.iPad
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
     getItemImg(goodsDetailUrl) {
       //天猫图片跨域处理
       //console.log(goodsDetailUrl)
-      var arr = goodsDetailUrl.split("&");
-      var obj = new Object();//声明一个对象，储存链接的参数
-      for(var i = 0 ; i < arr.length ; i ++){
+      /*var arr = goodsDetailUrl.split("&");
+      var obj = new Object(); //声明一个对象，储存链接的参数
+      for (var i = 0; i < arr.length; i++) {
         var names = arr[i].split("=")[0];
         var values = arr[i].split("=")[1];
         obj[names] = values;
       }
       let id = obj.id;
-      //console.log(id);
+      //console.log(id);*/
       $.ajax({
-        url: `https://hws.m.taobao.com/cache/desc/5.0?id=${id}`,
+        url: `https://hws.m.taobao.com/cache/desc/5.0?id=${
+          this.$route.params.id
+        }`,
         timeout: 1000,
         tryCount: 0,
         dataType: "jsonp",
@@ -331,6 +386,9 @@ export default {
 }
 </style>
 <style scoped lang="scss">
+.cannot {
+  opacity: 0.6;
+}
 .product-page {
   .line {
     height: 0.3rem;
@@ -548,8 +606,8 @@ export default {
           cursor: pointer;
           position: relative;
           .el-icon-loading {
-              animation: rotating 2s linear infinite;
-              margin-right:0.08rem;
+            animation: rotating 2s linear infinite;
+            margin-right: 0.08rem;
           }
           a {
             color: #fff;
@@ -568,60 +626,110 @@ export default {
   }
   .token-layer {
     position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, 100%) translateZ(0);
     display: flex;
     justify-content: center;
     align-items: center;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s;
+    transition: all 0.1s;
     z-index: 9999999;
     &.active {
+      transform: translate(-50%, -0%) translateZ(0);
       opacity: 1;
       visibility: visible;
-      .box {
-        transform: scale(1);
-        margin-top: -0.3rem;
-      }
     }
     .box {
       border-radius: 5px;
-      transition: all 0.3s;
-      transform: scale(0.3);
-      margin-top: 0rem;
       background-color: rgba(0, 0, 0, 0.8);
       .tip {
         color: #fff;
-        line-height: 3;
-        padding: 0rem 0.3rem;
-        font-size: 0.28rem;
+        line-height: normal;
+        padding: 0.5rem 0.3rem;
+        font-size: 0.3rem;
         white-space: nowrap;
       }
     }
   }
 }
 @-webkit-keyframes rotating {
-    0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0)
-    }
-    to {
-        -webkit-transform: rotate(1turn);
-        transform: rotate(1turn)
-    }
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
 }
 
 @keyframes rotating {
-    0% {
-        -webkit-transform: rotate(0);
-        transform: rotate(0)
-    }
-    to {
-        -webkit-transform: rotate(1turn);
-        transform: rotate(1turn)
-    }
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  to {
+    -webkit-transform: rotate(1turn);
+    transform: rotate(1turn);
+  }
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+.bounceIn {
+  -webkit-animation-duration: 0.75s;
+  -webkit-animation-name: bounceIn;
+  animation-duration: 0.75s;
+  animation-name: bounceIn;
+}
+@keyframes bounceIn {
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    -webkit-transform: scale3d(0.3, 0.3, 0.3);
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+
+  20% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  40% {
+    -webkit-transform: scale3d(0.9, 0.9, 0.9);
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+
+  60% {
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  80% {
+    -webkit-transform: scale3d(0.97, 0.97, 0.97);
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+
+  to {
+    -webkit-transform: scaleX(1);
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 </style>

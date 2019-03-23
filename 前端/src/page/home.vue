@@ -166,8 +166,8 @@ export default {
       let obj = {
         pageSize: 10,
         pageNo: this.pageNo,
-        order: "price",
-        orderType: "desc"
+        order: "op_order",
+        orderType: "asc"
       };
       if (item_id) {
         obj.item_id = item_id;
@@ -236,6 +236,7 @@ export default {
         position: relative;
         display: flex;
         justify-content: flex-end;
+        padding-top: 1.28rem;
         padding-bottom: 0.2rem;
         padding-left: 0.3rem;
         padding-right: 0.3rem;
@@ -262,6 +263,7 @@ export default {
           z-index: 99;
         }
         .public-code {
+          min-height: 1.82rem;
           background-color: #fff;
           min-width: 1.6rem;
           display: flex;
@@ -291,7 +293,7 @@ export default {
         position: relative;
         font-size: 0.26rem;
         line-height: normal;
-        min-height:0.72rem;
+        min-height: 0.72rem;
         ul {
           position: relative;
           display: flex;
@@ -343,8 +345,8 @@ export default {
     }
   }
   .product {
-    .loading{
-      color:#999;
+    .loading {
+      color: #999;
       text-align: center;
       font-size: 0.28rem;
       line-height: 3;
