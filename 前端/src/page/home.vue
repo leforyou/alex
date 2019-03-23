@@ -2,12 +2,14 @@
   <div class="home-page">
     <div class="header">
       <div class="box">
-        <div class="top bg-lg">
-          <div class="search" @click="toSearchPage">
-            <img src="../../static/img/h5_icon_shousuo.png">
-            <span class="fz28 fc-999">请输入商品名称搜索</span>
+        <div class="top">
+          <div class="top-box bg-lg main-width">
+            <div class="search" @click="toSearchPage">
+              <img src="../../static/img/h5_icon_shousuo.png">
+              <span class="fz28 fc-999">请输入商品名称搜索</span>
+            </div>
+            <QrCode class="code-components" ref="code"/>
           </div>
-          <QrCode class="code-components" ref="code"/>
         </div>
         <div class="about bg-lg">
           <div class="copywriting ellipsis5">{{writing}}</div>
@@ -16,8 +18,8 @@
             <div class="desc">长按二维码关注我们</div>
           </div>
         </div>
-        <div class="nav">
-          <ul :class="{'active':isOpen}">
+        <div class="nav" id="wrap-nav">
+          <ul class="main-width" :class="{'active':isOpen}">
             <li
               v-for="(item,index) in menuListArr"
               :key="index"
@@ -70,6 +72,7 @@
 
 <script>
 import QrCode from "./../components/QrCode";
+import $ from "jquery";
 //import refresh from '@/../static/js/scrollRefresh.js';//上拉触底加载
 export default {
   name: "home",
@@ -96,12 +99,28 @@ export default {
       this.menuList();
       this.copyWriting();
       this.goodsList();
+      this.fixedNav();
       this.$refresh(() => {
         if (this.$route.name == "home") this.goodsList();
       });
     });
   },
   methods: {
+    fixedNav() {
+      //固定导航
+      $(window).scroll(function() {
+        var scrollTop =
+          document.documentElement.scrollTop ||
+          window.pageYOffset ||
+          document.body.scrollTop; //这行代码主要兼容谷歌、火狐、IE浏览器
+        var val = $(".home-page .header .box .top").height();
+        if (scrollTop >= val) {
+          $("#wrap-nav").addClass("fixed");
+        } else if (scrollTop < val) {
+          $("#wrap-nav").removeClass("fixed");
+        }
+      });
+    },
     toSearchPage() {
       //跳转到搜索页面
       this.$router.push({
@@ -211,24 +230,31 @@ export default {
         background: $lg;
       }
       .top {
-        padding: 0.3rem;
-        display: flex;
-        align-items: center;
-        .search {
-          background-color: #fff;
-          border-radius: 0.6rem;
-          width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999999;
+        .top-box {
+          padding: 0.3rem;
           display: flex;
-          justify-content: center;
           align-items: center;
-          cursor: pointer;
-          img {
-            width: 0.3rem;
-            height: 0.3rem;
-            margin-right: 0.1rem;
-          }
-          span {
-            padding: 0.15rem 0rem;
+          .search {
+            background-color: #fff;
+            border-radius: 0.6rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            img {
+              width: 0.3rem;
+              height: 0.3rem;
+              margin-right: 0.1rem;
+            }
+            span {
+              padding: 0.15rem 0rem;
+            }
           }
         }
       }
@@ -290,15 +316,23 @@ export default {
         }
       }
       .nav {
-        position: relative;
         font-size: 0.26rem;
         line-height: normal;
         min-height: 0.72rem;
+        &.fixed {
+          position: fixed;
+          top: 1.28rem;
+          left: 0;
+          right: 0;
+          z-index: 999999;
+          box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0.1);
+        }
         ul {
           position: relative;
           display: flex;
           flex-wrap: wrap;
           justify-content: space-around;
+          background: #fff;
           &::before {
             content: "";
             display: block;
