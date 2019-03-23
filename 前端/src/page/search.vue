@@ -1,13 +1,30 @@
 <template>
   <div class="search-page">
     <div class="header">
-      <divc class="contain">
+      <div class="contain">
         <div class="box main-width">
           <img class="ico-back" @click="goBack" src="../../static/img/ico-search-back.png">
           <input type="search" @keyup.enter="submit" v-model="searchValue" placeholder="请输入商品名称搜索">
           <div class="btn" @click="submit">搜索</div>
         </div>
-      </divc>
+      </div>
+    </div>
+
+    <div class="content-info">
+      <div class="contain">
+        <div class="search-history">
+          <div class="title">历史搜索</div>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+        <div class="search-recommend">
+          <div class="title">搜索推荐</div>
+          <ul>
+            <li></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <div class="product">
@@ -154,6 +171,14 @@ export default {
           line-height: normal;
           border-radius: 0.5rem;
         }
+      }
+    }
+  }
+  .content-info {
+    .contain {
+      .search-history {
+      }
+      .search-recommend {
       }
     }
   }

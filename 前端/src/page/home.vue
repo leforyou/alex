@@ -183,7 +183,7 @@ export default {
       this.pageNo++;
       //this.$loading();
       let obj = {
-        pageSize: 10,
+        pageSize: 15,
         pageNo: this.pageNo,
         order: "op_order",
         orderType: "asc"
@@ -196,7 +196,8 @@ export default {
         .then(response => {
           //this.$loading.close();
           if (response.data.code == 200) {
-            if (response.data.data.datalist.length == 0) {
+            console.log("tag", response.data.data.length);
+            if (response.data.data.datalist == null) {
               this.isTip = true;
               return;
             }
@@ -325,7 +326,7 @@ export default {
           left: 0;
           right: 0;
           z-index: 999999;
-          box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0.1);
+          box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0);
         }
         ul {
           position: relative;
@@ -337,7 +338,7 @@ export default {
             content: "";
             display: block;
             position: absolute;
-            bottom: 0.05rem;
+            bottom: 0rem;
             left: 0rem;
             right: 0rem;
             border-bottom: 0.02rem solid #ddd;
@@ -357,7 +358,7 @@ export default {
                 content: "";
                 display: block;
                 position: absolute;
-                bottom: 0rem;
+                bottom: -0.05rem;
                 left: 0rem;
                 right: 0rem;
                 border-bottom: 0.02rem solid #ff4022;

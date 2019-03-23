@@ -24,7 +24,11 @@
             <div class="fz45 bold" style="color:#e80303;">长按二维码识别关注</div>
           </div>
         </div>
-        <div class="btn fz32" @click="goBack">知道了</div>
+        <div class="btn" @click="goBack">
+          <div class="btn-contain main-width">
+            <div class="btn-box fz32">知道了</div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -92,13 +96,27 @@ export default {
         }
       }
       .btn {
+        $h: 0.88rem;
+        height: $h;
         margin-top: 1.2rem;
-        line-height: 0.88rem;
-        text-align: center;
-        color: #fa5826;
-        border: 0.01rem solid #fa5826;
-        border-radius: 0.08rem;
-        cursor: pointer;
+        .btn-contain {
+          height: $h;
+          position: fixed;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          z-index: 9999;
+          background: #fa5826;
+          .btn-box {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            border-radius: 0.08rem;
+            cursor: pointer;
+          }
+        }
       }
     }
   }

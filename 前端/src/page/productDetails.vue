@@ -365,7 +365,6 @@ export default {
   .swiper-container {
     .swiper-wrapper {
       .img-box {
-        padding-top: 66.666%;
         padding-top: 100%;
         background-position: center;
         background-repeat: no-repeat;
@@ -568,7 +567,7 @@ export default {
     }
   }
   .footer {
-    $h: 1.28rem;
+    $h: 0.88rem;
     height: $h;
     .contain {
       position: fixed;
@@ -580,29 +579,27 @@ export default {
       background-color: #fff;
       .box {
         height: 100%;
-        padding: 0.2rem 0.16rem;
         display: flex;
         .go-home {
-          color: #fa693b;
-          border: 0.01rem solid #fa693b;
+          line-height: $h;
           white-space: nowrap;
-          margin-right: 0.18rem;
-          padding: 0rem 0.5rem;
           display: flex;
           justify-content: center;
           align-items: center;
-          border-radius: 0.06rem;
           cursor: pointer;
+          padding: 0rem 0.8rem;
+          background: #f3933d;
+          color: #fff;
         }
         .get-coupon {
+          line-height: $h;
           color: #fff;
           text-shadow: 0rem 0rem 0.02rem #fe3a00;
-          background: linear-gradient(#fd8111, #fe4b1f);
+          background: linear-gradient(to right, #fd8210, #ff4022);
           width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
-          border-radius: 0.06rem;
           cursor: pointer;
           position: relative;
           .el-icon-loading {
