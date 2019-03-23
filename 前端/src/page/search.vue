@@ -13,15 +13,24 @@
     <div class="content-info">
       <div class="contain">
         <div class="search-history">
-          <div class="title">历史搜索</div>
+          <div class="title">
+            <span>历史搜索</span>
+          </div>
           <ul>
-            <li></li>
+            <li>男装</li>
+            <li>女人装</li>
+            <li>好的基地</li>
           </ul>
         </div>
         <div class="search-recommend">
-          <div class="title">搜索推荐</div>
+          <div class="title">
+            <span>搜索推荐</span>
+          </div>
           <ul>
-            <li></li>
+            <li>男装</li>
+            <li>女人装</li>
+            <li>好的基地</li>
+            <li>基本原则遥</li>
           </ul>
         </div>
       </div>

@@ -84,6 +84,7 @@ export default {
       goodsArr: [],
       pageNo: 0,
       isTip: false,
+      item_id: 1,
       writing:
         "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！"
     };
@@ -134,7 +135,8 @@ export default {
       this.goodsArr = [];
       this.pageNo = 0;
       this.isTip = false;
-      this.goodsList(item_id);
+      this.item_id = item_id;
+      this.goodsList();
     },
     copyWriting() {
       //文案
@@ -177,7 +179,7 @@ export default {
           console.log(error);
         });
     },
-    goodsList(item_id) {
+    goodsList() {
       //运营表分页
       if (this.isTip) return;
       this.pageNo++;
@@ -186,11 +188,9 @@ export default {
         pageSize: 15,
         pageNo: this.pageNo,
         order: "op_order",
-        orderType: "asc"
+        orderType: "asc",
+        item_id: this.item_id
       };
-      if (item_id) {
-        obj.item_id = item_id;
-      }
       this.axios
         .post("/api/operate/page", obj)
         .then(response => {

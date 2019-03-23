@@ -1,16 +1,18 @@
 <template>
   <div class="product-page">
     <!-- <img src="../../static/img/slider.jpg">-->
-    <swiper :options="swiperOption" ref="mySwiper">
-      <!-- slides -->
-      <swiper-slide v-for="(item, index) in slideArr" :key="index">
-        <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
-      </swiper-slide>
-      <!-- Optional controls -->
-      <div class="swiper-pagination" slot="pagination">
-        <!-- 导航点 -->
-      </div>
-    </swiper>
+    <div class="wrap-swiper">
+      <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiper-slide v-for="(item, index) in slideArr" :key="index">
+          <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
+        </swiper-slide>
+        <!-- Optional controls -->
+        <div class="swiper-pagination" slot="pagination">
+          <!-- 导航点 -->
+        </div>
+      </swiper>
+    </div>
 
     <div class="head-info">
       <div class="price">
@@ -362,23 +364,32 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 .product-page {
-  .swiper-container {
-    .swiper-wrapper {
-      .img-box {
-        padding-top: 100%;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+  .wrap-swiper {
+    padding-top: 100%;
+    position: relative;
+    .swiper-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      .swiper-wrapper {
+        .img-box {
+          padding-top: 100%;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+        }
       }
-    }
-    .swiper-pagination {
-      bottom: 0.15rem;
-      .swiper-pagination-bullet {
-        background-color: #fd8010;
-        opacity: 1;
-      }
-      .swiper-pagination-bullet-active {
-        background-color: #ff4521;
+      .swiper-pagination {
+        bottom: 0.15rem;
+        .swiper-pagination-bullet {
+          background-color: #fd8010;
+          opacity: 1;
+        }
+        .swiper-pagination-bullet-active {
+          background-color: #ff4521;
+        }
       }
     }
   }
@@ -567,7 +578,7 @@ export default {
     }
   }
   .footer {
-    $h: 0.88rem;
+    $h: 1.2rem;
     height: $h;
     .contain {
       position: fixed;
