@@ -120,6 +120,7 @@ export default {
       today: formatDate(),
       isTokenTip: false,
       loading: false,
+      recursionNum: 5, //淘宝详情图接口：递归次数
       isReceive: false //优券没领取
     };
   },
@@ -162,9 +163,6 @@ export default {
             if (this.slideArr.length == 0) {
               this.slideArr = [response.data.data.pic];
             }
-
-            //let goodsDetailUrl = this.item.goodsDetailUrl.split("?")[1];
-            //this.getItemImg(goodsDetailUrl);
 
             this.item.tb_token =
               this.item.tb_token || "每日内部价:没有复制到淘口令！";
@@ -227,7 +225,7 @@ export default {
         }, 5e5);
       }
     },
-    getItemImg(goodsDetailUrl) {
+    getItemImg() {
       //天猫图片跨域处理
       //console.log(goodsDetailUrl)
       /*var arr = goodsDetailUrl.split("&");
@@ -239,6 +237,9 @@ export default {
       }
       let id = obj.id;
       //console.log(id);*/
+      let self = this;
+      this.recursionNum--;
+      console.log("tag", this.recursionNum);
       $.ajax({
         url: `https://hws.m.taobao.com/cache/desc/5.0?id=${
           this.$route.params.id
@@ -271,6 +272,10 @@ export default {
           }
         },
         error: function(xhr, textStatus, errorThrown) {
+          if (self.recursionNum >= 0) {
+            self.getItemImg();
+            return;
+          }
           $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
         }
       });
