@@ -8,7 +8,7 @@
           <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
         </swiper-slide>
         <!-- Optional controls -->
-        <div class="swiper-pagination" slot="pagination">
+        <div class="swiper-pagination" slot="pagination" v-if="slideArr>0">
           <!-- 导航点 -->
         </div>
       </swiper>
@@ -102,7 +102,7 @@
           <div class="go-home" @click="goBack()">返回</div>
           <div
             class="get-coupon"
-            :class="{'animated bounceIn':isAnimated,'cannot':item.goodsDetailUrl === true}"
+            :class="{'animation':isAnimation,'cannot':item.goodsDetailUrl === true}"
             @click="getCoupon()"
           >
             <svg
@@ -161,7 +161,7 @@ export default {
       isTokenTip: false,
       loading: false,
       isReceive: false, //优券没领取
-      isAnimated: false
+      isAnimation: false
     };
   },
   filters: {
@@ -174,7 +174,7 @@ export default {
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
-      $("html,body").animate({ scrollTop: 0 }, 500); //置顶
+      $("html,body").animate({ scrollTop: 0 }, 0); //置顶
       this.sliderImg();
       this.getDetails();
       this.getItemImg();
@@ -200,6 +200,9 @@ export default {
           this.$loading.close();
           if (response.data.code == 200) {
             if (response.data.data) this.item = response.data.data;
+            if (this.slideArr.length == 0) {
+              this.slideArr = [response.data.data.pic];
+            }
 
             //let goodsDetailUrl = this.item.goodsDetailUrl.split("?")[1];
             //this.getItemImg(goodsDetailUrl);
@@ -232,7 +235,8 @@ export default {
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            this.slideArr = response.data.data;
+            let data = response.data.data;
+            if (data.length > 0) this.slideArr = data;
           } else {
             /*this.$message({
               message: error
@@ -249,7 +253,6 @@ export default {
     },
     getCoupon() {
       //领券
-      //if(this.isPc())window.open(this.item.quan_link);//pc端打开优惠券页面
       console.log("商品详情页面复制口令：", this.item.tb_token);
       console.log("领券地址：", this.item.quan_link);
       if (this.item.goodsDetailUrl === true) return;
@@ -264,47 +267,12 @@ export default {
           clearTimeout(setTime);
         }, 5e5);
       }
-      if (this.isAnimated) return;
-      this.isAnimated = true;
+      if (this.isAnimation) return;
+      this.isAnimation = true;
       let setTimer = setTimeout(() => {
-        this.isAnimated = false;
+        this.isAnimation = false;
         clearTimeout(setTimer);
       }, 1e3);
-    },
-    isPc() {
-      //检测PC端或手机端--如果没用到，删除即可
-      var browser = {
-        versions: (function() {
-          var u = navigator.userAgent,
-            app = navigator.appVersion;
-          return {
-            //移动终端浏览器版本信息,利用函数返回一个对象给versions，然后下面的if判断条件就可调用返回的值，这个写法是json数据结构（属于js语法）
-            trident: u.indexOf("Trident") > -1, //IE内核
-            presto: u.indexOf("Presto") > -1, //opera内核
-            webKit: u.indexOf("AppleWebKit") > -1, //苹果、谷歌内核
-            gecko: u.indexOf("Gecko") > -1 && u.indexOf("KHTML") == -1, //火狐内核
-            mobile:
-              !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
-            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-            android: u.indexOf("Android") > -1 || u.indexOf("Linux") > -1, //android终端或者uc浏览器
-            iPhone: u.indexOf("iPhone") > -1 || u.indexOf("Mac") > -1, //是否为iPhone或者QQHD浏览器
-            iPad: u.indexOf("iPad") > -1, //是否iPad
-            webApp: u.indexOf("Safari") == -1 //是否web应该程序，没有头部与底部
-          };
-        })(),
-        language: (
-          navigator.browserLanguage || navigator.language
-        ).toLowerCase()
-      };
-      if (
-        browser.versions.android ||
-        browser.versions.iPhone ||
-        browser.versions.iPad
-      ) {
-        return false;
-      } else {
-        return true;
-      }
     },
     getItemImg(goodsDetailUrl) {
       //天猫图片跨域处理
@@ -326,9 +294,6 @@ export default {
         tryCount: 0,
         dataType: "jsonp",
         jsonp: "callback",
-        // beforeSend: function(XMLHttpRequest) {
-        //     getfan = layer.load();
-        // },
         success: function(result) {
           //layer.close(getfan);
           if (result.sellerId != "") {
@@ -613,6 +578,13 @@ export default {
           align-items: center;
           cursor: pointer;
           position: relative;
+          &.animation:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+          }
           .el-icon-loading {
             animation: rotating 2s linear infinite;
             margin-right: 0.08rem;
@@ -681,63 +653,6 @@ export default {
   to {
     -webkit-transform: rotate(1turn);
     transform: rotate(1turn);
-  }
-}
-
-.animated {
-  -webkit-animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-.bounceIn {
-  -webkit-animation-duration: 0.75s;
-  -webkit-animation-name: bounceIn;
-  animation-duration: 0.75s;
-  animation-name: bounceIn;
-}
-@keyframes bounceIn {
-  0%,
-  20%,
-  40%,
-  60%,
-  80%,
-  to {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
-  }
-
-  0% {
-    -webkit-transform: scale3d(0.3, 0.3, 0.3);
-    opacity: 0;
-    transform: scale3d(0.3, 0.3, 0.3);
-  }
-
-  20% {
-    -webkit-transform: scale3d(1.1, 1.1, 1.1);
-    transform: scale3d(1.1, 1.1, 1.1);
-  }
-
-  40% {
-    -webkit-transform: scale3d(0.9, 0.9, 0.9);
-    transform: scale3d(0.9, 0.9, 0.9);
-  }
-
-  60% {
-    -webkit-transform: scale3d(1.03, 1.03, 1.03);
-    opacity: 1;
-    transform: scale3d(1.03, 1.03, 1.03);
-  }
-
-  80% {
-    -webkit-transform: scale3d(0.97, 0.97, 0.97);
-    transform: scale3d(0.97, 0.97, 0.97);
-  }
-
-  to {
-    -webkit-transform: scaleX(1);
-    opacity: 1;
-    transform: scaleX(1);
   }
 }
 </style>

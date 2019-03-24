@@ -117,6 +117,7 @@ export default {
             .desc {
               font-size: 0.2rem;
               color: #98989f;
+              max-height: 0.64rem;
             }
           }
           .bottom {

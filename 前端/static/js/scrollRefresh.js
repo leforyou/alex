@@ -1,6 +1,6 @@
 //上拉触底加载
 function Refresh(CallBackFn) {
-    document.body.style.minHeight = document.documentElement.clientHeight + 5 + "px";
+    document.body.style.minHeight = document.documentElement.clientHeight + 1 + "px";
     window.onscroll = function () {
 
         if (this.getScrollHeight() - (this.getScrollTop() + this.getClientHeight()) <= 200) {

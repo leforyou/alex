@@ -196,12 +196,12 @@ export default {
         .then(response => {
           //this.$loading.close();
           if (response.data.code == 200) {
-            console.log("tag", response.data.data.length);
-            if (response.data.data.datalist == null) {
+            let datalist = response.data.data.datalist;
+            if (datalist == null || datalist.length == 0) {
               this.isTip = true;
               return;
             }
-            this.goodsArr = this.goodsArr.concat(response.data.data.datalist);
+            this.goodsArr = this.goodsArr.concat(datalist);
             //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
           } else {
             /*
