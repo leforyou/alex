@@ -48,46 +48,7 @@
 
     <div class="line"></div>
 
-    <!--<div class="shop">
-      <router-link class="box" :to="{ name: 'shop', params: { nick: item.nick }}" tag="div">
-        <div class="head">
-          <div class="logo">
-            <img src="../../static/img/shop-logo.jpg">
-          </div>
-          <div class="right">
-            <div class="title">{{item.nick}}</div>
-            <ul>
-              <li>宝贝描述：4.9</li>
-              <li>卖家服务：4.9</li>
-              <li>物流服务：4.9</li>
-            </ul>
-            <img class="more" src="../../static/img/h5_allow_right.png">
-          </div>
-        </div>
-        <div class="advantage">
-          <ul>
-            <li>
-              <img src="../../static/img/h5_pic_dianpu.png">
-              <span class="gray-color">正品保证</span>
-            </li>
-            <li>
-              <img src="../../static/img/h5_pic_dianpu.png">
-              <span class="gray-color">不支持7天退换</span>
-            </li>
-            <li>
-              <img src="../../static/img/h5_pic_dianpu.png">
-              <span class="gray-color">极速退款</span>
-            </li>
-            <li>
-              <img src="../../static/img/h5_pic_dianpu.png">
-              <span class="gray-color">赠运费险</span>
-            </li>
-          </ul>
-        </div>
-      </router-link>
-    </div>
-
-    <div class="line"></div>-->
+   
     <div class="product-details" v-if="item.goodsDetailUrl">
       <div class="title fz28">商品详情</div>
       <div class="context">
@@ -454,83 +415,7 @@ export default {
         cursor: pointer;
       }
     }
-  } /*
-  .shop {
-    .box {
-      .head {
-        padding: 0.3rem;
-        display: flex;
-        align-items: center;
-        position: relative;
-        &::before {
-          content: "";
-          display: block;
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          left: 0.3rem;
-          border-bottom: 0.01rem solid #e8e8e8;
-        }
-        .logo {
-          min-width: 1rem;
-          width: 1rem;
-          height: 1rem;
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-          border: 0.01rem solid #ff5776;
-          border: 0.01rem solid rgba(255, 255, 255, 0);
-          margin-right: 0.2rem;
-          img {
-            width: 100%;
-          }
-        }
-        .right {
-          width: 100%;
-          position: relative;
-          .title {
-            font-size: 0.3rem;
-            margin-bottom: 0.1rem;
-          }
-          ul {
-            display: flex;
-            justify-content: space-between;
-            padding-right: 0.5rem;
-            li {
-              font-size: 0.22rem;
-              color: #666;
-            }
-          }
-          .more {
-            width: 0.4rem;
-            position: absolute;
-            top: 50%;
-            right: 0rem;
-            transform: translateY(-50%);
-          }
-        }
-      }
-      .advantage {
-        padding: 0.2rem 0.3rem;
-        ul {
-          display: flex;
-          justify-content: space-between;
-          li {
-            display: flex;
-            align-items: center;
-            img {
-              width: 0.3rem;
-              height: 0.3rem;
-              margin-right: 0.08rem;
-            }
-            span {
-              font-size: 0.2rem;
-            }
-          }
-        }
-      }
-    }
-  }*/
+  } 
   .product-details {
     .title {
       text-align: center;
