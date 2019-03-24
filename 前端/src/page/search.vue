@@ -4,22 +4,27 @@
       <div class="contain">
         <div class="box main-width">
           <img class="ico-back" @click="goBack" src="../../static/img/ico-search-back.png">
-          <input type="search" @keyup.enter="submit" v-model="searchValue" placeholder="请输入商品名称搜索">
+          <input
+            type="search"
+            @keyup.enter="submit"
+            @focus="focus"
+            v-model="searchValue"
+            placeholder="请输入商品名称搜索"
+          >
           <div class="btn" @click="submit">搜索</div>
         </div>
       </div>
     </div>
 
-    <div class="content-info">
-      <div class="contain">
-        <div class="search-history">
-          <div class="title">
+    <div class="content-info" v-show="isLayer">
+      <div class="contain main-width">
+        <div class="search-history" v-if="historyArr.length > 0">
+          <div class="title no-user-select">
             <span>历史搜索</span>
+            <img @click="deleteHistory" src="../../static/img/ico-delete.png">
           </div>
           <ul>
-            <li>男装</li>
-            <li>女人装</li>
-            <li>好的基地</li>
+            <li v-for="(item,index) in historyArr" :key="index" @click="KeyWord(item)">{{item}}</li>
           </ul>
         </div>
         <div class="search-recommend">
@@ -27,10 +32,7 @@
             <span>搜索推荐</span>
           </div>
           <ul>
-            <li>男装</li>
-            <li>女人装</li>
-            <li>好的基地</li>
-            <li>基本原则遥</li>
+            <li v-for="(item,index) in recommendArr" :key="index" @click="KeyWord(item)">{{item}}</li>
           </ul>
         </div>
       </div>
@@ -44,6 +46,8 @@
 </template>
 
 <script>
+import $ from "jquery";
+import Vue from "vue";
 export default {
   name: "home",
   data() {
@@ -51,7 +55,10 @@ export default {
       searchValue: "",
       goodsArr: [],
       pageNo: 0,
-      isTip: false
+      isTip: false,
+      historyArr: this.$searchArr || [],
+      recommendArr: ["男装", "女人装", "好的基地", "基本原则遥"],
+      isLayer: true
     };
   },
   components: {},
@@ -64,6 +71,8 @@ export default {
         this.goodsList();
       });
       this.recommends();
+
+      Vue.prototype.$searchArr = [];
     });
   },
   methods: {
@@ -79,35 +88,53 @@ export default {
         });
         return;
       }
+      this.$searchArr.push(this.searchValue);
+      this.historyArr = this.$searchArr;
+      this.isLayer = false;
+      document.querySelector('input[type="search"]').blur(); //失去焦点
       this.goodsList();
+    },
+    focus() {
+      //获取焦点
+      this.isLayer = true;
+    },
+    KeyWord(str) {
+      //关键词点击
+      console.log(str);
+      this.searchValue = str;
+      this.submit();
+    },
+    deleteHistory() {
+      //删除历史记录
+      this.historyArr = this.$searchArr = [];
     },
     goodsList() {
       //运营表分页
-      if (this.isTip) return;
       this.pageNo++;
       this.$loading();
       //{"pageSize":10,"pageNo":1,"title":"男装","Introduce":"男装"}
       this.axios
         .post("/api/goods/page", {
-          pageSize: 8,
+          pageSize: 15,
           pageNo: this.pageNo,
           title: this.searchValue
         })
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            if (response.data.data.datalist.length == 0) {
+            let datalist = response.data.data.datalist;
+            if (datalist == null || datalist.length) {
               this.isTip = true;
               return;
             }
-            if (response.data.data.datalist == null) {
+            if (datalist == null) {
               this.$message({
                 message: "没查询到相关的数据！"
               });
               return;
             }
-            this.goodsArr = this.goodsArr.concat(response.data.data.datalist);
-            //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
+            this.goodsArr = this.goodsArr.concat(datalist);
+            //this.goodsArr = this.goodsArr.push(datalist);
           } else {
             console.log(response.data.msg);
           }
@@ -136,8 +163,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .search-page {
+  $h: 1.2rem;
   .header {
-    $h: 1.2rem;
     height: $h;
     .contain {
       height: $h;
@@ -179,15 +206,79 @@ export default {
           padding: 0.1rem 0.25rem;
           line-height: normal;
           border-radius: 0.5rem;
+          cursor: pointer;
         }
       }
     }
   }
   .content-info {
+    position: fixed;
+    top: $h;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    background-color: #fff;
     .contain {
+      padding: 0.5rem 0.3rem;
+      height: 100%;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      .search-history,
+      .search-recommend {
+        .title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.2rem;
+          span {
+            font-size: 0.3rem;
+            font-weight: bold;
+            line-height: normal;
+            padding: 0px 0px;
+          }
+          img {
+            width: 0.36rem;
+            cursor: pointer;
+          }
+        }
+        ul {
+          font-size: 0.24rem;
+          display: flex;
+          flex-wrap: wrap;
+          line-height: normal;
+          li {
+            cursor: pointer;
+          }
+        }
+      }
       .search-history {
+        margin-bottom: 1rem;
+        .title {
+          margin-bottom: 0.2rem;
+        }
+        ul {
+          margin: 0rem -0.06rem;
+          li {
+            padding: 0.05rem 0.3rem;
+            background: #f4f4f4;
+            border-radius: 0.3rem;
+            margin: 0rem 0.06rem;
+            color: #777;
+          }
+        }
       }
       .search-recommend {
+        .title {
+          margin-bottom: 0.12rem;
+        }
+        ul {
+          li {
+            padding: 0.08rem 0.1rem;
+            width: 50%;
+            color: #666;
+          }
+        }
       }
     }
   }

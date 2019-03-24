@@ -2,7 +2,6 @@
 function Refresh(CallBackFn) {
     document.body.style.minHeight = document.documentElement.clientHeight + 1 + "px";
     window.onscroll = function () {
-
         if (this.getScrollHeight() - (this.getScrollTop() + this.getClientHeight()) <= 200) {
             if (CallBackFn) CallBackFn(); //回调函数
         }

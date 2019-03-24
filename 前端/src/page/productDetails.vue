@@ -48,7 +48,6 @@
 
     <div class="line"></div>
 
-   
     <div class="product-details" v-if="item.goodsDetailUrl">
       <div class="title fz28">商品详情</div>
       <div class="context">
@@ -61,9 +60,9 @@
       <div class="contain">
         <div class="box fz30 main-width">
           <div class="go-home" @click="goBack()">返回</div>
-          <div
+          <button
             class="get-coupon"
-            :class="{'animation':isAnimation,'cannot':item.goodsDetailUrl === true}"
+            :class="{'cannot':item.goodsDetailUrl === true}"
             @click="getCoupon()"
           >
             <svg
@@ -80,7 +79,7 @@
             </svg>
             <span class="fc-fff no-user-select">{{isReceive?'已领取':'领券购买'}}</span>
             <!--<a :href="item.quan_link" target="_blank">领券购买</a>-->
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -121,8 +120,7 @@ export default {
       today: formatDate(),
       isTokenTip: false,
       loading: false,
-      isReceive: false, //优券没领取
-      isAnimation: false
+      isReceive: false //优券没领取
     };
   },
   filters: {
@@ -228,12 +226,6 @@ export default {
           clearTimeout(setTime);
         }, 5e5);
       }
-      if (this.isAnimation) return;
-      this.isAnimation = true;
-      let setTimer = setTimeout(() => {
-        this.isAnimation = false;
-        clearTimeout(setTimer);
-      }, 1e3);
     },
     getItemImg(goodsDetailUrl) {
       //天猫图片跨域处理
@@ -415,7 +407,7 @@ export default {
         cursor: pointer;
       }
     }
-  } 
+  }
   .product-details {
     .title {
       text-align: center;
@@ -453,6 +445,8 @@ export default {
           color: #fff;
         }
         .get-coupon {
+          outline: none;
+          overflow: hidden;
           line-height: $h;
           color: #fff;
           text-shadow: 0rem 0rem 0.02rem #fe3a00;
@@ -463,27 +457,38 @@ export default {
           align-items: center;
           cursor: pointer;
           position: relative;
-          &.animation:before {
+          &::before {
             content: "";
             display: block;
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 0%;
+            left: 0%;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: all 0.1s ease-in-out;
+            background: #f30213;
+          }
+          &:active::before {
+            opacity: 1;
+            transition: all 0s;
+          }
+          &:active {
+            span {
+              transform: scale(1.3);
+            }
           }
           .el-icon-loading {
             animation: rotating 2s linear infinite;
             margin-right: 0.08rem;
+            position: relative;
+            z-index: 99;
           }
-          a {
-            color: #fff;
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          span {
+            position: relative;
+            z-index: 99;
+            transition: all 0.1s ease-in-out;
           }
         }
       }

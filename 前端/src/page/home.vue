@@ -325,7 +325,7 @@ export default {
           top: 1.28rem;
           left: 0;
           right: 0;
-          z-index: 999999;
+          z-index: 9999;
           box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0);
         }
         ul {

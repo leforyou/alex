@@ -60,7 +60,7 @@ export default {
     right: 0;
     bottom: 0;
     background-color: rgba($color: #ffffff, $alpha: 0.95);
-    z-index: 9999999;
+    z-index: 99999999;
     transition: all 0.3s;
     opacity: 0;
     visibility: hidden;

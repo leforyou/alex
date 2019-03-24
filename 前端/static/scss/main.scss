@@ -59,21 +59,6 @@ img {
     -webkit-user-select: none;
 }
 
-.ellipsis1 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-@for $i from 2 through 10 {
-    .ellipsis#{$i} {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: $i;
-        -webkit-box-orient: vertical;
-    }
-}
 
 
 /*字体设置*/
