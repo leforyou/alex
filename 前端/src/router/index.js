@@ -18,7 +18,7 @@ import page404 from '@/page/404'
 Vue.use(Router)
 
 let router = new Router({
-    //mode: 'history', //可以是去掉#号
+    mode: 'history', //可以是去掉#号
     routes: [{
         path: '/',
         name: 'home',
