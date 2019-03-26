@@ -88,6 +88,7 @@ export default {
         });
         return;
       }
+      this.goodsArr = [];
       this.$searchArr.push(this.searchValue);
       this.historyArr = this.$searchArr;
       this.isLayer = false;
