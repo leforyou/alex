@@ -23,13 +23,13 @@
             <swiper :options="swiperOption" ref="mySwiper">
               <swiper-slide>
                 <ul>
+                  <li class="line"></li>
                   <li
                     v-for="(item,index) in menuListArr"
                     :key="index"
                     :class="{'active':listIndex==index}"
                     @click="listNav(index,item.did)"
                   >{{item.item_name}}</li>
-                  <li class="line"></li>
                 </ul>
                 <div class="swiper-scrollbar"></div>
               </swiper-slide>
@@ -403,28 +403,6 @@ export default {
             display: inline-block;
             white-space: nowrap;
             background: #fff;
-            li {
-              display: inline-block;
-              color: #444;
-              padding: 0.15rem 0.25rem;
-              cursor: pointer;
-              text-align: center;
-              margin-bottom: 0.05rem;
-              position: relative;
-              z-index: 99;
-              &.active {
-                color: #ff4022;
-                &::after {
-                  content: "";
-                  display: block;
-                  position: absolute;
-                  bottom: -0.02rem;
-                  left: 0rem;
-                  right: 0rem;
-                  border-bottom: 0.02rem solid #ff4022;
-                }
-              }
-            }
             .line {
               height: 2px;
               padding: 0px;
@@ -435,6 +413,28 @@ export default {
               right: 0rem;
               border-bottom: 0.02rem solid #ddd;
               z-index: 2;
+            }
+            li {
+              display: inline-block;
+              color: #444;
+              padding: 0.15rem 0.25rem;
+              cursor: pointer;
+              text-align: center;
+              margin-bottom: 0rem;
+              position: relative;
+              z-index: 99;
+              &.active {
+                color: #ff4022;
+                &::after {
+                  content: "";
+                  display: block;
+                  position: absolute;
+                  bottom: 0rem;
+                  left: 0rem;
+                  right: 0rem;
+                  border-bottom: 0.02rem solid #ff4022;
+                }
+              }
             }
           }
         }
