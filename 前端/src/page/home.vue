@@ -336,14 +336,12 @@ export default {
       .nav {
         font-size: 0.26rem;
         line-height: normal;
-        min-height: 0.72rem;
         &.fixed {
           position: fixed;
           top: 1.28rem;
           left: 0;
           right: 0;
           z-index: 9999;
-          box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0);
         }
       }
     }
@@ -385,12 +383,9 @@ export default {
 
 <style lang="scss">
 #wrap-nav {
+  background-color: #fff;
   .main-width {
     position: relative;
-    &::before {
-      content: "";
-      display: block;
-    }
     .swiper-container {
       .swiper-wrapper {
         display: inline-block;
