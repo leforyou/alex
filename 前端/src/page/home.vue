@@ -280,7 +280,7 @@ export default {
         position: relative;
         display: flex;
         justify-content: flex-end;
-        padding-top: 1.28rem;
+        padding-top: 1.3rem;
         padding-bottom: 0.2rem;
         padding-left: 0.3rem;
         padding-right: 0.3rem;
