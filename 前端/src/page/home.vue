@@ -19,17 +19,22 @@
           </div>
         </div>
         <div class="nav" id="wrap-nav">
-          <ul class="main-width" :class="{'active':isOpen}">
-            <li
-              v-for="(item,index) in menuListArr"
-              :key="index"
-              :class="{'active':listIndex==index}"
-              @click="listNav(index,item.did)"
-            >{{item.item_name}}</li>
-          </ul>
-          <!--<div class="more" @click="isOpen = !isOpen">
-            <img src="../../static/img/h5_nav_allow_down.png">
-          </div>-->
+          <div class="main-width">
+            <swiper :options="swiperOption" ref="mySwiper">
+              <swiper-slide>
+                <ul>
+                  <li
+                    v-for="(item,index) in menuListArr"
+                    :key="index"
+                    :class="{'active':listIndex==index}"
+                    @click="listNav(index,item.did)"
+                  >{{item.item_name}}</li>
+                  <li class="line"></li>
+                </ul>
+                <div class="swiper-scrollbar"></div>
+              </swiper-slide>
+            </swiper>
+          </div>
         </div>
       </div>
     </div>
@@ -78,7 +83,6 @@ export default {
   name: "home",
   data() {
     return {
-      isOpen: false,
       listIndex: 0,
       menuListArr: [],
       goodsArr: [],
@@ -86,7 +90,19 @@ export default {
       isTip: false,
       item_id: 1,
       writing:
-        "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！"
+        "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！",
+      swiperOption: {
+        pagination: {
+          el: ".swiper-pagination"
+        },
+        direction: "horizontal",
+        slidesPerView: "auto",
+        freeMode: true,
+        mousewheel: true,
+        scrollbar: {
+          el: ".swiper-scrollbar"
+        }
+      }
     };
   },
   components: {
@@ -165,7 +181,8 @@ export default {
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
-            this.menuListArr = response.data.data.slice(0, 3);
+            //this.menuListArr = response.data.data.slice(0, 3);
+            this.menuListArr = response.data.data;
           } else {
             /*this.$message({
               message: response.data.msg
@@ -328,54 +345,6 @@ export default {
           z-index: 9999;
           box-shadow: 0px 3px 3px rgba($color: #000000, $alpha: 0);
         }
-        ul {
-          position: relative;
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-around;
-          background: #fff;
-          &::before {
-            content: "";
-            display: block;
-            position: absolute;
-            bottom: 0rem;
-            left: 0rem;
-            right: 0rem;
-            border-bottom: 0.02rem solid #ddd;
-            z-index: 2;
-          }
-          li {
-            color: #444;
-            padding: 0.15rem 0.22rem;
-            cursor: pointer;
-            text-align: center;
-            margin-bottom: 0.05rem;
-            position: relative;
-            z-index: 99;
-            &.active {
-              color: #ff4022;
-              &::after {
-                content: "";
-                display: block;
-                position: absolute;
-                bottom: -0.05rem;
-                left: 0rem;
-                right: 0rem;
-                border-bottom: 0.02rem solid #ff4022;
-              }
-            }
-          }
-        } /*
-        .more {
-          position: absolute;
-          right: 0rem;
-          top: 0rem;
-          cursor: pointer;
-          img {
-            width: $val;
-            height: 0.5rem;
-          }
-        }*/
       }
     }
   }
@@ -407,6 +376,67 @@ export default {
           line-height: $h;
           display: block;
           text-align: center;
+        }
+      }
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+#wrap-nav {
+  .main-width {
+    position: relative;
+    &::before {
+      content: "";
+      display: block;
+    }
+    .swiper-container {
+      .swiper-wrapper {
+        display: inline-block;
+        white-space: nowrap;
+        .swiper-slide {
+          width: auto;
+          display: inline-block;
+          white-space: nowrap;
+          ul {
+            display: inline-block;
+            white-space: nowrap;
+            background: #fff;
+            li {
+              display: inline-block;
+              color: #444;
+              padding: 0.15rem 0.25rem;
+              cursor: pointer;
+              text-align: center;
+              margin-bottom: 0.05rem;
+              position: relative;
+              z-index: 99;
+              &.active {
+                color: #ff4022;
+                &::after {
+                  content: "";
+                  display: block;
+                  position: absolute;
+                  bottom: -0.02rem;
+                  left: 0rem;
+                  right: 0rem;
+                  border-bottom: 0.02rem solid #ff4022;
+                }
+              }
+            }
+            .line {
+              height: 2px;
+              padding: 0px;
+              display: block;
+              position: absolute;
+              bottom: 0rem;
+              left: 0rem;
+              right: 0rem;
+              border-bottom: 0.02rem solid #ddd;
+              z-index: 2;
+            }
+          }
         }
       }
     }
