@@ -123,7 +123,7 @@ export default {
           this.$loading.close();
           if (response.data.code == 200) {
             let datalist = response.data.data.datalist;
-            if (datalist == null || datalist.length) {
+            if (datalist == null || datalist.length == 0) {
               this.isTip = true;
               return;
             }
