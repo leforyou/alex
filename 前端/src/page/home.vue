@@ -85,12 +85,8 @@ export default {
       writing:
         "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！",
       swiperOption: {
-        
         slidesPerView: 5,
         spaceBetween: 0,
-        slidesPerGroup: 1,
-        loop: true,
-        loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination"
         },
