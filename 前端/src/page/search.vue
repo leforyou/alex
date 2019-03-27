@@ -27,7 +27,7 @@
             <li v-for="(item,index) in historyArr" :key="index" @click="KeyWord(item)">{{item}}</li>
           </ul>
         </div>
-        <div class="search-recommend">
+        <div class="search-recommend" v-if="recommendArr.length > 0">
           <div class="title">
             <span>搜索推荐</span>
           </div>
@@ -57,7 +57,7 @@ export default {
       pageNo: 0,
       isTip: false,
       historyArr: this.$searchArr || [],
-      recommendArr: ["男装", "女人装", "好的基地", "基本原则遥"],
+      recommendArr: [],
       isLayer: true
     };
   },
@@ -150,6 +150,10 @@ export default {
         .post("/api/goods/recommends", {})
         .then(response => {
           if (response.data.code == 200) {
+            let data = response.data.data;
+            if(data != null || data.length != 0){
+              this.recommendArr = response.data.data;
+            }
           } else {
           }
         })

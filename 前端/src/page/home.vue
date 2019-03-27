@@ -20,18 +20,11 @@
         </div>
         <div class="nav" id="wrap-nav">
           <div class="main-width">
+            <div class="line"></div>
             <swiper :options="swiperOption" ref="mySwiper">
-              <swiper-slide>
-                <ul>
-                  <li class="line"></li>
-                  <li
-                    v-for="(item,index) in menuListArr"
-                    :key="index"
-                    :class="{'active':listIndex==index}"
-                    @click="listNav(index,item.did)"
-                  >{{item.item_name}}</li>
-                </ul>
-                <div class="swiper-scrollbar"></div>
+              
+              <swiper-slide :class="{'active':listIndex==index}" v-for="(item,index) in menuListArr" :key="index">
+                <div class="item" @click="listNav(index,item.did)">{{item.item_name}}</div>
               </swiper-slide>
             </swiper>
           </div>
@@ -88,20 +81,19 @@ export default {
       goodsArr: [],
       pageNo: 0,
       isTip: false,
-      item_id: 1,
+      item_id: null,
       writing:
         "每天为您精选淘宝天猫内部优惠券的包邮超值折扣商品，购物先领大额内部优惠券，省钱买好货，轻松打造品质生活！",
       swiperOption: {
+        
+        slidesPerView: 5,
+        spaceBetween: 0,
+        slidesPerGroup: 1,
+        loop: true,
+        loopFillGroupWithBlank: true,
         pagination: {
           el: ".swiper-pagination"
         },
-        direction: "horizontal",
-        slidesPerView: "auto",
-        freeMode: true,
-        mousewheel: true,
-        scrollbar: {
-          el: ".swiper-scrollbar"
-        }
       }
     };
   },
@@ -115,7 +107,6 @@ export default {
       // DOM 现在更新了
       this.menuList();
       this.copyWriting();
-      this.goodsList();
       this.fixedNav();
       this.$refresh(() => {
         if (this.$route.name == "home") this.goodsList();
@@ -183,6 +174,8 @@ export default {
           if (response.data.code == 200) {
             //this.menuListArr = response.data.data.slice(0, 3);
             this.menuListArr = response.data.data;
+            this.item_id = this.menuListArr[0].did;
+            this.goodsList();
           } else {
             /*this.$message({
               message: response.data.msg
@@ -386,6 +379,104 @@ export default {
   background-color: #fff;
   .main-width {
     position: relative;
+    .line{
+      height: 2px;
+      padding: 0px;
+      display: block;
+      position: absolute;
+      bottom: 0rem;
+      left: 0rem;
+      right: 0rem;
+      border-bottom: 0.02rem solid #ddd;
+      z-index: 1;
+    }
+    .swiper-container {
+      position: relative;
+      z-index: 99;
+      .swiper-wrapper {
+        .swiper-slide {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          z-index: 99;
+          &.active {
+            color: #ff4022;
+            &::after {
+              content: "";
+              display: block;
+              position: absolute;
+              bottom: 0rem;
+              left: 0rem;
+              right: 0rem;
+              border-bottom: 0.02rem solid #ff4022;
+            }
+          }
+          .item{
+            width:100%;
+            padding: 0.15rem 0.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}
+</style>
+
+<style>
+/* 
+<div class="nav" id="wrap-nav">
+  <div class="main-width">
+    <swiper :options="swiperOption" ref="mySwiper">
+      <swiper-slide>
+        <ul>
+          <li class="line"></li>
+          <li
+            v-for="(item,index) in menuListArr"
+            :key="index"
+            :class="{'active':listIndex==index}"
+            @click="listNav(index,item.did)"
+          >{{item.item_name}}</li>
+        </ul>
+        <div class="swiper-scrollbar"></div>
+      </swiper-slide>
+    </swiper>
+  </div>
+</div>
+
+
+
+
+
+
+data() {
+  return {
+    swiperOption: {
+      pagination: {
+        el: ".swiper-pagination"
+      },
+      direction: "horizontal",
+      slidesPerView: "auto",
+      freeMode: true,
+      mousewheel: true,
+      scrollbar: {
+        el: ".swiper-scrollbar"
+      }
+    }
+  };
+},
+
+
+
+
+
+#wrap-nav {
+  background-color: #fff;
+  .main-width {
+    position: relative;
     .swiper-container {
       .swiper-wrapper {
         display: inline-block;
@@ -437,4 +528,7 @@ export default {
     }
   }
 }
+
+ */
 </style>
+
