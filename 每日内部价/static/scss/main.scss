@@ -1,0 +1,221 @@
+$mainColor: #409eff;
+$subColor: #66b1ff;
+html,
+body {
+    height: 100%;
+    background: #fff;
+}
+
+img {
+    vertical-align: middle;
+    max-width: 100%;
+}
+
+.main-color {
+    color: $mainColor;
+}
+
+.main-bg {
+    background-color: $mainColor;
+}
+
+.sub-color {
+    color: $subColor;
+}
+
+.sub-bg {
+    background-color: $subColor;
+}
+
+.price-color {
+    color: #FF3467 !important;
+}
+
+.gray-color {
+    color: #98989F !important;
+}
+
+.delete-line {
+    text-decoration: line-through;
+    display: inline;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.no-user-select {
+    user-select: none;
+    -ms-user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+
+
+/*字体设置*/
+.bold{
+    font-weight: bold;
+}
+
+@mixin fz($size) {
+    font-size: $size;
+}
+
+
+/**10像素到40像素的字体,用法:fz20 **/
+
+@for $i from 10 through 200 {
+    .fz#{$i},
+    .fz#{$i}.iconfont {
+        font-size: $i/100+rem;
+    }
+}
+
+.fc-fff {
+    color: #fff;
+}
+
+.fc-999 {
+    color: #999;
+}
+
+.fc-666 {
+    color: #666;
+}
+
+.fc-555 {
+    color: #555;
+}
+
+.fz-weight {
+    font-weight: bold;
+}
+
+$valtblr:0.3rem;
+.padding {
+    padding: $valtblr;
+}
+
+.padding-top {
+    padding-top: $valtblr;
+}
+
+.padding-btm {
+    padding-bottom: $valtblr;
+}
+
+.padding-left {
+    padding-left: $valtblr;
+}
+
+.padding-right {
+    padding-right: $valtblr;
+}
+
+.margin-top {
+    margin-top: $valtblr;
+}
+
+.margin-btm {
+    margin-bottom: $valtblr;
+}
+
+.margin-left {
+    margin-left: $valtblr;
+}
+
+.margin-right {
+    margin-right: $valtblr;
+}
+
+.scale-1px {
+    position: relative;
+    border: none;
+}
+
+.scale-1px::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    border-width: 0.01rem;
+    border-style: solid;
+    border-color: #FF3467;
+    border-radius: 0.1rem;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 200%;
+    height: 200%;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    -webkit-transform-origin: left top;
+    transform-origin: left top;
+}
+
+.border-left-1px,
+.border-right-1px {
+    position: relative;
+    border: none;
+}
+
+.border-left-1px::before,
+.border-right-1px::after {
+    content: '';
+    display: block;
+    width: 0.01rem;
+    background-color: #FF3467;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    transform: scaleX(0.5);
+}
+
+.border-left-1px::before {
+    left: 0;
+}
+
+.border-right-1px::after {
+    right: 0;
+}
+
+
+/*公共的样式start*/
+
+
+/*公共的样式end*/
+
+
+/*需要加.nice-scrollbar如果直接定义的话会连浏览器的滚动条也改的*/
+
+.nice-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: transparent;
+}
+
+
+/*定义滚动条轨道 内阴影+圆角*/
+
+.nice-scrollbar::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background-color: transparent;
+}
+
+
+/*定义滑块 内阴影+圆角*/
+
+.nice-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
