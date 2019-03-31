@@ -22,8 +22,11 @@
           <div class="main-width">
             <div class="line"></div>
             <swiper :options="swiperOption" ref="mySwiper">
-              
-              <swiper-slide :class="{'active':listIndex==index}" v-for="(item,index) in menuListArr" :key="index">
+              <swiper-slide
+                :class="{'active':listIndex==index}"
+                v-for="(item,index) in menuListArr"
+                :key="index"
+              >
                 <div class="item" @click="listNav(index,item.did)">{{item.item_name}}</div>
               </swiper-slide>
             </swiper>
@@ -89,7 +92,7 @@ export default {
         spaceBetween: 0,
         pagination: {
           el: ".swiper-pagination"
-        },
+        }
       }
     };
   },
@@ -144,7 +147,7 @@ export default {
     copyWriting() {
       //文案
       this.axios
-        .post("/api/operate/welcome", {})
+        .get("/static/data/writing.json", {})
         .then(response => {
           if (response.data.code == 200) {
             this.writing = response.data.data.welcome;
@@ -161,7 +164,7 @@ export default {
       //菜单
       this.$loading();
       this.axios
-        .post("/api/menuItem/list", {
+        .get("/static/data/menuItem.json", {
           item_type: 1,
           item_level: 1
         })
@@ -198,11 +201,12 @@ export default {
         item_id: this.item_id
       };
       this.axios
-        .post("/api/operate/page", obj)
+        .get("/static/data/productList.json", obj)
         .then(response => {
           //this.$loading.close();
           if (response.data.code == 200) {
             let datalist = response.data.data.datalist;
+            datalist.sort(() => Math.random() - 0.5); //模拟数据，对数组进行随机排序
             if (datalist == null || datalist.length == 0) {
               this.isTip = true;
               return;
@@ -375,7 +379,7 @@ export default {
   background-color: #fff;
   .main-width {
     position: relative;
-    .line{
+    .line {
       height: 2px;
       padding: 0px;
       display: block;
@@ -408,8 +412,8 @@ export default {
               border-bottom: 0.02rem solid #ff4022;
             }
           }
-          .item{
-            width:100%;
+          .item {
+            width: 100%;
             padding: 0.15rem 0.2rem;
             display: flex;
             justify-content: center;

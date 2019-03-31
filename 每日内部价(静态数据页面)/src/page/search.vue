@@ -115,7 +115,7 @@ export default {
       this.$loading();
       //{"pageSize":10,"pageNo":1,"title":"男装","Introduce":"男装"}
       this.axios
-        .post("/api/goods/page", {
+        .get("/static/data/searchProduct.json", {
           pageSize: 15,
           pageNo: this.pageNo,
           title: this.searchValue
@@ -147,11 +147,11 @@ export default {
     recommends() {
       //搜索：推荐词
       this.axios
-        .post("/api/goods/recommends", {})
+        .get("/static/data/searchRecommends.json", {})
         .then(response => {
           if (response.data.code == 200) {
             let data = response.data.data;
-            if(data != null || data.length != 0){
+            if (data != null || data.length != 0) {
               this.recommendArr = response.data.data;
             }
           } else {

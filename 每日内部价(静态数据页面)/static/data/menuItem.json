@@ -1,0 +1,72 @@
+{
+    "msg": "操作成功",
+    "code": 200,
+    "data": [
+        {
+            "did": 6,
+            "item_type": 1,
+            "item_name": "零食",
+            "item_desc": "零食",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 1,
+            "remark": "零食"
+        },
+        {
+            "did": 3,
+            "item_type": 1,
+            "item_name": "美妆",
+            "item_desc": "美妆",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 2,
+            "remark": "美妆"
+        },
+        {
+            "did": 4,
+            "item_type": 1,
+            "item_name": "百货",
+            "item_desc": "百货",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 3,
+            "remark": "百货"
+        },
+        {
+            "did": 9,
+            "item_type": 1,
+            "item_name": "男神",
+            "item_desc": "男神",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 4,
+            "remark": "男神"
+        },
+        {
+            "did": 1,
+            "item_type": 1,
+            "item_name": "女神",
+            "item_desc": "女神",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 5,
+            "remark": "女神"
+        },
+        {
+            "did": 8,
+            "item_type": 1,
+            "item_name": "9块9",
+            "item_desc": "9块9",
+            "item_level": 1,
+            "pid": 0,
+            "goods_sum": null,
+            "item_order": 5,
+            "remark": "9块9"
+        }
+    ]
+}

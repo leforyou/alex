@@ -4,17 +4,32 @@
       <div class="box main-width">
         <div class="title fz34">如何购买？</div>
         <div class="content fz28">
-          <div class="fz30">下面举例：如何花9元购买价值19云的眼线笔！</div>
-          <div class="fz30">1.点击喜欢的商品</div>
-          <img :src="imgUrl + 'how-buy-01.jpg'">
-          <div class="fz30">2.点击领劵购买，复制口令，打开手机掏宝</div>
-          <img :src="imgUrl + 'how-buy-02.jpg'">
-          <div class="fz30">3.打开手机掏宝后，会自动弹出【打开链接】</div>
-          <img :src="imgUrl + 'how-buy-03.jpg'">
-          <div class="fz30">4.点击立即购买（产品价格为19元，但是您领取了我们的专属优惠券10元，所以下单后会变成9元包邮），提交付款，完毕</div>
-          <img :src="imgUrl + 'how-buy-04.jpg'">
-          <img :src="imgUrl + 'how-buy-05.jpg'">
-          <img :src="imgUrl + 'how-buy-06.jpg'">
+          <div class="list">
+            <p class="list-title">第一步</p>
+            <p class="list-desc">通过关键字搜索、浏览栏目等方式选好自己心仪的商品</p>
+            <img src="/static/data/how-buy-01.jpg">
+          </div>
+          <div class="list">
+            <p class="list-title">第二步</p>
+            <p class="list-desc">点击领劵购买，复制口令，打开手机掏宝</p>
+            <img src="/static/data/how-buy-02.jpg">
+          </div>
+          <div class="list">
+            <p class="list-title">第三步</p>
+            <p class="list-desc">打开手机掏宝后，会自动弹出【打开链接】</p>
+            <img src="/static/data/how-buy-03.jpg">
+          </div>
+          <div class="list">
+            <p class="list-title">第四步</p>
+            <p class="list-desc">点击立即购买（产品价格为19元，但是您领取了我们的专属优惠券10元，所以下单后会变成9元包邮），提交付款，完毕</p>
+            <img src="/static/data/how-buy-04.jpg">
+          </div>
+          <div class="list">
+            <img src="/static/data/how-buy-05.jpg">
+          </div>
+          <div class="list">
+            <img src="/static/data/how-buy-06.jpg">
+          </div>
           <div class="finish">
             <span class="fz38">完</span>
           </div>
@@ -76,9 +91,17 @@ export default {
       .content {
         padding: 0.3rem 0rem;
         line-height: 1.6;
-        &,
-        * {
-          color: #666;
+        .list {
+          .list-title {
+            font-size: 0.34rem;
+            color: #000;
+            font-weight: 700;
+            font-style: italic;
+          }
+          .list-desc {
+            font-size: 0.3rem;
+            color: #333;
+          }
         }
         img {
           max-width: 100%;

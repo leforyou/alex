@@ -4,11 +4,11 @@
     <div class="wrap-swiper">
       <swiper :options="swiperOption" ref="mySwiper">
         <!-- slides -->
-        <swiper-slide v-for="(item, index) in slideArr" :key="index">
-          <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div>
+        <swiper-slide v-for="(src, index) in item.slideArr" :key="index">
+          <div class="img-box" :style="{backgroundImage: 'url('+ src +')'}"></div>
         </swiper-slide>
         <!-- Optional controls -->
-        <div class="swiper-pagination" slot="pagination" v-if="slideArr>0">
+        <div class="swiper-pagination" slot="pagination" v-if="item.slideArr>0">
           <!-- 导航点 -->
         </div>
       </swiper>
@@ -51,8 +51,9 @@
     <div class="product-details" v-if="item.goodsDetailUrl">
       <div class="title fz28">商品详情</div>
       <div class="context">
-        <!--<img :src="item.goodsDetailUrl">-->
-        <div class="more_briefInfo"></div>
+        <!--<img :src="item.goodsDetailUrl">
+        <div class="more_briefInfo"></div>-->
+        <img v-for="(src,index) in item.detailsArr" :key="index" :src="src">
       </div>
     </div>
 
@@ -100,23 +101,13 @@ export default {
   name: "productDetails",
   data() {
     return {
-      item: {
-        price: "0.00",
-        isTmall: "无",
-        d_title: "无",
-        sales_num: "0.00",
-        provcity: "无",
-        quan_price: "0.00",
-        quan_time: "无",
-        tb_token: "",
-        goodsDetailUrl: true
-      },
+      item: {},
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
         }
       },
-      slideArr: [],
+      //slideArr: [],
       today: formatDate(),
       isTokenTip: false,
       loading: false,
@@ -135,9 +126,9 @@ export default {
     this.$nextTick(function() {
       // DOM 现在更新了
       $("html,body").animate({ scrollTop: 0 }, 0); //置顶
-      this.sliderImg();
       this.getDetails();
-      this.getItemImg();
+      //this.getItemImg();
+      //this.sliderImg();
       //console.log(this.$route.params,this.$route.params.id)
     });
   },
@@ -155,7 +146,8 @@ export default {
       //商品详情
       this.$loading();
       this.axios
-        .get(`/api/goodsinfo/detailinfo/${this.$route.params.id}`, {})
+        //.get(`/static/data/productDetails.json/${this.$route.params.id}`, {})
+        .get(`/static/data/productDetails.json`, {})
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
@@ -184,7 +176,7 @@ export default {
           console.log(error);
         });
     },
-    sliderImg() {
+    /*sliderImg() {
       //轮播图
       this.$loading();
       this.axios
@@ -195,19 +187,15 @@ export default {
             let data = response.data.data;
             if (data.length > 0) this.slideArr = data;
           } else {
-            /*this.$message({
-              message: error
-            });*/
+            
           }
         })
         .catch(error => {
-          /*this.$message({
-            message: error
-          });*/
+          
           this.$loading.close();
           console.log(error);
         });
-    },
+    },*/
     getCoupon() {
       //领券
       console.log("商品详情页面复制口令：", this.item.tb_token);
@@ -224,19 +212,10 @@ export default {
           clearTimeout(setTime);
         }, 5e5);
       }
-    },
+    }
+    /*
     getItemImg() {
       //天猫图片跨域处理
-      //console.log(goodsDetailUrl)
-      /*var arr = goodsDetailUrl.split("&");
-      var obj = new Object(); //声明一个对象，储存链接的参数
-      for (var i = 0; i < arr.length; i++) {
-        var names = arr[i].split("=")[0];
-        var values = arr[i].split("=")[1];
-        obj[names] = values;
-      }
-      let id = obj.id;
-      //console.log(id);*/
       let self = this;
       this.recursionNum--;
       console.log("tag", this.recursionNum);
@@ -279,7 +258,7 @@ export default {
           $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
         }
       });
-    }
+    }*/
   }
 };
 </script>

@@ -8,7 +8,7 @@ const JsCopy = {
         input.setAttribute('value', txt)
         document.body.appendChild(input);
         let sysMsg = this.getOs();
-        console.log(sysMsg, '检测版本信息')
+        //console.log(sysMsg, '检测版本信息')
         //input.select() 在ios下并没有选中全部内容，使用以下来选中内容
         if (sysMsg == 'ios') {
             //ios复制
