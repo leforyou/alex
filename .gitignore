@@ -1,11 +1,16 @@
-﻿前端/node_modules/
+﻿每日内部价/node_modules/
 
-前端/dist.zip
+每日内部价(静态数据页面)/node_modules/
 
-前端/dist.rar
+每日内部价/config/index.js
+
+每日内部价/dist.zip
+
+每日内部价/dist.rar
 
 
+管理后台(未做)/node_modules/
 管理后台/node_modules/
 
 
-前端/config/index.js
+
