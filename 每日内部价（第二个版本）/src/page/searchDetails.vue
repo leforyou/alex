@@ -89,7 +89,7 @@
 
     <div class="token-layer" :class="{'active':isTokenTip}">
       <div class="box">
-        <div class="tip">已自动复制口令，请打开手机淘宝购买</div>
+        <div class="tip">已自动复制口令{{item.tb_token}}，请打开手机淘宝购买</div>
       </div>
     </div>
   </div>
