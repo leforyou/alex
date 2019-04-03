@@ -2,14 +2,14 @@
   <div class="search-page">
     <div class="header">
       <div class="contain">
-        <div class="box main-width">
+        <div class="search main-width">
           <img class="ico-back" @click="goBack" src="../../static/img/ico-search-back.png">
           <input
             type="search"
             @focus="focus"
             v-model="searchValue"
             @keyup.enter="submit"
-            placeholder="100W+ 一元起包邮商品任你选"
+            :placeholder="placeholderTips"
           >
           <!-- <input
             type="search"
@@ -20,15 +20,18 @@
           > -->
           <div class="btn" @click="submit">搜索</div>
         </div>
+        <div class="tabs main-width">
+          <div class="tab-box">
+            <div class="list" :class="{'active':isTab==0}" @click="tab(0)">全网搜索（100w+）</div>
+            <div class="list" :class="{'active':isTab==1}" @click="tab(1)">优惠推荐（包邮10w+）</div>
+          </div>
+        </div>
       </div>
     </div>
 
     <div class="content-info" v-show="isLayer">
       <div class="contain main-width">
-        <div class="tabs">
-          <div class="list" :class="{'active':isTab==0}" @click="tab(0)">全网搜索</div>
-          <div class="list" :class="{'active':isTab==1}" @click="tab(1)">优惠推荐(包邮)</div>
-        </div>
+        
         <div class="search-recommend" v-if="recommendArr.length > 0">
           <div class="title">
             <span>搜索推荐</span>
@@ -50,15 +53,19 @@
       </div>
     </div>
 
-     <div class="sort-bar">
-        <div class="no-sort-item" @click="sort(0)" :class="{'sort-item-active':sortType==0}" >综合</div>
-        <div class="sort-item" @click="sort(1)" :class="{'sort-asc-active':sortType==1,'sort-desc-active':sortType==2}">价格</div>
-        <div class="sort-item" @click="sort(3)" :class="{'sort-asc-active':sortType==4,'sort-desc-active':sortType==3}">销量</div>
+     <div class="sort-bar" v-show="!isLayer">
+      <div class="box main-width">
+          <div class="no-sort-item" @click="sort(0)" :class="{'sort-item-active':sortType==0}" >综合</div>
+          <div class="sort-item" @click="sort(1)" :class="{'sort-asc-active':sortType==1,'sort-desc-active':sortType==2}">价格</div>
+          <div class="sort-item" @click="sort(3)" :class="{'sort-asc-active':sortType==4,'sort-desc-active':sortType==3}">销量</div>
       </div>
+    </div>
+
     <div class="product">
       <SearchList :arr="goodsArr" :free-shipping='isTab==1'/>
       <NotMoreTip :visible="isTip"/>
     </div>
+
   </div>
 </template>
 
@@ -78,6 +85,7 @@ export default {
       isLayer: true,
       sortType:0,
       isTab:0,
+      placeholderTips:'100w+衣饰鞋帽等商品等你搜'
     };
   },
   components: {},
@@ -97,38 +105,48 @@ export default {
     });
   },
   methods: {
-    sort(type){
-     var sortType=this.sortType;
-      
-     if(type==0){
-       this.sortType=type;
-     }else if(type==1){
-      this.sortType=type+(sortType==type)
-     }else if(type==3){
-       this.sortType=type+(sortType==type)
-     }
-
-     //this.pageNo=0;
-     (document.documentElement||document.body).scrollTop=0;
-     this.goodsList(1);
+    sort(num){
+      var sortType = this.sortType;
+      if(num==0){
+        this.sortType = num;
+      }else if(num==1){
+        this.sortType = num + ( sortType == num );
+      }else if(num==3){
+        this.sortType=num + (sortType == num);
+      }
+      //this.pageNo=0;
+      (document.documentElement||document.body).scrollTop = 0;
+      if(this.isTab == 0){
+        this.allWeb();
+      }else if(this.isTab == 1){
+        this.goodsList();
+      }
     },
     goBack() {
       //返回上一页
       this.$router.go(-1);
     },
     tab(num){
-      //
+      //全网搜索、优惠推荐：切换
       this.isTab = num;
+      if(this.isTab == 0){
+        this.placeholderTips = '100w+衣饰鞋帽等商品等你搜';
+        if(this.searchValue!='')this.allWeb();
+      }else if(this.isTab == 1){
+        this.placeholderTips = '10w+一元起包邮商品任你选';
+        if(this.searchValue!='')this.goodsList();
+      }
+      
     },
     submit() {
       //点击搜索
       if (this.searchValue == "") {
-        this.$message({
+        return this.$message({
           message: "搜索的内容不能为空！"
         });
-        return;
       }
-      this.goodsArr = [];
+      
+      this.sortType = 0;
 
       let searchRecordsStr = localStorage.getItem("searchRecords");
       let searchRecords = searchRecordsStr ? JSON.parse(searchRecordsStr) : [];
@@ -168,6 +186,7 @@ export default {
     goodsList() {
       //运营表分页
       //this.pageNo++;
+      this.goodsArr = [];
       this.$loading();
       var that = this;
       //{"pageSize":10,"pageNo":1,"title":"男装","Introduce":"男装"}
@@ -205,13 +224,15 @@ export default {
     },
     allWeb(){
       //全网搜索
+      this.goodsArr = [];
       this.$loading();
       var that = this;
       this.axios
         .post( `/api/serach/superSer/`,{
          //pageSize:15,
          //pageNo:this.pageNo,
-         keywords:this.searchValue
+         keywords:this.searchValue,
+         orderBycul:this.sortType
         })
         .then(response => {
           that.$loading.close();
@@ -262,7 +283,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 .search-page {
-  $h: 1.2rem;
+  $h: 2.1rem;
   .header {
     height: $h;
     .contain {
@@ -273,8 +294,8 @@ export default {
       right: 0;
       z-index: 9999;
       background: #f5f5f5;
-      .box {
-        height: 100%;
+      .search {
+        height: 1.2rem;
         display: flex;
         align-items: center;
         padding: 0.1rem 0.2rem;
@@ -295,6 +316,7 @@ export default {
           color: #333;
           &::-webkit-input-placeholder {
             color: #999;
+            font-size: 0.24rem;
           }
         }
         .btn {
@@ -306,6 +328,24 @@ export default {
           line-height: normal;
           border-radius: 0.5rem;
           cursor: pointer;
+        }
+      }
+      .tabs{
+        .tab-box{
+          display: flex;
+          .list{
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 0.88rem;
+            cursor: pointer;
+            border-bottom: 0.01rem solid #ddd;
+            &.active{
+              color: #ff4022;
+              border-bottom: 0.01rem solid #ff4022;
+            }
+          }
         }
       }
     }
@@ -320,28 +360,10 @@ export default {
     overflow: hidden;
     background-color: #fff;
     .contain {
-      padding: 0rem 0.3rem 0.5rem ;
+      padding: 0.5rem 0.3rem;
       height: 100%;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
-      .tabs{
-        display: flex;
-        margin:0rem -0.3rem 0.5rem;
-        .list{
-          width: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          line-height: normal;
-          padding: 0.25rem 0.2rem;
-          cursor: pointer;
-          border-bottom: 0.01rem solid #ddd;
-          &.active{
-            color: #ff4022;
-            border-bottom: 0.01rem solid #ff4022;
-          }
-        }
-      }
       .search-history,
       .search-recommend {
         .title {
@@ -408,78 +430,81 @@ export default {
   .product{
     padding-top: .8rem;
   }
-}
-.sort-bar {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: fixed;
-    top: 1.1rem;
-    left: 0;
-    width: 100%;
-    z-index: 1;
-    height: 0.8rem;
-    background: white;
-    border-bottom: 1px solid #dedede;
-    // box-shadow: 0 -4px 6px #000;
-  .sort-item,
-  .no-sort-item {
-    position: relative;
-    text-align: center;
-    width: 20%;
-    padding: .2rem 0;
-  }
+
   
+.sort-bar {
+  background-color: #fff;
+  position: fixed;
+  top: $h;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+  border-bottom: 1px solid #dedede;
+  .box{
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 0.8rem;
+      // box-shadow: 0 -4px 6px #000;
+      .sort-item,
+      .no-sort-item {
+        position: relative;
+        text-align: center;
+        width: 20%;
+        padding: .2rem 0;
+        cursor: pointer;
+      }
+      .sort-item:before {
+        content: "";
+        width: 0;
+        height: 0;
+        display: block;
+        border-style: solid;
+        border-width: 0 0.08rem 0.08rem;
+        border-color: transparent transparent #5e5e5e;
+        position: absolute;
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        bottom: 0.28rem;
+        right: 0.1rem;
+      }
 
-  .sort-item:before {
-    content: "";
-    width: 0;
-    height: 0;
-    display: block;
-    border-style: solid;
-    border-width: 0 0.08rem 0.08rem;
-    border-color: transparent transparent #5e5e5e;
-    position: absolute;
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
-    bottom: 0.28rem;
-    right: 0.1rem;
-  }
-
-  .sort-item::after {
-    content: "";
-    width: 0;
-    height: 0;
-    display: block;
-    border-style: solid;
-    border-width: 0 0.08rem 0.08rem;
-    border-color: transparent transparent #5e5e5e;
-    position: absolute;
-    top: 0.3rem;
-    right: 0.1rem;
-  }
+      .sort-item::after {
+        content: "";
+        width: 0;
+        height: 0;
+        display: block;
+        border-style: solid;
+        border-width: 0 0.08rem 0.08rem;
+        border-color: transparent transparent #5e5e5e;
+        position: absolute;
+        top: 0.3rem;
+        right: 0.1rem;
+      }
 
 
-  .sort-item-active,.sort-desc-active,.sort-asc-active{
-    color:#ff4022;
-  }
+      .sort-item-active,.sort-desc-active,.sort-asc-active{
+        color:#ff4022;
+      }
 
-  .sort-asc-active:before {
-    border-color: transparent transparent #ff4022;
-  }
-  .sort-asc-active:after {
-    border-color: transparent transparent #5e5e5e;
-  }
+      .sort-asc-active:before {
+        border-color: transparent transparent #ff4022;
+      }
+      .sort-asc-active:after {
+        border-color: transparent transparent #5e5e5e;
+      }
 
-  .sort-item-active{
-    color:#ff4022;
-  }
+      .sort-item-active{
+        color:#ff4022;
+      }
 
-  .sort-desc-active:before {
-    border-color: transparent transparent #5e5e5e;
-  }
-  .sort-desc-active:after {
-    border-color: transparent transparent #ff4022;
+      .sort-desc-active:before {
+        border-color: transparent transparent #5e5e5e;
+      }
+      .sort-desc-active:after {
+        border-color: transparent transparent #ff4022;
+      }
+    }
   }
 }
 </style>

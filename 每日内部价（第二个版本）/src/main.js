@@ -21,13 +21,13 @@ Vue.use(VueAxios, axios);
 //添加一个请求拦截器
 axios.interceptors.request.use(function(config) {
     //在请求发送之前做一些事
-    config.baseURL = 'https://buy.51dodoniu.com/'//在webpack配置了请求路径
+    //config.baseURL = 'https://buy.51dodoniu.com/'//在webpack配置了请求路径
     //config.baseURL = 'http://192.168.101.19/'; //测试环境
     //console.log(process.env.NODE_ENV);//在config文件夹下的dev.env.js和prod.env.js可修改设置
     if (process.env.NODE_ENV === 'development') { //【开发环境 development 】 【生产环境 production 】
         config.baseURL = 'https://buy.51dodoniu.com/'; //开发环境 
         //config.baseURL = 'http://192.168.101.2:8080/';
-     //   config.baseURL = 'http://192.168.101.19/'; //测试环境
+        //config.baseURL = 'http://192.168.101.19/'; //测试环境
     }
     return config;
 }, function(error) {
@@ -75,11 +75,11 @@ Vue.prototype.$refresh = refresh;
 
 
 
-var share = function(title,desc,imgUrl) {
-   
-  }
+var share = function(title, desc, imgUrl) {
 
-  Vue.prototype.$share = share;
+}
+
+Vue.prototype.$share = share;
 
 
 
