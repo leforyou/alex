@@ -8,6 +8,7 @@
             type="search"
             @focus="focus"
             v-model="searchValue"
+            @keyup.enter="submit"
             placeholder="100W+ 一元起包邮商品任你选"
           >
           <!-- <input
@@ -22,11 +23,11 @@
       </div>
     </div>
 
-    <div class="content-info" v-show="isLayer&&searchValue==''">
+    <div class="content-info" v-show="isLayer">
       <div class="contain main-width">
         <div class="tabs">
-          <div class="list" :class="{'active':isTab==0}" @click="tab(0)">优惠推荐</div>
-          <div class="list" :class="{'active':isTab==1}" @click="tab(1)">全网搜索</div>
+          <div class="list" :class="{'active':isTab==0}" @click="tab(0)">全网搜索</div>
+          <div class="list" :class="{'active':isTab==1}" @click="tab(1)">优惠推荐(包邮)</div>
         </div>
         <div class="search-recommend" v-if="recommendArr.length > 0">
           <div class="title">
@@ -55,7 +56,7 @@
         <div class="sort-item" @click="sort(3)" :class="{'sort-asc-active':sortType==4,'sort-desc-active':sortType==3}">销量</div>
       </div>
     <div class="product">
-      <SearchList :arr="goodsArr"/>
+      <SearchList :arr="goodsArr" :free-shipping='isTab==1'/>
       <NotMoreTip :visible="isTip"/>
     </div>
   </div>
@@ -107,7 +108,7 @@ export default {
        this.sortType=type+(sortType==type)
      }
 
-     this.pageNo=0;
+     //this.pageNo=0;
      (document.documentElement||document.body).scrollTop=0;
      this.goodsList(1);
     },
@@ -136,7 +137,7 @@ export default {
       if (index > -1) {
         searchRecords.splice(index, 1);
       }
-      this.pageNo = 0;
+      //this.pageNo = 0;
       searchRecords.unshift(this.searchValue);
       this.historyArr = searchRecords;
       localStorage.setItem("searchRecords", JSON.stringify(searchRecords));
@@ -144,9 +145,9 @@ export default {
       this.isLayer = false;
       document.querySelector('input[type="search"]').blur(); //失去焦点
       if(this.isTab == 0){
-        this.goodsList();
-      }else if(this.isTab == 1){
         this.allWeb();
+      }else if(this.isTab == 1){
+        this.goodsList();
       }
       
     },
@@ -156,7 +157,6 @@ export default {
     },
     KeyWord(str) {
       //关键词点击
-      console.log(str);
       this.searchValue = str;
       this.submit();
     },
@@ -204,6 +204,7 @@ export default {
         });
     },
     allWeb(){
+      //全网搜索
       this.$loading();
       var that = this;
       this.axios
@@ -316,6 +317,7 @@ export default {
     right: 0;
     bottom: 0;
     z-index: 9999;
+    overflow: hidden;
     background-color: #fff;
     .contain {
       padding: 0rem 0.3rem 0.5rem ;
@@ -324,7 +326,7 @@ export default {
       -webkit-overflow-scrolling: touch;
       .tabs{
         display: flex;
-        margin-bottom: 0.5rem;
+        margin:0rem -0.3rem 0.5rem;
         .list{
           width: 50%;
           display: flex;
@@ -333,6 +335,7 @@ export default {
           line-height: normal;
           padding: 0.25rem 0.2rem;
           cursor: pointer;
+          border-bottom: 0.01rem solid #ddd;
           &.active{
             color: #ff4022;
             border-bottom: 0.01rem solid #ff4022;

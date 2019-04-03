@@ -21,7 +21,7 @@
                 <div class="price">
                   <span class="price1 price-color fz24">￥</span>
                   <span class="price2 price-color fz48">{{item.price}}</span>
-                  <!-- <div class="express fz20">包邮</div> -->
+                  <div class="express fz20" v-if="freeShipping">包邮</div>
                   <span class="price3 gray-color delete-line fz32">￥{{item.org_Price}}</span>
                 </div>
               </div>
@@ -46,7 +46,7 @@
 <script>
 export default {
   name: "SearchList",
-  props: ["arr"],
+  props: ["arr","freeShipping"],
   data() {
     return {};
   },

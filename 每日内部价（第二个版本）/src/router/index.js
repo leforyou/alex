@@ -77,12 +77,14 @@ let router = new Router({
         {
             path: '/productDetails/:id',
             name: 'productDetails',
-            component: () => import('@/page/productDetails') 
+            component: () =>
+                import ('@/page/productDetails')
         },
         {
             path: '/search',
             name: 'search',
-            component:() => import('@/page/search'),
+            component: () =>
+                import ('@/page/search'),
             meta: {
                 keepAlive: true //缓存
             }
@@ -90,16 +92,19 @@ let router = new Router({
         {
             path: '/searchDetails/:id',
             name: 'searchDetails',
-            component:() => import('@/page/searchDetails')
+            component: () =>
+                import ('@/page/searchDetails')
         },
         {
             path: '/shop/:nick',
             name: 'shop',
-            component: () => import('@/page/shop')
+            component: () =>
+                import ('@/page/shop')
         }, {
             path: '/howBuy',
             name: 'howBuy',
-            component: () => import('@/page/howBuy'),
+            component: () =>
+                import ('@/page/howBuy'),
             meta: {
                 keepAlive: true //缓存
             }
@@ -117,9 +122,9 @@ let router = new Router({
             }
         }
     ],
-    scrollBehavior (to, from, savedPosition) {
+    scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 }
-      }
+    }
 });
 
 
