@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/page/home'
-import productDetails from '@/page/productDetails'
+//import home from '@/page/home'
+//import productDetails from '@/page/productDetails'
 import search from '@/page/search'
 import howBuy from '@/page/howBuy'
 
@@ -19,46 +19,48 @@ Vue.use(Router)
 let router = new Router({
     //mode: 'history', //可以是去掉#号
     routes: [{
-        path: '/',
-        name: 'home',
-        component: home,
-        meta: {
-            keepAlive: true //缓存
+            path: '/',
+            name: 'home',
+            component: () =>
+                import ('@/page/home'),
+            meta: {
+                keepAlive: true //缓存
+            }
+        },
+        {
+            path: '/productDetails/:id',
+            name: 'productDetails',
+            component: () =>
+                import ('@/page/productDetails')
+        },
+        {
+            path: '/search',
+            name: 'search',
+            component: search,
+            meta: {
+                keepAlive: true //缓存
+            }
+        },
+        {
+            path: '/howBuy',
+            name: 'howBuy',
+            component: howBuy,
+            meta: {
+                keepAlive: true //缓存
+            }
+        },
+        {
+            path: '/404',
+            name: '访问的页面不存在',
+            component: page404
+        },
+        {
+            path: '/*',
+            hidden: true,
+            redirect: {
+                path: '/404'
+            }
         }
-    },
-    {
-        path: '/productDetails/:id',
-        name: 'productDetails',
-        component: productDetails
-    },
-    {
-        path: '/search',
-        name: 'search',
-        component: search,
-        meta: {
-            keepAlive: true //缓存
-        }
-    },
-    {
-        path: '/howBuy',
-        name: 'howBuy',
-        component: howBuy,
-        meta: {
-            keepAlive: true //缓存
-        }
-    },
-    {
-        path: '/404',
-        name: '访问的页面不存在',
-        component: page404
-    },
-    {
-        path: '/*',
-        hidden: true,
-        redirect: {
-            path: '/404'
-        }
-    }
     ]
 });
 

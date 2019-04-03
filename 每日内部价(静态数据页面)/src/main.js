@@ -17,7 +17,7 @@ Vue.use(VueAwesomeSwiper)
 
 Vue.use(VueAxios, axios);
 //添加一个请求拦截器
-axios.interceptors.request.use(function (config) {
+axios.interceptors.request.use(function(config) {
     //在请求发送之前做一些事
     //config.baseURL = 'http://localhost/'//在webpack配置了请求路径
     //console.log(process.env.NODE_ENV);//在config文件夹下的dev.env.js和prod.env.js可修改设置
@@ -25,13 +25,13 @@ axios.interceptors.request.use(function (config) {
         //config.baseURL = 'http://47.112.105.131/'; //开发环境
     }
     return config;
-}, function (error) {
+}, function(error) {
     //当出现请求错误是做一些事
     return Promise.reject(error);
 });
 
 //添加一个返回拦截器
-axios.interceptors.response.use(function (response) {
+axios.interceptors.response.use(function(response) {
     //对返回的数据进行一些处理
     //console.log('response拦截器:', response.data);
     if (response.data.success == false && response.data.msg === '请先登录') {
@@ -40,7 +40,7 @@ axios.interceptors.response.use(function (response) {
         router.push("login"); //返回注册页面
     }
     return response;
-}, function (error) {
+}, function(error) {
     //对返回的错误进行一些处理
     return Promise.reject(error);
 });
@@ -63,6 +63,9 @@ Vue.use(message);
 import globalComponent from './globalComponent/MyGlobalComponent';
 globalComponent(Vue);
 
+//图片懒加载（hoyBuy.vue页面使用到）
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
 
 //上拉触底加载
 import refresh from './../static/js/scrollRefresh.js';

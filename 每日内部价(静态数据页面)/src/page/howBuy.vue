@@ -6,29 +6,28 @@
         <div class="content fz28">
           <div class="list">
             <p class="list-title">第一步</p>
-            <p class="list-desc">通过关键字搜索、浏览栏目等方式选好自己心仪的商品</p>
-            <img src="/static/data/how-buy-01.jpg">
+            <p class="list-desc">第一种方式：通过关键字搜索 选好自己心仪的商品</p>
+            <img v-lazy="imgUrl + 'howbuy1-1.jpg'">
+            <p class="list-desc">第二种方式：浏览栏目 选好自己心仪的商品</p>
+            <img v-lazy="imgUrl + 'howbuy1-2.jpg'">
           </div>
           <div class="list">
             <p class="list-title">第二步</p>
             <p class="list-desc">点击领劵购买，复制口令，打开手机掏宝</p>
-            <img src="/static/data/how-buy-02.jpg">
+            <img v-lazy="imgUrl + 'howbuy2-1.jpg'">
+            <img v-lazy="imgUrl + 'howbuy2-2.jpg'">
           </div>
           <div class="list">
             <p class="list-title">第三步</p>
             <p class="list-desc">打开手机掏宝后，会自动弹出【打开链接】</p>
-            <img src="/static/data/how-buy-03.jpg">
+            <img v-lazy="imgUrl + 'howbuy3-1.jpg'">
           </div>
           <div class="list">
             <p class="list-title">第四步</p>
-            <p class="list-desc">点击立即购买（产品价格为19元，但是您领取了我们的专属优惠券10元，所以下单后会变成9元包邮），提交付款，完毕</p>
-            <img src="/static/data/how-buy-04.jpg">
-          </div>
-          <div class="list">
-            <img src="/static/data/how-buy-05.jpg">
-          </div>
-          <div class="list">
-            <img src="/static/data/how-buy-06.jpg">
+            <p class="list-desc">点击立即购买（产品价格为9.9元，但是您领取了我们的专属优惠券2元，所以下单后会变成7.9元包邮），提交付款，完毕</p>
+            <img v-lazy="imgUrl + 'howbuy4-1.jpg'">
+            <img v-lazy="imgUrl + 'howbuy4-2.jpg'">
+            <img v-lazy="imgUrl + 'howbuy4-3.jpg'">
           </div>
           <div class="finish">
             <span class="fz38">完</span>
@@ -55,14 +54,13 @@ export default {
   name: "howBuy",
   data() {
     return {
-      imgUrl: config.imgUrl
+      imgUrl: '/static/img/'
     };
   },
   components: {},
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
-      console.log("tag", this.imgUrl);
     });
   },
   methods: {
