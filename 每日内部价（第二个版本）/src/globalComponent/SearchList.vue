@@ -4,7 +4,7 @@
       <li v-for="(item,index) in arr" :key="index">
         <router-link :to="{ name: 'searchDetails', params: { id: item.goodsID }}" tag="a">
           <div class="left">
-            <div class="img" :style="`background-image: url(${item.pic});`"></div>
+            <img class="img" v-lazy="item.pic">
           </div>
           <div class="right">
             <div class="top">
@@ -83,11 +83,10 @@ export default {
           margin-right: 0.2rem;
           .img {
             width: $w;
+            min-width: $w;
             height: $w;
-            background-position: center;
-            background-size: cover;
-            background-repeat: no-repeat;
             border-radius: 0.1rem;
+            object-fit: cover;
           }
         }
         .right {
