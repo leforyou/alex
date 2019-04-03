@@ -17,7 +17,7 @@
             @focus="focus"
             v-model="searchValue"
             placeholder="100W+ 一元起包邮商品任你选"
-          > -->
+          >-->
           <div class="btn" @click="submit">搜索</div>
         </div>
         <div class="tabs main-width">
@@ -31,7 +31,6 @@
 
     <div class="content-info" v-show="isLayer">
       <div class="contain main-width">
-        
         <div class="search-recommend" v-if="recommendArr.length > 0">
           <div class="title">
             <span>搜索推荐</span>
@@ -53,19 +52,29 @@
       </div>
     </div>
 
-     <div class="sort-bar" v-show="!isLayer">
-      <div class="box main-width">
-          <div class="no-sort-item" @click="sort(0)" :class="{'sort-item-active':sortType==0}" >综合</div>
-          <div class="sort-item" @click="sort(1)" :class="{'sort-asc-active':sortType==1,'sort-desc-active':sortType==2}">价格</div>
-          <div class="sort-item" @click="sort(3)" :class="{'sort-asc-active':sortType==4,'sort-desc-active':sortType==3}">销量</div>
+    <div class="sort-bar" v-show="!isLayer && isTab!=0">
+      <div class="contain">
+        <div class="box main-width">
+          <div class="no-sort-item" @click="sort(0)" :class="{'sort-item-active':sortType==0}">综合</div>
+          <div
+            class="sort-item"
+            @click="sort(1)"
+            :class="{'sort-asc-active':sortType==1,'sort-desc-active':sortType==2}"
+          >价格</div>
+          <div
+            class="sort-item"
+            @click="sort(3)"
+            :class="{'sort-asc-active':sortType==4,'sort-desc-active':sortType==3}"
+          >销量</div>
+        </div>
       </div>
     </div>
 
     <div class="product">
-      <SearchList :arr="goodsArr" :free-shipping='isTab==1'/>
-      <NotMoreTip :visible="isTip"/>
+      <SearchListAllWeb :arr="goodsArr" v-show="isTab==0"/>
+      <SearchList :arr="goodsArr" v-show="isTab==1"/>
+      <!-- <NotMoreTip :visible="isTip"/> -->
     </div>
-
   </div>
 </template>
 
@@ -83,9 +92,9 @@ export default {
       historyArr: this.$searchArr || [],
       recommendArr: [],
       isLayer: true,
-      sortType:0,
-      isTab:0,
-      placeholderTips:'100w+衣饰鞋帽等商品等你搜'
+      sortType: 0,
+      isTab: 0,
+      placeholderTips: "100w+衣饰鞋帽等商品等你搜"
     };
   },
   components: {},
@@ -105,20 +114,20 @@ export default {
     });
   },
   methods: {
-    sort(num){
+    sort(num) {
       var sortType = this.sortType;
-      if(num==0){
+      if (num == 0) {
         this.sortType = num;
-      }else if(num==1){
-        this.sortType = num + ( sortType == num );
-      }else if(num==3){
-        this.sortType=num + (sortType == num);
+      } else if (num == 1) {
+        this.sortType = num + (sortType == num);
+      } else if (num == 3) {
+        this.sortType = num + (sortType == num);
       }
       //this.pageNo=0;
-      (document.documentElement||document.body).scrollTop = 0;
-      if(this.isTab == 0){
+      (document.documentElement || document.body).scrollTop = 0;
+      if (this.isTab == 0) {
         this.allWeb();
-      }else if(this.isTab == 1){
+      } else if (this.isTab == 1) {
         this.goodsList();
       }
     },
@@ -126,17 +135,16 @@ export default {
       //返回上一页
       this.$router.go(-1);
     },
-    tab(num){
+    tab(num) {
       //全网搜索、优惠推荐：切换
       this.isTab = num;
-      if(this.isTab == 0){
-        this.placeholderTips = '100w+衣饰鞋帽等商品等你搜';
-        if(this.searchValue!='')this.allWeb();
-      }else if(this.isTab == 1){
-        this.placeholderTips = '10w+一元起包邮商品任你选';
-        if(this.searchValue!='')this.goodsList();
+      if (this.isTab == 0) {
+        this.placeholderTips = "100w+衣饰鞋帽等商品等你搜";
+        if (this.searchValue != "") this.allWeb();
+      } else if (this.isTab == 1) {
+        this.placeholderTips = "10w+一元起包邮商品任你选";
+        if (this.searchValue != "") this.goodsList();
       }
-      
     },
     submit() {
       //点击搜索
@@ -145,7 +153,7 @@ export default {
           message: "搜索的内容不能为空！"
         });
       }
-      
+
       this.sortType = 0;
 
       let searchRecordsStr = localStorage.getItem("searchRecords");
@@ -162,12 +170,11 @@ export default {
 
       this.isLayer = false;
       document.querySelector('input[type="search"]').blur(); //失去焦点
-      if(this.isTab == 0){
+      if (this.isTab == 0) {
         this.allWeb();
-      }else if(this.isTab == 1){
+      } else if (this.isTab == 1) {
         this.goodsList();
       }
-      
     },
     focus() {
       //获取焦点
@@ -191,11 +198,11 @@ export default {
       var that = this;
       //{"pageSize":10,"pageNo":1,"title":"男装","Introduce":"男装"}
       this.axios
-        .post( `/api/goods/page`,{
-         //pageSize:15,
-         //pageNo:this.pageNo,
-         title:this.searchValue,
-         orderBycul:this.sortType
+        .post(`/api/goods/page`, {
+          //pageSize:15,
+          //pageNo:this.pageNo,
+          title: this.searchValue,
+          orderBycul: this.sortType
         })
         .then(response => {
           that.$loading.close();
@@ -222,17 +229,17 @@ export default {
           console.log(error);
         });
     },
-    allWeb(){
+    allWeb() {
       //全网搜索
       this.goodsArr = [];
       this.$loading();
       var that = this;
       this.axios
-        .post( `/api/serach/superSer/`,{
-         //pageSize:15,
-         //pageNo:this.pageNo,
-         keywords:this.searchValue,
-         orderBycul:this.sortType
+        .post(`/api/serach/superSer/`, {
+          //pageSize:15,
+          //pageNo:this.pageNo,
+          keywords: this.searchValue,
+          orderBycul: this.sortType
         })
         .then(response => {
           that.$loading.close();
@@ -330,10 +337,10 @@ export default {
           cursor: pointer;
         }
       }
-      .tabs{
-        .tab-box{
+      .tabs {
+        .tab-box {
           display: flex;
-          .list{
+          .list {
             width: 50%;
             display: flex;
             justify-content: center;
@@ -341,7 +348,7 @@ export default {
             line-height: 0.88rem;
             cursor: pointer;
             border-bottom: 0.01rem solid #ddd;
-            &.active{
+            &.active {
               color: #ff4022;
               border-bottom: 0.01rem solid #ff4022;
             }
@@ -427,82 +434,85 @@ export default {
       }
     }
   }
-  .product{
-    padding-top: .8rem;
+  .product {
   }
 
-  
-.sort-bar {
-  background-color: #fff;
-  position: fixed;
-  top: $h;
-  left: 0;
-  width: 100%;
-  z-index: 99999;
-  border-bottom: 1px solid #dedede;
-  .box{
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      height: 0.8rem;
-      // box-shadow: 0 -4px 6px #000;
-      .sort-item,
-      .no-sort-item {
-        position: relative;
-        text-align: center;
-        width: 20%;
-        padding: .2rem 0;
-        cursor: pointer;
-      }
-      .sort-item:before {
-        content: "";
-        width: 0;
-        height: 0;
-        display: block;
-        border-style: solid;
-        border-width: 0 0.08rem 0.08rem;
-        border-color: transparent transparent #5e5e5e;
-        position: absolute;
-        -webkit-transform: rotate(180deg);
-        transform: rotate(180deg);
-        bottom: 0.28rem;
-        right: 0.1rem;
-      }
+  .sort-bar {
+    $val: 0.8rem;
+    height: $val;
+    .contain {
+      background-color: #fff;
+      position: fixed;
+      top: $h;
+      left: 0;
+      width: 100%;
+      z-index: 99999;
+      border-bottom: 1px solid #dedede;
+      height: $val;
+      .box {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 100%;
+        .sort-item,
+        .no-sort-item {
+          position: relative;
+          text-align: center;
+          width: 20%;
+          padding: 0.2rem 0;
+          cursor: pointer;
+        }
+        .sort-item:before {
+          content: "";
+          width: 0;
+          height: 0;
+          display: block;
+          border-style: solid;
+          border-width: 0 0.08rem 0.08rem;
+          border-color: transparent transparent #5e5e5e;
+          position: absolute;
+          -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+          bottom: 0.28rem;
+          right: 0.1rem;
+        }
 
-      .sort-item::after {
-        content: "";
-        width: 0;
-        height: 0;
-        display: block;
-        border-style: solid;
-        border-width: 0 0.08rem 0.08rem;
-        border-color: transparent transparent #5e5e5e;
-        position: absolute;
-        top: 0.3rem;
-        right: 0.1rem;
-      }
+        .sort-item::after {
+          content: "";
+          width: 0;
+          height: 0;
+          display: block;
+          border-style: solid;
+          border-width: 0 0.08rem 0.08rem;
+          border-color: transparent transparent #5e5e5e;
+          position: absolute;
+          top: 0.3rem;
+          right: 0.1rem;
+        }
 
+        .sort-item-active,
+        .sort-desc-active,
+        .sort-asc-active {
+          color: #ff4022;
+        }
 
-      .sort-item-active,.sort-desc-active,.sort-asc-active{
-        color:#ff4022;
-      }
+        .sort-asc-active:before {
+          border-color: transparent transparent #ff4022;
+        }
+        .sort-asc-active:after {
+          border-color: transparent transparent #5e5e5e;
+        }
 
-      .sort-asc-active:before {
-        border-color: transparent transparent #ff4022;
-      }
-      .sort-asc-active:after {
-        border-color: transparent transparent #5e5e5e;
-      }
+        .sort-item-active {
+          color: #ff4022;
+        }
 
-      .sort-item-active{
-        color:#ff4022;
-      }
-
-      .sort-desc-active:before {
-        border-color: transparent transparent #5e5e5e;
-      }
-      .sort-desc-active:after {
-        border-color: transparent transparent #ff4022;
+        .sort-desc-active:before {
+          border-color: transparent transparent #5e5e5e;
+        }
+        .sort-desc-active:after {
+          border-color: transparent transparent #ff4022;
+        }
       }
     }
   }

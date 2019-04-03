@@ -10,31 +10,24 @@
             <div class="top">
               <div class="title ellipsis2 clearfix">
                 <div class="title-box">
-                  <img src="../../static/img/h5_logo_tmall.png" v-if="item.isTmall">
-                  <span>{{item.d_title}}</span>
+                  <span>{{item.title}}</span>
                 </div>
               </div>
-              <div class="desc ellipsis2">{{item.introduce}}</div>
+              <div class="desc">
+                <span class="tmall" v-if="item.isTmall == 1">天猫</span>
+                <span class="shop">{{item.nick}}</span>
+              </div>
+              <div class="sales">月销量{{item.sales_num}}</div>
             </div>
             <div class="bottom">
               <div class="type">
                 <div class="price">
-                  <span class="price1 price-color fz24">￥</span>
-                  <span class="price2 price-color fz48">{{item.price}}</span>
-                  <div class="express fz20">包邮</div>
+                  <!-- <span class="price1 price-color fz24">￥</span> -->
+                  <span class="price2 price-color fz48">￥{{item.price}}</span>
                   <span class="price3 gray-color delete-line fz32">￥{{item.org_Price}}</span>
                 </div>
               </div>
-              <div class="sales-info">
-                <div class="situation" v-if="!false">
-                  <!--<div class="express price-color scale-1px fz20">包邮</div>-->
-                  <div
-                    class="coupon price-color fz20"
-                    v-if="item.quan_surplus!==0"
-                  >券:￥{{item.quan_price}}</div>
-                </div>
-                <div class="sales gray-color fz26">月销量{{item.sales_num}}</div>
-              </div>
+              <div class="discount">优惠{{item.quan_price}}元</div>
             </div>
           </div>
         </router-link>
@@ -46,7 +39,7 @@
 <script>
 export default {
   name: "SearchList",
-  props: ["arr"],
+  props: ["arr", "freeShipping"],
   data() {
     return {};
   },
@@ -98,7 +91,6 @@ export default {
             .title {
               font-size: 0.24rem;
               position: relative;
-              top: -0.05rem;
               .title-box {
                 min-height: 0.8rem;
                 img {
@@ -115,16 +107,32 @@ export default {
               }
             }
             .desc {
+              margin: 0.08rem 0rem;
+              display: flex;
+              align-items: center;
+              .tmall {
+                font-size: 0.22rem;
+                background-color: #e31e27;
+                line-height: normal;
+                padding: 0.02rem 0.1rem;
+                border-radius: 0.06rem;
+                color: #fff;
+              }
+              .shop {
+                font-size: 0.26rem;
+                color: #666;
+                margin-left: 0.15rem;
+              }
+            }
+            .sales {
               font-size: 0.28rem;
-              color: #98989f;
-              line-height: 1.8;
-              margin-bottom: 0.06rem;
+              color: #888;
             }
           }
           .bottom {
-            /*display: flex;
-            align-items: flex-end;
-            justify-content: space-between;*/
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             .type {
               .price {
                 line-height: normal;
@@ -132,8 +140,6 @@ export default {
                 align-items: center;
                 .price2 {
                   margin-right: 0.1rem;
-                  position: relative;
-                  top: 0.03rem;
                 }
                 .express {
                   line-height: normal;
@@ -145,39 +151,16 @@ export default {
                 }
               }
             }
-            .sales-info {
+            .discount {
               display: flex;
-              justify-content: flex-start;
+              justify-content: center;
               align-items: center;
-              margin-top: 0.14rem;
-              .situation {
-                margin-top: 0.08rem;
-                position: relative;
-                display: flex;
-                align-items: center;
-                margin-right: 0.08rem;
-                .express {
-                  line-height: normal;
-                  padding: 0rem 0.08rem;
-                  margin-right: 0.1rem;
-                  background: #ffeaef;
-                }
-                .coupon {
-                  display: none;
-                  min-width: 0.98rem;
-                  width: auto;
-                  height: 0.3rem;
-                  background-image: url(../../static/img/bg_hyq.png);
-                  background-repeat: no-repeat;
-                  background-size: 100% 100%;
-                  background-position: center;
-                  padding-left: 0.03rem;
-                  padding-right: 0.1rem;
-                }
-              }
-              .sales {
-                line-height: normal;
-              }
+              line-height: normal;
+              padding: 0.03rem 0.2rem;
+              color: #ff3467;
+              font-size: 0.28rem;
+              background-color: #ffeaeb;
+              border-radius: 0.44rem;
             }
           }
         }
