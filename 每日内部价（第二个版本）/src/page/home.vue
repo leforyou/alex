@@ -64,7 +64,6 @@ export default {
       listIndex: 0,
       menuListArr: [],
       goodsArr: [],
-      goodsObj: {},
       pageNo: 0,
       isTip: false,
       item_id: null,
@@ -123,13 +122,11 @@ export default {
       //导航切换--商品列表更新
       console.log("item_id:", item_id);
       this.listIndex = index;
-      this.goodsArr = this.goodsObj[item_id] || [];
+      this.goodsArr = [];
       this.pageNo = 0;
+      this.isTip = false;
       this.item_id = item_id;
-      if(this.goodsArr.length==0) {
-        this.isTip = false;
-        this.goodsList();
-        }
+      this.goodsList();
     },
     copyWriting() {
       //文案
@@ -187,17 +184,18 @@ export default {
         .then(response => {
           //this.$loading.close();
           if (response.data.code == 200) {
-            let datalist = response.data.data.datalist,
-              goodsArr = this.goodsObj[obj.item_id] || [];
+            let datalist = response.data.data.datalist;
             if (datalist == null || datalist.length == 0) {
               this.isTip = true;
               return;
             }
-            goodsArr = goodsArr.concat(datalist);
-            this.goodsObj[obj.item_id]=goodsArr;
-            
-            this.goodsArr = goodsArr;
+            this.goodsArr = this.goodsArr.concat(datalist);
             //this.goodsArr = this.goodsArr.push(response.data.data.datalist);
+          } else {
+            /*
+            this.$message({
+              message: response.data.msg
+            });*/
           }
         })
         .catch(error => {
