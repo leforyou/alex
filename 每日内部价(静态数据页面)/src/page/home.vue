@@ -108,6 +108,7 @@ export default {
       this.copyWriting();
       this.fixedNav();
       this.$refresh(() => {
+        //这个是自定义的滚动刷新功能，建议使用第三的上拉刷新组件
         if (this.$route.name == "home") this.goodsList();
       });
     });

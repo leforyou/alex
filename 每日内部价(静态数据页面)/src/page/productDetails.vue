@@ -125,7 +125,6 @@ export default {
   mounted() {
     this.$nextTick(function() {
       // DOM 现在更新了
-      $("html,body").animate({ scrollTop: 0 }, 0); //置顶
       this.getDetails();
       //this.getItemImg();
       //this.sliderImg();

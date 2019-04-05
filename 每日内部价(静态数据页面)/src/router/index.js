@@ -18,49 +18,53 @@ Vue.use(Router)
 
 let router = new Router({
     //mode: 'history', //可以是去掉#号
+    scrollBehavior(to, from, savedPosition) {
+        //滚动行为
+        return { x: 0, y: 0 }
+    },
     routes: [{
-            path: '/',
-            name: 'home',
-            component: () =>
-                import ('@/page/home'),
-            meta: {
-                keepAlive: true //缓存
-            }
-        },
-        {
-            path: '/productDetails/:id',
-            name: 'productDetails',
-            component: () =>
-                import ('@/page/productDetails')
-        },
-        {
-            path: '/search',
-            name: 'search',
-            component: search,
-            meta: {
-                keepAlive: true //缓存
-            }
-        },
-        {
-            path: '/howBuy',
-            name: 'howBuy',
-            component: howBuy,
-            meta: {
-                keepAlive: true //缓存
-            }
-        },
-        {
-            path: '/404',
-            name: '访问的页面不存在',
-            component: page404
-        },
-        {
-            path: '/*',
-            hidden: true,
-            redirect: {
-                path: '/404'
-            }
+        path: '/',
+        name: 'home',
+        component: () =>
+            import('@/page/home'),
+        meta: {
+            keepAlive: true //缓存
         }
+    },
+    {
+        path: '/productDetails/:id',
+        name: 'productDetails',
+        component: () =>
+            import('@/page/productDetails')
+    },
+    {
+        path: '/search',
+        name: 'search',
+        component: search,
+        meta: {
+            keepAlive: true //缓存
+        }
+    },
+    {
+        path: '/howBuy',
+        name: 'howBuy',
+        component: howBuy,
+        meta: {
+            keepAlive: true //缓存
+        }
+    },
+    {
+        path: '/404',
+        name: '访问的页面不存在',
+        component: page404
+    },
+    {
+        path: '/*',
+        hidden: true,
+        redirect: {
+            path: '/404'
+        }
+    }
     ]
 });
 
