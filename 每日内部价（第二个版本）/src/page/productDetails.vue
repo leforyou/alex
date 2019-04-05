@@ -5,7 +5,7 @@
       <swiper :options="swiperOption" ref="mySwiper">
         <!-- slides -->
         <swiper-slide v-for="(item, index) in slideArr" :key="index">
-          <img class="img-box"  v-lazy="item" :key="item">
+          <img class="img-box" v-lazy="item" :key="item">
           <!-- <div class="img-box" :style="{backgroundImage: 'url('+ item +')'}"></div> -->
         </swiper-slide>
         <!-- Optional controls -->
@@ -33,7 +33,7 @@
         <span class="gray-color">产地：{{item.provcity}}</span>
       </div>
       <div class="coupon">
-        <img v-lazy="'../../static/img/bg_pic_youhuiquan.png'" >
+        <img v-lazy="'../../static/img/bg_pic_youhuiquan.png'">
         <div class="price-date">
           <div class="coupon-price fz60 fc-fff">{{item.quan_price}} 优惠券</div>
           <div class="coupon-date fz22">有效期：{{today}}-{{item.quan_time | dateFilter}}</div>
@@ -54,7 +54,12 @@
       <div class="context">
         <!--<img :src="item.goodsDetailUrl">-->
         <div class="more_briefInfo">
-           <img v-for="img of detailImages" :key="img" v-lazy="img" style='width:100%;max-width:100%'>
+          <img
+            v-for="img of detailImages"
+            :key="img"
+            v-lazy="img"
+            style="width:100%;max-width:100%"
+          >
         </div>
       </div>
     </div>
@@ -114,7 +119,7 @@ export default {
         tb_token: "",
         goodsDetailUrl: true
       },
-      detailImages:[],
+      detailImages: [],
       swiperOption: {
         pagination: {
           el: ".swiper-pagination"
@@ -139,7 +144,7 @@ export default {
     this.$nextTick(function() {
       // DOM 现在更新了
       $("html,body").animate({ scrollTop: 0 }, 0); //置顶
-     // this.sliderImg();
+      // this.sliderImg();
       this.getDetails();
       this.getItemImg();
       //console.log(this.$route.params,this.$route.params.id)
@@ -157,27 +162,27 @@ export default {
     },
     getDetails() {
       //商品详情
-      var that=this;
+      var that = this;
       this.$loading();
-      
+
       this.axios
         .get(`api/operate/goodsdetail/${this.$route.params.id}`, {})
         .then(response => {
           this.$loading.close();
           if (response.data.code == 200) {
             if (response.data.data) this.item = response.data.data;
-            this.slideArr=this.item.images||[];
+            this.slideArr = this.item.images || [];
             if (this.slideArr.length == 0) {
               this.slideArr = [response.data.data.pic];
             }
-         //this.$share(this.item.d_title+'--每日内部价',this.item.introduce,this.slideArr[0])
+            //this.$share(this.item.d_title+'--每日内部价',this.item.introduce,this.slideArr[0])
             this.item.tb_token =
               this.item.tb_token || "每日内部价:没有复制到淘口令！";
             if (this.loading) {
               this.loading = false;
               this.getCoupon();
             }
-          } 
+          }
         })
         .catch(error => {
           /*this.$message({
@@ -190,7 +195,7 @@ export default {
     sliderImg() {
       //轮播图
       this.$loading();
-      var that=this;
+      var that = this;
       this.axios
         .get(`/api/goods/detail_images/${this.$route.params.id}`, {})
         .then(response => {
@@ -204,7 +209,7 @@ export default {
           /*this.$message({
             message: error
           });*/
-         
+
           that.$loading.close();
           console.log(error);
         });
@@ -240,7 +245,7 @@ export default {
       //console.log(id);*/
       let self = this;
       this.recursionNum--;
-      var that=this;
+      var that = this;
 
       console.log("tag", this.recursionNum);
       $.ajax({
@@ -267,11 +272,12 @@ export default {
               //     "' style='width:100%;max-width:100%'>";
               // }
               if (result.wdescContent.pages[i].indexOf("<txt>") == -1)
-              image.push(result.wdescContent.pages[i].replace(regx, ""));
+                image.push(result.wdescContent.pages[i].replace(regx, ""));
             }
-            that.detailImages=image;
+            that.detailImages = image;
 
-            if(!image.length) $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
+            if (!image.length)
+              $(".more_briefInfo").append("<p>抱歉！暂无宝贝详情</p>");
             // if (image) {
             //   $(".more_briefInfo").append(image);
             // } else {
@@ -509,9 +515,10 @@ export default {
   }
   .token-layer {
     position: fixed;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, 100%) translateZ(0);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -520,19 +527,29 @@ export default {
     transition: all 0.1s;
     z-index: 9999999;
     &.active {
-      transform: translate(-50%, -0%) translateZ(0);
       opacity: 1;
       visibility: visible;
+      .box {
+        transform: translateY(-100%) translateZ(0);
+      }
     }
     .box {
-      border-radius: 5px;
-      background-color: rgba(0, 0, 0, 0.8);
+      width: 100%;
+      max-width: 10rem;
+      position: relative;
+      top: 25%;
+      transform: translateY(-0%) translateZ(0);
+      transition: all 0.1s;
+      padding: 0rem 0.3rem;
       .tip {
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.8);
+        text-align: center;
+        width: 100%;
         color: #fff;
         line-height: normal;
-        padding: 0.5rem 0.3rem;
+        padding: 0.38rem 0.3rem;
         font-size: 0.3rem;
-        white-space: nowrap;
       }
     }
   }
