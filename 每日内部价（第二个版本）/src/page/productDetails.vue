@@ -526,6 +526,7 @@ export default {
     visibility: hidden;
     transition: all 0.1s;
     z-index: 9999999;
+    pointer-events: none;
     &.active {
       opacity: 1;
       visibility: visible;
